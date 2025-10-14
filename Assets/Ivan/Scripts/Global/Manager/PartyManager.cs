@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PartyManager : MonoBehaviour
@@ -9,16 +8,53 @@ public class PartyManager : MonoBehaviour
     GameObject miniGameGO;
     string minigameChoice;
 
-    public void UpdateParty()
+    public UIPartyManager uIPartyManager;
+
+    void Awake()
+    {
+        currentParty = new Party();
+    }
+
+    void OnEnable()
+    {
+        if (uIPartyManager != null)
+        {
+            uIPartyManager.OnKartPressed += SelectKartMiniGame;
+            uIPartyManager.OnFootPressed += SelectFootMiniGame;
+        }
+    }
+
+    void OnDisable()
+    {
+        if (uIPartyManager != null)
+        {
+            uIPartyManager.OnKartPressed -= SelectKartMiniGame;
+            uIPartyManager.OnFootPressed -= SelectFootMiniGame;
+        }
+    }
+
+    void SelectKartMiniGame()
+    {
+        Debug.Log("SelectKartMiniGame");
+        minigameChoice = "KartMiniGame";
+    }
+
+    void SelectFootMiniGame()
+    {
+        Debug.Log("SelectFootMiniGame");
+        minigameChoice = "FootMiniGame";
+    }
+
+    public void Update()
     {
         // Setup Party
-        if (currentParty == null || !currentParty.isRunning)
+        if (!currentParty.isRunning)
         {
             SetupParty();
         }
 
         // Continue Party
-        if (currentParty != null && currentParty.miniGame != null)
+        if (currentParty.miniGame != null)
         {
             // Simule Victoire
             if (Input.GetKeyDown(KeyCode.U))
@@ -26,42 +62,14 @@ public class PartyManager : MonoBehaviour
                 currentParty.miniGame.WinMiniGame();
             }
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            QuitCurrentParty();
+        }
     }
 
     private void SetupParty()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            // Create party
-            if (currentParty == null)
-            {
-                currentParty = new Party();
-                Debug.Log("🎮 Nouvelle partie créée !");
-            }
-        }
-
-        // Add player to the party
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            if (currentParty == null)
-            {
-                Debug.LogWarning(
-                    "⚠️ Crée d'abord une partie (flèche gauche) avant d'ajouter un joueur !"
-                );
-                return;
-            }
-
-            string playerName = $"Joueur {currentParty.numberOfPlayers + 1}";
-            if (currentParty.numberOfPlayers < nbPlayerParty)
-            {
-                currentParty.AddPlayer(playerName);
-                Debug.Log($"👤 Joueur ajouté : {playerName}");
-            }
-        }
-
-        // Type Mini Game
-        AssignMiniGame();
-
         // Start Party
         if (Input.GetKeyDown(KeyCode.T))
         {
@@ -72,17 +80,22 @@ public class PartyManager : MonoBehaviour
                     Destroy(miniGameGO);
                 }
                 miniGameGO = new GameObject(minigameChoice);
+                // TO DO
+                // Amélioré avec nom editable, nmbr joueur à définir
+                currentParty.AddPlayer("Joueur 1");
+                currentParty.AddPlayer("Joueur 2");
                 switch (minigameChoice)
                 {
                     case "KartMiniGame":
                         currentParty.miniGame = miniGameGO.AddComponent<KartMiniGame>();
-                        currentParty.miniGame.OnWinMiniGame += QuitCurrentParty;
+                        // currentParty.miniGame.OnWinMiniGame += QuitCurrentParty;
                         break;
                     case "FootMiniGame":
                         currentParty.miniGame = miniGameGO.AddComponent<FootMiniGame>();
-                        currentParty.miniGame.OnWinMiniGame += QuitCurrentParty;
+                        // currentParty.miniGame.OnWinMiniGame += QuitCurrentParty;
                         break;
                 }
+                uIPartyManager.Show(false);
             }
         }
     }
@@ -91,7 +104,7 @@ public class PartyManager : MonoBehaviour
     {
         return (
             currentParty != null
-            && currentParty.numberOfPlayers == nbPlayerParty
+            // && currentParty.numberOfPlayers == nbPlayerParty
             && currentParty.miniGame == null
             && !currentParty.isRunning
         );
@@ -109,30 +122,14 @@ public class PartyManager : MonoBehaviour
             {
                 currentParty.miniGame.OnWinMiniGame -= QuitCurrentParty;
             }
-            currentParty = null;
+            currentParty = new Party();
         }
+        uIPartyManager.Show(true);
     }
 
     void QuitCurrentParty()
     {
         ResetCurrentParty();
         Debug.Log("Party Manager : Quit Current Party");
-    }
-
-    void AssignMiniGame()
-    {
-        if (currentParty != null)
-        {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                minigameChoice = "KartMiniGame";
-                Debug.Log("MiniGame Choisi + Kart");
-            }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                minigameChoice = "FootMiniGame";
-                Debug.Log("MiniGame Choisi + Foot");
-            }
-        }
     }
 }

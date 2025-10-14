@@ -38,9 +38,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (partyManager != null)
-        {
-            partyManager.UpdateParty();
-        }
+        // if (partyManager != null)
+        // {
+        //     partyManager.UpdateParty();
+        // }
     }
 }
