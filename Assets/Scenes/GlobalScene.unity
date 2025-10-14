@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 643468866}
   - component: {fileID: 643468867}
+  - component: {fileID: 643468868}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -160,10 +161,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 643468865}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8ba4dc6d43607d4ab9a5ac36a8ade7b, type: 3}
+  m_Script: {fileID: 11500000, guid: bc32665d80f490547af938469e5c07b6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  <CurrentState>k__BackingField: 0
+  m_EditorClassIdentifier: '::'
+--- !u!114 &643468868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643468865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ff5291ea64106645bd52fc7b72f02ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PartyManager
+  hasWinner: 0
+  nbPlayerParty: 2
 --- !u!1 &1540145273
 GameObject:
   m_ObjectHideFlags: 0
