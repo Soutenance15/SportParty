@@ -1,39 +1,30 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class KartControllerPhysique : MonoBehaviour
+public class KartController : MonoBehaviour
 {
-    [Header("Paramètres de mouvement")]
-    public float acceleration = 10f; // Vitesse d'accélération
-    public float maxSpeed = 25f; // Vitesse max
-    public float rotationSpeed = 50f; // Vitesse de rotation
-    public float drag = 2f; // Freinage passif pour plus de contrôle
+    // System
+    private KartDriveSystem kartDrive;
+    private KartAttackSystem kartAttack;
 
+    // Component
     private Rigidbody2D rb;
+    public Transform firePoint;
 
     void Awake()
     {
+        kartDrive = GetComponent<KartDriveSystem>();
+        kartAttack = GetComponent<KartAttackSystem>();
         rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0f; // Pas de gravité
-        rb.drag = drag; // Freinage passif
-        rb.angularDrag = 0f;
-    }
 
-    void FixedUpdate()
-    {
-        // Rotation
-        float turnInput = Input.GetAxis("Horizontal");
-        rb.rotation -= turnInput * rotationSpeed * Time.fixedDeltaTime;
-
-        // Mouvement avant/arrière
-        float moveInput = Input.GetAxis("Vertical");
-        Vector2 targetVelocity = transform.up * moveInput * maxSpeed;
-
-        // Appliquer acceleration progressive vers la vitesse cible
-        rb.linearVelocity = Vector2.MoveTowards(
-            rb.linearVelocity,
-            targetVelocity,
-            acceleration * Time.fixedDeltaTime
-        );
+        // Init
+        if (null != rb)
+        {
+            kartDrive.InitRb(rb);
+            kartAttack.InitRb(rb);
+        }
+        if (null != firePoint)
+        {
+            kartAttack.InitFireBomb(firePoint);
+        }
     }
 }
