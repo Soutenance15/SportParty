@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
@@ -11,8 +10,10 @@ public class BallController : MonoBehaviour
     public float maxSpeed = 15f;
     public float flashDuration = 0.6f;
 
-    [Header("Goal Effect")]
-    public float fadeOutDuration = 0.4f;
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip hitPaddleSound; // 🎵 Son joué quand la balle touche une raquette
+    public AudioClip goalSound;      // 🎯 Son joué quand la balle entre dans un goal
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
@@ -32,6 +33,14 @@ public class BallController : MonoBehaviour
             Debug.LogError("❌ Aucun SpriteRenderer trouvé sur la balle !");
         else
             baseColor = sr.color;
+
+        // 🎧 Initialise la source audio si elle n’existe pas encore
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+            audioSource.volume = 0.8f;
+        }
 
         initialized = true;
     }
@@ -60,14 +69,12 @@ public class BallController : MonoBehaviour
         rb.velocity = Vector2.zero;
         transform.position = Vector2.zero;
 
-        // Restaure la visibilité et couleur de base
         sr.color = baseColor;
 
-        // Flash lumineux avant relance
         StartCoroutine(FlashBeforeLaunch(launchRight));
     }
 
-    private IEnumerator FlashBeforeLaunch(bool launchRight)
+    private System.Collections.IEnumerator FlashBeforeLaunch(bool launchRight)
     {
         float timer = 0f;
         while (timer < flashDuration)
@@ -84,10 +91,23 @@ public class BallController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isScoring) return; // ignore les collisions si la balle “meurt”
+        if (isScoring) return;
 
         if (collision.gameObject.CompareTag("PlayerLeft") || collision.gameObject.CompareTag("PlayerRight"))
         {
+            // 🎧 Joue le son du rebond
+            if (hitPaddleSound != null)
+            {
+                GameObject tempGO = new GameObject("TempAudio_Hit");
+                AudioSource aSource = tempGO.AddComponent<AudioSource>();
+                aSource.clip = hitPaddleSound;
+                aSource.volume = 0.9f;
+                aSource.spatialBlend = 0f; // 2D pur
+                aSource.priority = 0;
+                aSource.Play();
+                Destroy(tempGO, hitPaddleSound.length);
+            }
+
             float randomY = Random.Range(-0.3f, 0.3f);
             Vector2 dir = rb.velocity.normalized;
             dir.y += randomY;
@@ -101,35 +121,49 @@ public class BallController : MonoBehaviour
 
         if (other.CompareTag("GoalLeft"))
         {
-            StartCoroutine(HandleGoal(true));
+            isScoring = true;
+
+            // 🎯 Joue le son de goal
+            if (goalSound != null)
+            {
+                GameObject tempGO = new GameObject("TempAudio_Goal");
+                AudioSource aSource = tempGO.AddComponent<AudioSource>();
+                aSource.clip = goalSound;
+                aSource.volume = 0.9f;
+                aSource.spatialBlend = 0f; // 2D pur
+                aSource.priority = 0;
+                aSource.Play();
+                Destroy(tempGO, goalSound.length);
+            }
+
+            // ⚡ Effet visuel : flash du mur d'énergie gauche
+            if (GameManager_PingPong.Instance.energyWallLeft != null)
+                GameManager_PingPong.Instance.energyWallLeft.BurstColor();
+
+            GameManager_PingPong.Instance.GoalScored(leftPlayerLost: true);
         }
         else if (other.CompareTag("GoalRight"))
         {
-            StartCoroutine(HandleGoal(false));
+            isScoring = true;
+
+            // 🎯 Joue le son de goal
+            if (goalSound != null)
+            {
+                GameObject tempGO = new GameObject("TempAudio_Goal");
+                AudioSource aSource = tempGO.AddComponent<AudioSource>();
+                aSource.clip = goalSound;
+                aSource.volume = 0.9f;
+                aSource.spatialBlend = 0f; // 2D pur
+                aSource.priority = 0;
+                aSource.Play();
+                Destroy(tempGO, goalSound.length);
+            }
+
+            // ⚡ Effet visuel : flash du mur d'énergie droit
+            if (GameManager_PingPong.Instance.energyWallRight != null)
+                GameManager_PingPong.Instance.energyWallRight.BurstColor();
+
+            GameManager_PingPong.Instance.GoalScored(leftPlayerLost: false);
         }
-    }
-
-    private IEnumerator HandleGoal(bool leftPlayerLost)
-    {
-        isScoring = true;
-        rb.velocity = Vector2.zero;
-
-        // Effet de disparition simple (fade-out)
-        float timer = 0f;
-        Color startColor = sr.color;
-
-        while (timer < fadeOutDuration)
-        {
-            float t = timer / fadeOutDuration;
-            sr.color = new Color(startColor.r, startColor.g, startColor.b, 1f - t);
-            timer += Time.deltaTime;
-            yield return null;
-        }
-
-        // Cache complètement la balle
-        sr.color = new Color(startColor.r, startColor.g, startColor.b, 0f);
-
-        // Informe le GameManager
-        GameManager_PingPong.Instance.GoalScored(leftPlayerLost);
     }
 }
