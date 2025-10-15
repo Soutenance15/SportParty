@@ -6,7 +6,7 @@ public class KartInputSystem : MonoBehaviour
     public float Horizontal { get; private set; }
     public bool FireBombPressed { get; private set; }
 
-     void Update()
+    void Update()
     {
         // For Drive
         Vertical = Input.GetAxis("Vertical");
