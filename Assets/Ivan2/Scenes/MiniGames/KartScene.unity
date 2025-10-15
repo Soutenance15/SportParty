@@ -2959,10 +2959,10 @@ GameObject:
   - component: {fileID: 1292183722}
   - component: {fileID: 1292183721}
   - component: {fileID: 1292183723}
+  - component: {fileID: 1292183727}
   - component: {fileID: 1292183726}
   - component: {fileID: 1292183725}
   - component: {fileID: 1292183724}
-  - component: {fileID: 1292183727}
   m_Layer: 0
   m_Name: KartController
   m_TagString: Player

@@ -12,6 +12,10 @@ public class KartAttackSystem : MonoBehaviour
     int currentAmmoBomb = 0;
     int maxBomb = 3;
 
+    // Input System
+
+    // KartInputSystem kartInput;
+
     public void InitFireBomb(Transform firepoint)
     {
         this.firePoint = firepoint;
@@ -21,6 +25,11 @@ public class KartAttackSystem : MonoBehaviour
     {
         this.rb = rb;
     }
+
+    // public void InitInput(KartInputSystem kartInput)
+    // {
+    //     this.kartInput = kartInput;
+    // }
 
     void OnEnable()
     {
@@ -34,15 +43,13 @@ public class KartAttackSystem : MonoBehaviour
 
     void Update()
     {
-        // Lancer bombe avec espace (ou touche au choix)
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            FireBomb();
-        }
-        // Simule attrape bombe
-        // if (Input.GetKeyDown(KeyCode.P))
+        // Lancer
+        // if (null != kartInput && null != rb && null != bombPrefab)
         // {
-        //     TakeBomb();
+        //     if (kartInput.FirePressed)
+        //     {
+        //         FireBomb();
+        //     }
         // }
     }
 
