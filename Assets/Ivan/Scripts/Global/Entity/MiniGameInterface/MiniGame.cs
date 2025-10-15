@@ -12,5 +12,6 @@ public interface MiniGame
     public event Action OnWinMiniGame;
     void InitPlayers(List<PlayerParty> players);
     void Update();
+    void Start();
     public void WinMiniGame();
 }

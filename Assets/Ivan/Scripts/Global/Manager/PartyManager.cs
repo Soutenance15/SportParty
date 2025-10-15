@@ -12,6 +12,7 @@ public class PartyManager : MonoBehaviour
 
     void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         currentParty = new Party();
     }
 
@@ -129,7 +130,7 @@ public class PartyManager : MonoBehaviour
 
     void QuitCurrentParty()
     {
-        ResetCurrentParty();
+        // ResetCurrentParty();
         Debug.Log("Party Manager : Quit Current Party");
     }
 }

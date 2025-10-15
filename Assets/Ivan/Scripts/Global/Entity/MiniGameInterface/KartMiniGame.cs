@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class KartMiniGame : MonoBehaviour, MiniGame
 {
@@ -9,9 +10,15 @@ public class KartMiniGame : MonoBehaviour, MiniGame
     public bool HasWinner { get; private set; }
     public event Action OnWinMiniGame;
 
-    void Start()
+    public void Start()
     {
         Debug.Log("KartMiniGame Start");
+        LoadScene("KartingScene");
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 
     public void Update()

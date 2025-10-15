@@ -9,7 +9,7 @@ public class FootMiniGame : MonoBehaviour, MiniGame
     public bool HasWinner { get; private set; }
     public event Action OnWinMiniGame;
 
-    void Start()
+    public void Start()
     {
         Debug.Log("FootMiniGame Start");
     }
