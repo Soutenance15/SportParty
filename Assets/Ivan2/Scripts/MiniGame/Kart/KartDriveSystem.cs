@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class KartDriveSystem : MonoBehaviour
 {
+    // Moving
     private float acceleration = 10f;
     private float maxSpeed = 15f;
     private float turnSpeed = 180f;
     private float deceleration = 4f;
-
-    private Rigidbody2D rb;
     private float currentSpeed = 0f; // vitesse positive ou négative
+
+    // Component
+    private Rigidbody2D rb;
 
     public void InitRb(Rigidbody2D rigidbody)
     {
@@ -18,11 +20,8 @@ public class KartDriveSystem : MonoBehaviour
         rb.angularDamping = 0f;
     }
 
-    void FixedUpdate()
+    public void Move(float moveInput, float turnInput)
     {
-        float moveInput = Input.GetAxis("Vertical");
-        float turnInput = Input.GetAxis("Horizontal");
-
         // --- Accélération avant/arrière ---
         if (moveInput != 0f)
         {

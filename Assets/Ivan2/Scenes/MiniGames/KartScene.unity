@@ -2960,9 +2960,10 @@ GameObject:
   - component: {fileID: 1292183721}
   - component: {fileID: 1292183723}
   - component: {fileID: 1292183726}
+  - component: {fileID: 1292183728}
+  - component: {fileID: 1292183727}
   - component: {fileID: 1292183725}
   - component: {fileID: 1292183724}
-  - component: {fileID: 1292183727}
   m_Layer: 0
   m_Name: KartController
   m_TagString: Player
@@ -3052,7 +3053,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1292183720}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37b80246065fbda49837ddf275b567a4, type: 3}
   m_Name: 
@@ -3128,7 +3129,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1292183720}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c209b02d04f140740a8af04e68b98f2e, type: 3}
   m_Name: 
@@ -3140,7 +3141,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1292183720}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 133ce274fab19bc408a8657249f09221, type: 3}
   m_Name: 
@@ -3148,6 +3149,18 @@ MonoBehaviour:
   rb: {fileID: 0}
   bombPrefab: {fileID: 741379783373393787, guid: 8b35b0c006767cc45b48aa4f95256b62, type: 3}
   firePoint: {fileID: 0}
+--- !u!114 &1292183728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292183720}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3971d28d10856540a5b1fe50d35ad78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &1323755528
 GameObject:
   m_ObjectHideFlags: 0

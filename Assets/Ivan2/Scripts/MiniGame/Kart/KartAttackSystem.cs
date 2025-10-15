@@ -1,16 +1,15 @@
 using UnityEngine;
-using UnityEngine.Video;
 
 public class KartAttackSystem : MonoBehaviour
 {
-    public Rigidbody2D rb;
-
-    // Shoot Bomb
+    // Fire Bomb
     public GameObject bombPrefab; // drag & drop la prefab de bombe dans l'inspecteur
     public Transform firePoint; // point de spawn devant le kart
-
     int currentAmmoBomb = 0;
     int maxBomb = 3;
+
+    // Component
+    public Rigidbody2D rb;
 
     public void InitFireBomb(Transform firepoint)
     {
@@ -32,23 +31,9 @@ public class KartAttackSystem : MonoBehaviour
         AmmoBomb.OnAmmoEnter -= TakeBomb;
     }
 
-    void Update()
+    public void FireBomb()
     {
-        // Lancer bombe avec espace (ou touche au choix)
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            FireBomb();
-        }
-        // Simule attrape bombe
-        // if (Input.GetKeyDown(KeyCode.P))
-        // {
-        //     TakeBomb();
-        // }
-    }
-
-    void FireBomb()
-    {
-        if (ShootLoaded())
+        if (HasAmmo())
         {
             if (null != bombPrefab && null != firePoint)
             {
@@ -71,7 +56,7 @@ public class KartAttackSystem : MonoBehaviour
         }
     }
 
-    bool ShootLoaded()
+    bool HasAmmo()
     {
         return currentAmmoBomb > 0;
     }
