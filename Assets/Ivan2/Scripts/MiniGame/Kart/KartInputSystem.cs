@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class KartInputSystem : MonoBehaviour
 {
@@ -6,13 +7,27 @@ public class KartInputSystem : MonoBehaviour
     public float Horizontal { get; private set; }
     public bool FireBombPressed { get; private set; }
 
-    void Update()
-    {
-        // For Drive
-        Vertical = Input.GetAxis("Vertical");
-        Horizontal = Input.GetAxis("Horizontal");
+    private Vector2 moveInput;
 
-        // For Attack
-        FireBombPressed = Input.GetKeyDown(KeyCode.Space);
+    // Ces fonctions seront appelées automatiquement par le PlayerInput
+    public void OnMove(InputValue value)
+    {
+        moveInput = value.Get<Vector2>();
+        Horizontal = moveInput.x;
+        Vertical = moveInput.y;
+    }
+
+    public void OnFireBomb(InputValue value)
+    {
+        if (value.isPressed)
+            FireBombPressed = true;
+        else
+            FireBombPressed = false;
+    }
+
+    void LateUpdate()
+    {
+        // Reset du FireBombPressed pour que ce soit un appui "instantané"
+        FireBombPressed = false;
     }
 }

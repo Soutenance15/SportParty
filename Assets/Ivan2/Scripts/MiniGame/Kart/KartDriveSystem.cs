@@ -1,11 +1,13 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class KartDriveSystem : MonoBehaviour
 {
     // Moving
     private float acceleration = 10f;
     private float maxSpeed = 15f;
-    private float turnSpeed = 180f;
+    private float turnSpeed = 90f;
     private float deceleration = 4f;
     private float currentSpeed = 0f; // vitesse positive ou négative
 
