@@ -6,6 +6,7 @@ public class KartInputSystem : MonoBehaviour
     public float Vertical { get; private set; }
     public float Horizontal { get; private set; }
     public bool FireBombPressed { get; private set; }
+    public bool StartPressed { get; private set; }
 
     private Vector2 moveInput;
 
@@ -23,6 +24,14 @@ public class KartInputSystem : MonoBehaviour
             FireBombPressed = true;
         else
             FireBombPressed = false;
+    }
+
+    public void OnStart(InputValue value)
+    {
+        if (value.isPressed)
+            StartPressed = true;
+        else
+            StartPressed = false;
     }
 
     void LateUpdate()

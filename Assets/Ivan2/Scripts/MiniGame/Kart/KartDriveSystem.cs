@@ -42,4 +42,9 @@ public class KartDriveSystem : MonoBehaviour
         // --- Appliquer la vitesse en direction du kart ---
         rb.linearVelocity = transform.up * currentSpeed;
     }
+
+    public void ResetVelocity()
+    {
+        rb.linearVelocity = Vector2.zero;
+    }
 }

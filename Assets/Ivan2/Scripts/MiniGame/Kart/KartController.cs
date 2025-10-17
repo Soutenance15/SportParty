@@ -6,7 +6,7 @@ public class KartController : MonoBehaviour
     // System
     private KartDriveSystem kartDrive;
     private KartAttackSystem kartAttack;
-    private KartInputSystem kartInput;
+    public KartInputSystem kartInput;
 
     // Component
     private Rigidbody2D rb;
@@ -50,6 +50,20 @@ public class KartController : MonoBehaviour
             float moveInput = kartInput.Vertical;
             float turnInput = kartInput.Horizontal;
             kartDrive.Move(moveInput, turnInput);
+        }
+    }
+
+    public void InitAll()
+    {
+        if (null != rb)
+        {
+            kartDrive.InitRb(rb);
+            kartAttack.InitRb(rb);
+            kartDrive.ResetVelocity();
+        }
+        if (null != firePoint)
+        {
+            kartAttack.InitFireBomb(firePoint);
         }
     }
 }
