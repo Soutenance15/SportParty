@@ -12,6 +12,8 @@ public class KartController : MonoBehaviour
     private Rigidbody2D rb;
     public Transform firePoint;
 
+    public bool isActive;
+
     void Awake()
     {
         kartDrive = GetComponent<KartDriveSystem>();
@@ -43,9 +45,15 @@ public class KartController : MonoBehaviour
         }
     }
 
+    public void ShowBody(bool show)
+    {
+        Transform kartBody = transform.Find("Body");
+        kartBody.gameObject.SetActive(show);
+    }
+
     void FixedUpdate()
     {
-        if (null != kartInput)
+        if (null != kartInput && isActive)
         {
             float moveInput = kartInput.Vertical;
             float turnInput = kartInput.Horizontal;

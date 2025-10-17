@@ -7,7 +7,7 @@ public class AmmoBomb : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("KartController"))
         {
             KartAttackSystem kartAttack = collision.gameObject.GetComponent<KartAttackSystem>();
             if (null != kartAttack)
