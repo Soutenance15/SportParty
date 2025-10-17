@@ -42,7 +42,6 @@ public class Golazo : MonoBehaviour
         if (p1Score >= 5)
         {
             player1FootScore.text = "P1 WINS!";
-            Destroy(GameObject.FindGameObjectWithTag("Ball"));
             scorePanel.SetActive(true);
             winText.text = "Player 1 Wins!";
 
@@ -51,7 +50,6 @@ public class Golazo : MonoBehaviour
         if (p2Score >= 5)
         {
             player2FootScore.text = "P2 WINS!";
-            Destroy(GameObject.FindGameObjectWithTag("Ball"));
             scorePanel.SetActive(true);
             winText.text = "Player 2 Wins!";
         }

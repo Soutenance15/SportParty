@@ -1375,7 +1375,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0.2320754, b: 0.2320754, a: 0.34901962}
+  m_Color: {r: 1, g: 0.2320754, b: 0.2320754, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2230,7 +2230,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0.2320754, b: 0.2320754, a: 0.34901962}
+  m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2466,6 +2466,8 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 1770249233}
   - {fileID: 1644038922}
+  player1Sprite: {fileID: 5730514280326133207, guid: 7f834dc7eca6d19479c0c95db5695b26, type: 3}
+  player2Sprite: {fileID: 2930549391357568, guid: c626f84a99a0d7f489041d0d13c29cdb, type: 3}
 --- !u!114 &1327205850
 MonoBehaviour:
   m_ObjectHideFlags: 0
