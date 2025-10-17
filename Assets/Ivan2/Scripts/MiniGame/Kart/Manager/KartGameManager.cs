@@ -9,6 +9,12 @@ public class KartGameManager : MonoBehaviour
 
     int nbKartForStart = 2;
     List<KartController> kartsController = new List<KartController>();
+    KartRace kartRace;
+
+    void Awake()
+    {
+        kartRace = GetComponent<KartRace>();
+    }
 
     void SpawnPositionStart(KartController kartController, Vector2 position)
     {
@@ -27,6 +33,10 @@ public class KartGameManager : MonoBehaviour
             }
         }
         gameIsReady = true;
+        if (kartRace != null)
+        {
+            kartRace.StartGame(kartsController);
+        }
     }
 
     private void OnEnable()
