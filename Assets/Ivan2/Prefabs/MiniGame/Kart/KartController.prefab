@@ -483,6 +483,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   kartInput: {fileID: 0}
+  kartRaceSystem: {fileID: 0}
   firePoint: {fileID: 7569466265607437804}
   isActive: 0
 --- !u!114 &2888471621622800030

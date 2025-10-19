@@ -13,6 +13,7 @@ public class KartController : MonoBehaviour
     public Transform firePoint;
 
     public bool isActive;
+    public bool hasFinished;
 
     void Awake()
     {
@@ -73,5 +74,10 @@ public class KartController : MonoBehaviour
         {
             kartAttack.InitFireBomb(firePoint);
         }
+    }
+
+    public void StopControl()
+    {
+        Debug.Log("StopControl");
     }
 }

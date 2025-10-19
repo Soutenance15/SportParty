@@ -3978,6 +3978,7 @@ GameObject:
   - component: {fileID: 985211468}
   - component: {fileID: 985211467}
   - component: {fileID: 985211469}
+  - component: {fileID: 985211470}
   m_Layer: 0
   m_Name: GameManager + PlayerInputManager
   m_TagString: Untagged
@@ -4056,6 +4057,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3dd383739c4b034d8c1ce937d8ac06b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KartGameManager
+--- !u!114 &985211470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985211466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 348428dd3c6df064ba0a1f6373874c10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KartRace
 --- !u!1 &988965971
 GameObject:
   m_ObjectHideFlags: 0

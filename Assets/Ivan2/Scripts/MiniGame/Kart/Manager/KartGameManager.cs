@@ -11,6 +11,8 @@ public class KartGameManager : MonoBehaviour
     List<KartController> kartsController = new List<KartController>();
     KartRace kartRace;
 
+    KartController kartControllerWinner;
+
     void Awake()
     {
         kartRace = GetComponent<KartRace>();
@@ -41,17 +43,26 @@ public class KartGameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        KartRaceFinish.OnFinish += Finish;
+        KartRaceFinish.OnFinish += SomeoneFinish;
     }
 
     private void OnDisable()
     {
-        KartRaceFinish.OnFinish -= Finish;
+        KartRaceFinish.OnFinish -= SomeoneFinish;
     }
 
-    private void Finish(KartController kartController)
+    private void SomeoneFinish(KartController kartController)
     {
-        Debug.Log(" Un kart a gagné");
+        kartController.hasFinished = true;
+        kartController.StopControl();
+        if (null != kartControllerWinner)
+        {
+            kartControllerWinner = kartController;
+        }
+        if (CheckedAllKartFinished())
+        {
+            EndGame();
+        }
     }
 
     public void OnPlayerJoined(PlayerInput player)
@@ -64,5 +75,17 @@ public class KartGameManager : MonoBehaviour
             kartsController.Add(kartController);
             KartInputSystem.OnStartGame += StartGame;
         }
+    }
+
+    bool CheckedAllKartFinished()
+    {
+        if (kartsController[0].hasFinished && kartsController[1].hasFinished)
+            return true;
+        return false;
+    }
+
+    void EndGame()
+    {
+        Debug.Log("End Game");
     }
 }
