@@ -8,6 +8,7 @@ public class KartInputSystem : MonoBehaviour
     public float Horizontal { get; private set; }
     public bool FireBombPressed { get; private set; }
     public bool StartPressed { get; private set; }
+    public bool ChangeSkinPressed { get; private set; }
 
     private Vector2 moveInput;
 
@@ -29,6 +30,14 @@ public class KartInputSystem : MonoBehaviour
             FireBombPressed = false;
     }
 
+    public void OnChangeSkin(InputValue value)
+    {
+        if (value.isPressed)
+            ChangeSkinPressed = true;
+        else
+            ChangeSkinPressed = false;
+    }
+
     public void OnStart(InputValue value)
     {
         if (value.isPressed)
@@ -37,7 +46,7 @@ public class KartInputSystem : MonoBehaviour
             // Le Systeme l'utilisant saura a tout moment que le bouton est appuyé
             // De plus un evenement via une static methode est envoyé
             // Celà permet à la fois de savoir le start ju doueur spécifique
-            // Et si n'importe quel joueur à appuyer sur start 
+            // Et si n'importe quel joueur à appuyer sur start
             OnStartGame?.Invoke();
         }
         else
@@ -48,5 +57,7 @@ public class KartInputSystem : MonoBehaviour
     {
         // Reset du FireBombPressed pour que ce soit un appui "instantané"
         FireBombPressed = false;
+        StartPressed = false;
+        ChangeSkinPressed = false;
     }
 }

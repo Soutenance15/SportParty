@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 public class KartGameManager : MonoBehaviour
 {
     bool gameIsReady;
-    Vector2 position = Vector2.zero;
 
     int nbKartForStart = 2;
     List<KartController> kartsController = new List<KartController>();
@@ -27,16 +26,14 @@ public class KartGameManager : MonoBehaviour
     {
         if (!gameIsReady && kartsController.Count == nbKartForStart)
         {
-            foreach (var kart in kartsController)
+            foreach (var kartController in kartsController)
             {
-                var kartController = kart.GetComponent<KartController>();
                 kartController.isActive = true;
-                kartController.ShowBody(true);
             }
         }
-        gameIsReady = true;
         if (kartRace != null)
         {
+            gameIsReady = true;
             kartRace.StartGame(kartsController);
         }
     }
@@ -55,7 +52,7 @@ public class KartGameManager : MonoBehaviour
     {
         kartController.hasFinished = true;
         kartController.StopControl();
-        if (null != kartControllerWinner)
+        if (null == kartControllerWinner)
         {
             kartControllerWinner = kartController;
         }
@@ -71,8 +68,13 @@ public class KartGameManager : MonoBehaviour
         if (null != kartController && (kartsController.Count < nbKartForStart))
         {
             kartController.isActive = false;
-            kartController.ShowBody(false);
+            // kartController.ShowBody(false);
+            GiveNameToPlayer(player, kartController);
             kartsController.Add(kartController);
+            if (kartsController.Count == 2)
+            {
+                SpawnPositionStart(kartsController[1], new Vector2(3, 0));
+            }
             KartInputSystem.OnStartGame += StartGame;
         }
     }
@@ -86,6 +88,27 @@ public class KartGameManager : MonoBehaviour
 
     void EndGame()
     {
-        Debug.Log("End Game");
+        GameDataManager.AddScore(kartControllerWinner.playerName, 1);
+        Debug.Log("End Game + " + kartControllerWinner.playerName.ToString());
+        // LoadScene -> Soit directe prochain minigame, soit menu minigame
+        // Ou bieen invoke un event EndGame
+    }
+
+    // Doit respecter la nomenclature pour le player name
+    // A voir avec Daniel
+    // Attention Code ChatGPT
+    void GiveNameToPlayer(PlayerInput player, KartController kartController)
+    {
+        if (player.devices.Count > 0)
+        {
+            var device = player.devices[0];
+            kartController.playerName = GameDataManager.GetOrAssignPlayerName(device);
+        }
+        else
+        {
+            // fallback au cas où
+            kartController.playerName = "Joueur " + (player.playerIndex + 1);
+        }
+        // Attention Code ChatGPT
     }
 }
