@@ -62,7 +62,7 @@ public class KartController : MonoBehaviour
         // Lancer bombe
         if (null != kartInput)
         {
-            if (kartInput.FireBombPressed)
+            if (kartInput.FireBombPressed && isActive)
             {
                 kartAttack.FireBomb();
             }
@@ -96,10 +96,5 @@ public class KartController : MonoBehaviour
         {
             kartAttack.InitFireBomb(firePoint);
         }
-    }
-
-    public void StopControl()
-    {
-        Debug.Log("StopControl");
     }
 }

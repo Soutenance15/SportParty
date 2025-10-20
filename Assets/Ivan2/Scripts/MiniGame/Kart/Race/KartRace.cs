@@ -45,9 +45,6 @@ public class KartRace : MonoBehaviour
             {
                 countDownStarted = true;
                 this.kartsController = kartsController;
-
-                // winningText = GameObject.Find("WinningText").GetComponent<TextMeshProUGUI>();
-
                 if (null != winningText)
                 {
                     winningText.enabled = false;
@@ -74,11 +71,13 @@ public class KartRace : MonoBehaviour
     private void SomeoneFinish(KartController kartController)
     {
         kartController.hasFinished = true;
-        kartController.StopControl();
+        kartController.isActive = false;
         if (null == kartControllerWinner)
         {
             kartControllerWinner = kartController;
         }
+        winningText.text = kartControllerWinner.playerName + " a gagné la COURSE !!!";
+        winningText.enabled = true;
         if (CheckedAllKartFinished())
         {
             EndGame();
