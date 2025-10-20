@@ -51,9 +51,9 @@ public class DuelGameSelect : MonoBehaviour
 
         // Liens boutons → scènes
         pingPongButton.onClick.AddListener(() => OnSelectMiniGame("PingPong"));
-        kartButton.onClick.AddListener(() => OnSelectMiniGame("Kartscene"));
+        kartButton.onClick.AddListener(() => OnSelectMiniGame("Karting"));
         footButton.onClick.AddListener(() => OnSelectMiniGame("Foot"));
-        paraglideButton.onClick.AddListener(() => OnSelectMiniGame("paraglide"));
+        paraglideButton.onClick.AddListener(() => OnSelectMiniGame("Parapente"));
 
         // Ajoute les effets de survol souris
         AddHoverEffect(pingPongButton);
