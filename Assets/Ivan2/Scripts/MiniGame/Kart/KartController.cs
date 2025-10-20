@@ -1,6 +1,4 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class KartController : MonoBehaviour
 {
@@ -14,6 +12,7 @@ public class KartController : MonoBehaviour
     public Transform firePoint;
 
     public bool isActive;
+    public bool isToggleSkinDeactived;
     public bool hasFinished;
 
     private SpriteRenderer skin1;
@@ -56,7 +55,6 @@ public class KartController : MonoBehaviour
         skin1.enabled = !currentSkinIs1;
         skin2.enabled = currentSkinIs1;
         currentSkinIs1 = !currentSkinIs1;
-        Debug.Log("Toogle skin");
     }
 
     void Update()
@@ -70,17 +68,11 @@ public class KartController : MonoBehaviour
             }
         }
 
-        if (kartInput.ChangeSkinPressed && !isActive)
+        if (kartInput.ChangeSkinPressed && !isToggleSkinDeactived)
         {
             ToggleSkin();
         }
     }
-
-    // public void ShowBody(bool show)
-    // {
-    //     Transform kartBody = transform.Find("Body");
-    //     kartBody.gameObject.SetActive(show);
-    // }
 
     void FixedUpdate()
     {

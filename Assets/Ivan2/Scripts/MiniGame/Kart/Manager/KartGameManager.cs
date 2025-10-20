@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,8 +11,6 @@ public class KartGameManager : MonoBehaviour
     int nbKartForStart = 2;
     List<KartController> kartsController = new List<KartController>();
     KartRace kartRace;
-
-    KartController kartControllerWinner;
 
     void Awake()
     {
@@ -25,42 +24,7 @@ public class KartGameManager : MonoBehaviour
 
     void StartGame()
     {
-        if (!gameIsReady && kartsController.Count == nbKartForStart)
-        {
-            foreach (var kartController in kartsController)
-            {
-                kartController.isActive = true;
-            }
-        }
-        if (kartRace != null)
-        {
-            gameIsReady = true;
-            kartRace.StartGame(kartsController);
-        }
-    }
-
-    private void OnEnable()
-    {
-        KartRaceFinish.OnFinish += SomeoneFinish;
-    }
-
-    private void OnDisable()
-    {
-        KartRaceFinish.OnFinish -= SomeoneFinish;
-    }
-
-    private void SomeoneFinish(KartController kartController)
-    {
-        kartController.hasFinished = true;
-        kartController.StopControl();
-        if (null == kartControllerWinner)
-        {
-            kartControllerWinner = kartController;
-        }
-        if (CheckedAllKartFinished())
-        {
-            EndGame();
-        }
+        kartRace.InitGame(kartsController);
     }
 
     public void OnPlayerJoined(PlayerInput player)
@@ -69,7 +33,6 @@ public class KartGameManager : MonoBehaviour
         if (null != kartController && (kartsController.Count < nbKartForStart))
         {
             kartController.isActive = false;
-            // kartController.ShowBody(false);
             GiveNameToPlayer(player, kartController);
             kartsController.Add(kartController);
             if (kartsController.Count == 2)
@@ -78,32 +41,6 @@ public class KartGameManager : MonoBehaviour
             }
             KartInputSystem.OnStartGame += StartGame;
         }
-    }
-
-    bool CheckedAllKartFinished()
-    {
-        if (kartsController[0].hasFinished && kartsController[1].hasFinished)
-            return true;
-        return false;
-    }
-
-    void EndGame()
-    {
-        GameDataManager.AddScore(kartControllerWinner.playerName, 1);
-        Debug.Log("End Game + " + kartControllerWinner.playerName.ToString());
-        // LoadScene -> Soit directe prochain minigame, soit menu minigame
-        // Ou bieen invoke un event EndGame
-    }
-
-    IEnumerator StartCountDown(float time)
-    {
-        int count = 3;
-        while (count > 0)
-        {
-            yield return new WaitForSeconds(time);
-            count--;
-        }
-        Debug.Log("Go!"); // fin du compte à rebours
     }
 
     // Doit respecter la nomenclature pour le player name
