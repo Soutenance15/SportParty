@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -92,6 +93,17 @@ public class KartGameManager : MonoBehaviour
         Debug.Log("End Game + " + kartControllerWinner.playerName.ToString());
         // LoadScene -> Soit directe prochain minigame, soit menu minigame
         // Ou bieen invoke un event EndGame
+    }
+
+    IEnumerator StartCountDown(float time)
+    {
+        int count = 3;
+        while (count > 0)
+        {
+            yield return new WaitForSeconds(time);
+            count--;
+        }
+        Debug.Log("Go!"); // fin du compte à rebours
     }
 
     // Doit respecter la nomenclature pour le player name

@@ -51,3 +51,19 @@ public static class GameDataManager
     }
     // Attention Code ChatGPT
 }
+
+
+
+
+// public static string GetOrAssignPlayerName(InputDevice device)
+//     {
+//         int id = device.deviceId;
+
+//         if (deviceToPlayer.TryGetValue(id, out string existingName))
+//             return existingName;
+
+//         // S'il n'existe pas encore, assigne un nom selon le nombre déjà enregistrés
+//         string playerName = $"Joueur {deviceToPlayer.Count + 1}";
+//         deviceToPlayer[id] = playerName;
+//         return playerName;
+//     }
