@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public static class GameDataManager
+public static class GameDataManager2
 {
     public const string P1_KEY = "Current_P1";
     public const string P2_KEY = "Current_P2";
