@@ -11,10 +11,7 @@ public class LeaderboardManager : MonoBehaviour
     {
         // Vérifie que le texte est bien assigné
         if (leaderboardText == null)
-        {
-            Debug.LogError("Aucun TMP_Text assigné au LeaderboardManager !");
             return;
-        }
 
         // Récupération des noms et points depuis GameDataManager
         string p1 = GameDataManager.Player1;
@@ -30,19 +27,11 @@ public class LeaderboardManager : MonoBehaviour
 
         // Détermine le vainqueur
         if (champP1 > champP2)
-        {
             leaderboardText.text += $"Vainqueur : <b>{p1}</b>";
-        }
         else if (champP2 > champP1)
-        {
             leaderboardText.text += $"Vainqueur : <b>{p2}</b>";
-        }
         else
-        {
             leaderboardText.text += "Égalité parfaite !";
-        }
-
-        Debug.Log($"Résultat final : {p1} = {champP1} pts | {p2} = {champP2} pts");
     }
 
     // Bouton rejouer (facultatif)

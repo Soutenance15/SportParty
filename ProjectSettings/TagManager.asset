@@ -10,6 +10,7 @@ TagManager:
   - GoalLeft
   - GoalRight
   - Ball
+  - Limite
   layers:
   - Default
   - TransparentFX

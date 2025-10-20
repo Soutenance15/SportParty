@@ -304,12 +304,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 4513f320-8d21-4c82-aca4-f92573acabe8
-    m_ActionName: 'Player1/Move[/Keyboard/z,/Keyboard/s,/Keyboard/q,/Keyboard/d]'
+    m_ActionId: ba9c0452-75d3-45bf-8d49-6cffe5bda280
+    m_ActionName: 'Player 1/Move[/DualSenseGamepadHID/leftStick/left]'
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 80549695-1f1f-4180-a193-ca01ea474e34
-    m_ActionName: 'Player2/Move[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
+      m_Calls:
+      - m_Target: {fileID: 80143846}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fece1c9f-bd2a-4afb-a617-50a91de3047f
+    m_ActionName: 'Player 1/UI[/DualSenseGamepadHID/leftStick/left]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 80143849}
@@ -324,19 +336,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: ef770bc3-7152-40cb-8b10-2d3cef7ed4fa
-    m_ActionName: 'Player1/Dash[/Keyboard/space]'
+    m_ActionId: 91714599-bb39-4d33-a4c6-73f3db107d7a
+    m_ActionName: 'Player 1/Dash[/DualSenseGamepadHID/rightTrigger]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 1d83e24e-8ebd-42fd-8e24-26fe22f89980
-    m_ActionName: 'Player1/UI[/DualSenseGamepadHID/leftStick/up,/DualSenseGamepadHID/leftStick/down,/DualSenseGamepadHID/leftStick/left,/DualSenseGamepadHID/leftStick/right]'
+    m_ActionId: fd8bcbda-a290-4273-823e-ea9011291be5
+    m_ActionName: 'Player 2/Move[/DualSenseGamepadHID/leftStick/up,/DualSenseGamepadHID/leftStick/down,/DualSenseGamepadHID/leftStick/left,/DualSenseGamepadHID/leftStick/right]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: cf79469f-3f1c-41e0-9d50-6d2e0efaa5e6
-    m_ActionName: 'Player2/Dash[/DualSenseGamepadHID/rightTrigger]'
+    m_ActionId: 2770e250-67b4-42e2-8dd3-df9541216af4
+    m_ActionName: 'Player 2/Dash[/DualSenseGamepadHID/rightTrigger]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: caaad959-81e5-4eb9-a17f-43c1c5d3c0e5
+    m_ActionName: 'Player 2/UI[/DualSenseGamepadHID/leftStick/left]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player1
+  m_DefaultActionMap: Player 1
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!70 &80143852
@@ -1188,15 +1204,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4288272895
+  m_fontColor: {r: 1, g: 0.8509804, b: 0.6, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1213,14 +1229,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
-  m_HorizontalAlignment: 2
+  m_fontStyle: 0
+  m_HorizontalAlignment: 32
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1281,8 +1297,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000020345, y: -153}
-  m_SizeDelta: {x: 800, y: 50}
+  m_AnchoredPosition: {x: -0.000012239, y: -176.4}
+  m_SizeDelta: {x: 707.9804, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &756728356
 GameObject:
@@ -1436,7 +1452,7 @@ GameObject:
   - component: {fileID: 869126413}
   m_Layer: 0
   m_Name: Limite
-  m_TagString: Untagged
+  m_TagString: Limite
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2439,21 +2455,17 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController_PingPong, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 4513f320-8d21-4c82-aca4-f92573acabe8
-    m_ActionName: 'Player1/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+      m_Calls: []
+    m_ActionId: ba9c0452-75d3-45bf-8d49-6cffe5bda280
+    m_ActionName: 'Player 1/Move[/DualSenseGamepadHID/leftStick/left]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fece1c9f-bd2a-4afb-a617-50a91de3047f
+    m_ActionName: 'Player 1/UI[/DualSenseGamepadHID/leftStick/left]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 91714599-bb39-4d33-a4c6-73f3db107d7a
+    m_ActionName: 'Player 1/Dash[/DualSenseGamepadHID/rightTrigger]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1890827497}
@@ -2468,16 +2480,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 80549695-1f1f-4180-a193-ca01ea474e34
-    m_ActionName: 'Player2/Move[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: ef770bc3-7152-40cb-8b10-2d3cef7ed4fa
-    m_ActionName: 'Player1/Dash[/Keyboard/space]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 1d83e24e-8ebd-42fd-8e24-26fe22f89980
-    m_ActionName: 'Player1/UI[/DualSenseGamepadHID/leftStick/up,/DualSenseGamepadHID/leftStick/down,/DualSenseGamepadHID/leftStick/left,/DualSenseGamepadHID/leftStick/right]'
+    m_ActionId: fd8bcbda-a290-4273-823e-ea9011291be5
+    m_ActionName: 'Player 2/Move[/DualSenseGamepadHID/leftStick/up,/DualSenseGamepadHID/leftStick/down,/DualSenseGamepadHID/leftStick/left,/DualSenseGamepadHID/leftStick/right]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1890827497}
@@ -2492,11 +2496,15 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: cf79469f-3f1c-41e0-9d50-6d2e0efaa5e6
-    m_ActionName: 'Player2/Dash[/DualSenseGamepadHID/rightTrigger]'
+    m_ActionId: 2770e250-67b4-42e2-8dd3-df9541216af4
+    m_ActionName: 'Player 2/Dash[/DualSenseGamepadHID/rightTrigger]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: caaad959-81e5-4eb9-a17f-43c1c5d3c0e5
+    m_ActionName: 'Player 2/UI[/DualSenseGamepadHID/leftStick/left]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player2
+  m_DefaultActionMap: Player 2
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!50 &1890827499
@@ -2822,6 +2830,7 @@ GameObject:
   - component: {fileID: 2051246331}
   - component: {fileID: 2051246330}
   - component: {fileID: 2051246329}
+  - component: {fileID: 2051246332}
   m_Layer: 0
   m_Name: MusicManager
   m_TagString: Untagged
@@ -2957,6 +2966,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2051246332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051246328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df23262ae3c9db64ca324acf0241e985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &2053990374
 GameObject:
   m_ObjectHideFlags: 0
@@ -3000,6 +3021,7 @@ MonoBehaviour:
   audioSource: {fileID: 2053990380}
   hitPaddleSound: {fileID: 8300000, guid: 1f6c08257ee351e46a73cbff9d53888f, type: 3}
   goalSound: {fileID: 8300000, guid: 7b4a0c24db279c1429e82f9ceba24a5d, type: 3}
+  wallBounceSound: {fileID: 8300000, guid: ffa84f9843f81ad4aa7d96d4fbb5643f, type: 3}
   normalTrailColor: {r: 0, g: 1, b: 1, a: 1}
   intenseTrailColor: {r: 1, g: 0, b: 1, a: 1}
   flashColor: {r: 1, g: 1, b: 1, a: 1}
@@ -3035,7 +3057,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!212 &2053990377
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8188,7 +8210,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000030518, y: -161}
+  m_AnchoredPosition: {x: -0.000020345, y: 0}
   m_SizeDelta: {x: 800, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2054602260
@@ -8211,7 +8233,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DASH READY
+  m_text: '! DASH READY !'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -8238,10 +8260,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 47
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
@@ -8301,6 +8323,7 @@ GameObject:
   - component: {fileID: 2084268468}
   - component: {fileID: 2084268467}
   - component: {fileID: 2084268466}
+  - component: {fileID: 2084268469}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -8324,17 +8347,17 @@ MonoBehaviour:
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
   m_XRTrackingOrigin: {fileID: 0}
-  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_CancelAction: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_LeftClickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MiddleClickAction: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_RightClickAction: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: 5e1c58a47dee0a546bbb1c442eede0f8, type: 3}
+  m_PointAction: {fileID: 0}
+  m_MoveAction: {fileID: 3080813117634024260, guid: 5e1c58a47dee0a546bbb1c442eede0f8, type: 3}
+  m_SubmitAction: {fileID: -4754307629621675668, guid: 5e1c58a47dee0a546bbb1c442eede0f8, type: 3}
+  m_CancelAction: {fileID: -7734145182239079692, guid: 5e1c58a47dee0a546bbb1c442eede0f8, type: 3}
+  m_LeftClickAction: {fileID: 0}
+  m_MiddleClickAction: {fileID: 0}
+  m_RightClickAction: {fileID: 0}
+  m_ScrollWheelAction: {fileID: 0}
+  m_TrackedDevicePositionAction: {fileID: 0}
+  m_TrackedDeviceOrientationAction: {fileID: 0}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
@@ -8369,6 +8392,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2084268469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084268465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: 5e1c58a47dee0a546bbb1c442eede0f8, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 2084268466}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: 19045b6b-4b04-439c-8335-34e8343482ea
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &2090341243
 GameObject:
   m_ObjectHideFlags: 0

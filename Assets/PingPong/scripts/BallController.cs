@@ -17,6 +17,7 @@ public class BallController : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip hitPaddleSound;
     public AudioClip goalSound;
+    public AudioClip wallBounceSound; // ✅ Son rebond sur limite
 
     [Header("Visual Feedback")]
     public Color normalTrailColor = Color.cyan;
@@ -98,7 +99,7 @@ public class BallController : MonoBehaviour
 
         float xDir = launchRight ? -1f : 1f;
         float yDir = Random.Range(-0.5f, 0.5f);
-        rb.velocity = new Vector2(xDir, yDir).normalized * initialSpeed;
+        rb.linearVelocity = new Vector2(xDir, yDir).normalized * initialSpeed;
 
         rallyCount = 0;
         rallyCountGlobal = 0;
@@ -116,7 +117,7 @@ public class BallController : MonoBehaviour
     public void ResetBall(bool launchRight)
     {
         isScoring = false;
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         transform.position = Vector2.zero;
         transform.localScale = originalScale;
         sr.color = baseColor;
@@ -151,29 +152,26 @@ public class BallController : MonoBehaviour
     {
         if (isScoring) return;
 
+        // ✅ Rebond sur les raquettes
         if (collision.gameObject.CompareTag("PlayerLeft") || collision.gameObject.CompareTag("PlayerRight"))
         {
             rallyCount++;
             rallyCountGlobal = rallyCount;
             UpdateTrailEffect(collision.gameObject.CompareTag("PlayerLeft"));
 
-            // 🎧 Son de rebond
             if (hitPaddleSound != null)
-            {
-                GameObject tempGO = new GameObject("TempAudio_Hit");
-                AudioSource aSource = tempGO.AddComponent<AudioSource>();
-                aSource.clip = hitPaddleSound;
-                aSource.volume = 0.9f;
-                aSource.spatialBlend = 0f;
-                aSource.Play();
-                Destroy(tempGO, hitPaddleSound.length);
-            }
+                PlayTempSound(hitPaddleSound, 0.9f);
 
-            // ⚡ Physique
             float randomY = Random.Range(-0.3f, 0.3f);
-            Vector2 dir = rb.velocity.normalized;
+            Vector2 dir = rb.linearVelocity.normalized;
             dir.y += randomY;
-            rb.velocity = dir.normalized * Mathf.Min(rb.velocity.magnitude + speedIncrease, maxSpeed);
+            rb.linearVelocity = dir.normalized * Mathf.Min(rb.linearVelocity.magnitude + speedIncrease, maxSpeed);
+        }
+        // ✅ Rebond sur les limites haut/bas
+        else if (collision.gameObject.CompareTag("Limite"))
+        {
+            if (wallBounceSound != null)
+                PlayTempSound(wallBounceSound, 0.6f);
         }
     }
 
@@ -291,15 +289,7 @@ public class BallController : MonoBehaviour
             transform.localScale = originalScale;
 
             if (goalSound != null)
-            {
-                GameObject tempGO = new GameObject("TempAudio_Goal");
-                AudioSource aSource = tempGO.AddComponent<AudioSource>();
-                aSource.clip = goalSound;
-                aSource.volume = 0.9f;
-                aSource.spatialBlend = 0f;
-                aSource.Play();
-                Destroy(tempGO, goalSound.length);
-            }
+                PlayTempSound(goalSound, 0.9f);
 
             rallyCount = 0;
             rallyCountGlobal = 0;
@@ -314,5 +304,17 @@ public class BallController : MonoBehaviour
 
             GameManager_PingPong.Instance.GoalScored(leftPlayerLost: other.CompareTag("GoalRight") ? false : true);
         }
+    }
+
+    // 🎧 Méthode générique pour jouer un son temporaire
+    private void PlayTempSound(AudioClip clip, float volume)
+    {
+        GameObject tempGO = new GameObject("TempAudio");
+        AudioSource aSource = tempGO.AddComponent<AudioSource>();
+        aSource.clip = clip;
+        aSource.volume = volume;
+        aSource.spatialBlend = 0f;
+        aSource.Play();
+        Destroy(tempGO, clip.length);
     }
 }

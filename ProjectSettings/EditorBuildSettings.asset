@@ -6,23 +6,32 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Common/MainMenu.unity
+    guid: ac54b569aaf1b844498725ebfa87e8f8
+  - enabled: 1
     path: Assets/Scenes/Common/PlayerSelectMenu.unity
     guid: 5baa884e87e028b4ebd8095a5057c0fe
+  - enabled: 1
+    path: Assets/Scenes/Common/DuelGameSelect.unity
+    guid: 06c8b77238a494245bca88d63036de2b
   - enabled: 1
     path: Assets/Scenes/Common/MiniGameSelector.unity
     guid: 6db690898d8ec5d45b3e79cc98f228f8
   - enabled: 1
     path: Assets/Scenes/PingPong.unity
     guid: 87368527b58e7ee4da8b380dadabc974
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Foot.unity
     guid: cf2bc73336396364c989d472dca5ea9d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Kartscene.unity
     guid: 86e5aadb627ae1e46aac3e6d61d247be
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/paraglide.unity
     guid: 2c0730f384f23ec4ab85cc9c369a243b
+  - enabled: 1
+    path: Assets/Scenes/Common/Leaderboard.unity
+    guid: 770cf93ba32d1814994b9e0c75dac5d5
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 5e1c58a47dee0a546bbb1c442eede0f8, type: 3}
   m_UseUCBPForAssetBundles: 0
