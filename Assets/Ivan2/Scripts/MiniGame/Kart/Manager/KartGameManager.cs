@@ -35,7 +35,8 @@ public class KartGameManager : MonoBehaviour
         if (kartRace != null)
         {
             gameIsReady = true;
-            kartRace.StartGame(kartsController);
+            StartCoroutine(StartCountDown(3f));
+            // kartRace.StartGame(kartsController);
         }
     }
 
