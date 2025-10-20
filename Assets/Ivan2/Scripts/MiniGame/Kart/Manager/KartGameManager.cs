@@ -99,16 +99,16 @@ public class KartGameManager : MonoBehaviour
     // Attention Code ChatGPT
     void GiveNameToPlayer(PlayerInput player, KartController kartController)
     {
-        if (player.devices.Count > 0)
-        {
-            var device = player.devices[0];
-            kartController.playerName = GameDataManager.GetOrAssignPlayerName(device);
-        }
-        else
-        {
-            // fallback au cas où
-            kartController.playerName = "Joueur " + (player.playerIndex + 1);
-        }
+        // if (player.devices.Count > 0)
+        // {
+        //     var device = player.devices[0];
+        //     kartController.playerName = GameDataManager.GetOrAssignPlayerName(device);
+        // }
+        // else
+        // {
+        // fallback au cas où
+        kartController.playerName = "Joueur " + (player.playerIndex + 1);
+        // }
         // Attention Code ChatGPT
     }
 }
