@@ -24,8 +24,8 @@ public class MiniGameSelector : MonoBehaviour
     private static List<string> remainingGames = new List<string>()
     {
         "PingPong",
-        "Kartscene",
-        "paraglide",
+        "Karting",
+        "Parapente",
         "Foot"
     };
 
