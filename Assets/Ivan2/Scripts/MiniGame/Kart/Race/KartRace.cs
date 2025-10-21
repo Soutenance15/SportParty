@@ -64,6 +64,16 @@ public class KartRace : MonoBehaviour
         kartsController[0].isToggleSkinDeactived = true;
         kartsController[1].isToggleSkinDeactived = true;
 
+        kartsController[0].isActive = false;
+        kartsController[1].isActive = false;
+
+        kartsController[0].InitAll();
+        kartsController[1].InitAll();
+
+        // Replace at good position
+        kartsController[0].SpawnAtPosition(Vector2.zero);
+        kartsController[1].SpawnAtPosition(new Vector2(6, 0));
+
         StartCoroutine(StartCountDown(3f));
         countDownFinished = true;
     }

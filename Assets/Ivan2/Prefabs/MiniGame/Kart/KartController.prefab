@@ -318,6 +318,7 @@ GameObject:
   - component: {fileID: 2888471621622800030}
   - component: {fileID: 5846217472236991759}
   - component: {fileID: 504847769744216399}
+  - component: {fileID: 2257693530176427593}
   - component: {fileID: 6832074914882625551}
   - component: {fileID: 8341137448805730667}
   - component: {fileID: 679698297627993227}
@@ -358,6 +359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   kartInput: {fileID: 0}
+  nextStepManager: {fileID: 0}
   firePoint: {fileID: 7569466265607437804}
   isActive: 0
   isToggleSkinDeactived: 0
@@ -402,6 +404,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3971d28d10856540a5b1fe50d35ad78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &2257693530176427593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5330321091006558899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 771f40e9a5ce2384dad173bfba1b320a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NextStepManager
+  currentIndexStep: 0
+  steps: []
 --- !u!114 &6832074914882625551
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ public class KartController : MonoBehaviour
     private KartDriveSystem kartDrive;
     private KartAttackSystem kartAttack;
     public KartInputSystem kartInput;
+    public NextStepManager nextStepManager;
 
     // Component
     private Rigidbody2D rb;
@@ -23,12 +24,19 @@ public class KartController : MonoBehaviour
     // Caracteristique
 
     public string playerName;
+    public int index;
 
     void Awake()
     {
         kartDrive = GetComponent<KartDriveSystem>();
         kartAttack = GetComponent<KartAttackSystem>();
         kartInput = GetComponent<KartInputSystem>();
+        nextStepManager = GetComponent<NextStepManager>();
+
+        if (null != nextStepManager)
+        {
+            AssignUI();
+        }
 
         rb = GetComponent<Rigidbody2D>();
 
@@ -50,12 +58,45 @@ public class KartController : MonoBehaviour
         }
     }
 
+    public void SpawnAtPosition(Vector2 position)
+    {
+        transform.position = position;
+    }
+
     public void ToggleSkin()
     {
         skin1.enabled = !currentSkinIs1;
         skin2.enabled = currentSkinIs1;
         currentSkinIs1 = !currentSkinIs1;
     }
+
+    public void SetIndex(int index)
+    {
+        this.index = index;
+    }
+
+    public void AssignUI()
+    {
+        if (null != nextStepManager)
+        {
+            nextStepManager.AssignUI(this.index);
+        }
+    }
+
+    // public void Reset()
+    // {
+    //     if (null != rb)
+    //     {
+    //         // Vitesse
+    //         rb.linearVelocity = Vector2.zero;
+    //         rb.angularVelocity = 0f;
+
+    //         // Orientation
+    //         rb.rotation = 0f;
+    //         transform.rotation = Quaternion.identity;
+    //         transform.position = startPosition;
+    //     }
+    // }
 
     void Update()
     {
@@ -71,6 +112,10 @@ public class KartController : MonoBehaviour
         if (kartInput.ChangeSkinPressed && !isToggleSkinDeactived)
         {
             ToggleSkin();
+        }
+        if (kartInput.NextStepPressed && !isToggleSkinDeactived)
+        {
+            nextStepManager.NextStep();
         }
     }
 

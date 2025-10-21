@@ -15,11 +15,6 @@ public class KartGameManager : MonoBehaviour
         kartRace = GetComponent<KartRace>();
     }
 
-    void SpawnPositionStart(KartController kartController, Vector2 position)
-    {
-        kartController.transform.position = position;
-    }
-
     void StartGame()
     {
         kartRace.InitGame(kartsController);
@@ -30,12 +25,13 @@ public class KartGameManager : MonoBehaviour
         KartController kartController = player.GetComponent<KartController>();
         if (null != kartController && (kartsController.Count < nbKartForStart))
         {
-            kartController.isActive = false;
+            kartController.isActive = true;
             GiveNameToPlayer(player, kartController);
             kartsController.Add(kartController);
+            kartController.SetIndex(player.playerIndex);
             if (kartsController.Count == 2)
             {
-                SpawnPositionStart(kartsController[1], new Vector2(3, 0));
+                kartsController[1].SpawnAtPosition(new Vector2(6, 0));
             }
             KartInputSystem.OnStartGame += StartGame;
         }
