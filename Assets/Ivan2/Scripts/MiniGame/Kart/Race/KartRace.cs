@@ -9,7 +9,9 @@ public class KartRace : MonoBehaviour
     KartController kartControllerWinner;
     bool countDownFinished;
     bool countDownStarted;
+    bool isReady;
 
+    GameObject splitUI;
     TextMeshProUGUI countDownText;
     TextMeshProUGUI winningText;
 
@@ -27,6 +29,7 @@ public class KartRace : MonoBehaviour
     {
         countDownText = GameObject.Find("CountDownText").GetComponent<TextMeshProUGUI>();
         winningText = GameObject.Find("WinningText").GetComponent<TextMeshProUGUI>();
+        splitUI = GameObject.Find("SplitUI");
         if (null != winningText)
         {
             winningText.enabled = false;
@@ -60,6 +63,10 @@ public class KartRace : MonoBehaviour
 
     void StartGame()
     {
+        if (null != splitUI)
+        {
+            splitUI.SetActive(false);
+        }
         countDownText.enabled = true;
         kartsController[0].isToggleSkinDeactived = true;
         kartsController[1].isToggleSkinDeactived = true;
