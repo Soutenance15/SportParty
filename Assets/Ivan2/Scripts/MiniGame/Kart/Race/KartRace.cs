@@ -39,7 +39,7 @@ public class KartRace : MonoBehaviour
 
     public void InitGame(List<KartController> kartsController)
     {
-        if (!countDownFinished)
+        if (kartsController.Count == 2 && !countDownFinished)
         {
             if (!countDownStarted)
             {
