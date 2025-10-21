@@ -2175,7 +2175,7 @@ GameObject:
   - component: {fileID: 514508481}
   - component: {fileID: 514508480}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: TutoUIPannel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
