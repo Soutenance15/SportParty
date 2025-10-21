@@ -47,4 +47,11 @@ public class KartDriveSystem : MonoBehaviour
     {
         rb.linearVelocity = Vector2.zero;
     }
+
+    public void ResetAll()
+    {
+        ResetVelocity();
+        rb.rotation = 0f;
+        rb.transform.rotation = Quaternion.identity;
+    }
 }

@@ -78,6 +78,10 @@ public class KartRace : MonoBehaviour
         kartsController[1].InitAll();
 
         // Replace at good position
+
+        // kartsController[0].kartDrive.ResetAll();
+        // kartsController[1].kartDrive.ResetAll();
+
         kartsController[0].SpawnAtPosition(Vector2.zero);
         kartsController[1].SpawnAtPosition(new Vector2(6, 0));
 

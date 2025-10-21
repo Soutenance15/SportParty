@@ -3,7 +3,7 @@ using UnityEngine;
 public class KartController : MonoBehaviour
 {
     // System
-    private KartDriveSystem kartDrive;
+    public KartDriveSystem kartDrive;
     private KartAttackSystem kartAttack;
     public KartInputSystem kartInput;
     public NextStepManager nextStepManager;
