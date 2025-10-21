@@ -28,6 +28,13 @@ public class NextStepManager : MonoBehaviour
                 .GetComponent<TextMeshProUGUI>();
         }
         CreateStep();
+        if (null != TutoUI)
+        {
+            indicationText = TutoUI
+                .transform.Find("indicationText")
+                .GetComponent<TextMeshProUGUI>();
+            indicationText.text = steps[currentIndexStep];
+        }
     }
 
     public void CreateStep()

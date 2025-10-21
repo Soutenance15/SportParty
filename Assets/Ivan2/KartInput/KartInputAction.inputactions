@@ -254,7 +254,7 @@
                 {
                     "name": "",
                     "id": "b7ab8272-068d-4464-8073-edba66018380",
-                    "path": "<Gamepad>/dpad/up",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -265,7 +265,7 @@
                 {
                     "name": "",
                     "id": "490667b0-90df-403f-900e-903c850b699c",
-                    "path": "<Keyboard>/upArrow",
+                    "path": "<Keyboard>/y",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
