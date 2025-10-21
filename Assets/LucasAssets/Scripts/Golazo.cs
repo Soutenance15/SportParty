@@ -30,6 +30,7 @@ public class Golazo : MonoBehaviour
 
     public void P1Score()
     {
+        FootSoundManager.Play("Applause");
         p1Score++;
         player1FootScore.text = $"{GameDataManager.Player1}:" + p1Score.ToString();
         Destroy(GameObject.FindGameObjectWithTag("Ball"));
