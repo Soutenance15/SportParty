@@ -1,10 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class FootManager : MonoBehaviour
 {
     public GameObject ballPrefab;
-    public Transform spawnPoint1;
+    
+
+    public List<Transform> spawnpoints;
 
 
 
@@ -18,7 +21,9 @@ public class FootManager : MonoBehaviour
     
     public void SpawnBall()
     {
-        GameObject laBalle = Instantiate(ballPrefab, spawnPoint1.position, Quaternion.identity);
+        int randomIndex = Random.Range(0, spawnpoints.Count);
+        Transform randomSpawnPoint = spawnpoints[randomIndex];
+        GameObject laBalle = Instantiate(ballPrefab, randomSpawnPoint.position, Quaternion.identity);
     }
 
     // Update is called once per frame
