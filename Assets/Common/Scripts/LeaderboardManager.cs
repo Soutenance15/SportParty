@@ -31,11 +31,17 @@ public class LeaderboardManager : MonoBehaviour
     public float pulseSpeed = 2f;
     public Color highlightColor = new Color(1f, 0.85f, 0.2f);
 
+    [Header("Animation vainqueur")]
+    public Color winnerColor = new Color(1f, 0.8f, 0.2f);
+    public float winnerPulseSpeed = 2f;
+    public float winnerPulseScale = 1.1f;
+    public float winnerAnimDuration = 3f;
+
     void Start()
     {
         eventSystem = EventSystem.current;
 
-        // 🎵 Musique du leaderboard
+        // 🎵 Musique
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.5f);
         sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 0.9f);
 
@@ -50,13 +56,13 @@ public class LeaderboardManager : MonoBehaviour
             musicSource.Play();
         }
 
-        // 🔊 Source SFX séparée
+        // 🔊 SFX séparé
         sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.playOnAwake = false;
         sfxSource.loop = false;
         sfxSource.volume = sfxVolume;
 
-        // Affiche le classement
+        // 🏆 Affiche et anime le classement
         DisplayLeaderboard();
 
         // Boutons + sons
@@ -131,11 +137,43 @@ public class LeaderboardManager : MonoBehaviour
         leaderboardText.text += $"{p2} : {champP2} pts\n\n";
 
         if (champP1 > champP2)
-            leaderboardText.text += $"Vainqueur : <b>{p1}</b>";
+        {
+            leaderboardText.text += $"Vainqueur : <b><color=#FFD24A>{p1}</color></b>";
+            StartCoroutine(AnimateWinnerText(p1));
+        }
         else if (champP2 > champP1)
-            leaderboardText.text += $"Vainqueur : <b>{p2}</b>";
+        {
+            leaderboardText.text += $"Vainqueur : <b><color=#FFD24A>{p2}</color></b>";
+            StartCoroutine(AnimateWinnerText(p2));
+        }
         else
+        {
             leaderboardText.text += "Égalité parfaite !";
+            StartCoroutine(AnimateWinnerText("Égalité"));
+        }
+    }
+
+    // ✨ Animation du vainqueur
+    private IEnumerator AnimateWinnerText(string winnerName)
+    {
+        float timer = 0f;
+        TMP_Text tmp = leaderboardText;
+
+        Vector3 baseScale = tmp.transform.localScale;
+        Color baseColor = Color.white;
+        Color pulseColor = (winnerName == "Égalité") ? Color.white : winnerColor;
+
+        while (timer < winnerAnimDuration)
+        {
+            float t = Mathf.Sin(Time.time * winnerPulseSpeed) * 0.5f + 0.5f;
+            tmp.color = Color.Lerp(baseColor, pulseColor, t);
+            tmp.transform.localScale = baseScale * Mathf.Lerp(1f, winnerPulseScale, t);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        tmp.color = baseColor;
+        tmp.transform.localScale = baseScale;
     }
 
     private void AddHoverEffect(Button btn)
