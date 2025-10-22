@@ -1,5 +1,7 @@
 using UnityEngine;
 using TMPro;
+using System.Collections; // Requis pour les Coroutines
+using UnityEngine.SceneManagement; // Requis pour changer de scène
 
 public class ParaScoreManager : MonoBehaviour
 {
@@ -10,16 +12,18 @@ public class ParaScoreManager : MonoBehaviour
     public TextMeshProUGUI scoreTextP2;
 
     [Header("UI du Chronomètre")]
-    public float gameDuration = 90f; // Durée de la partie en secondes
+    public float gameDuration = 90f;
     public TextMeshProUGUI timerText;
-
-    private float currentTime;
-    private bool gameIsOver = false;
 
     [Header("UI de Fin de Partie")]
     public GameObject endGamePanel;
     public TextMeshProUGUI winnerText;
     public TextMeshProUGUI loserText;
+    [Tooltip("Délai en secondes avant de retourner au menu")]
+    public float delayBeforeReturn = 5f; // <<< NOUVELLE VARIABLE
+
+    private float currentTime;
+    private bool gameIsOver = false;
 
     void Awake()
     {
@@ -33,7 +37,6 @@ public class ParaScoreManager : MonoBehaviour
 
     void Update()
     {
-        // Si la partie est en cours
         if (!gameIsOver)
         {
             currentTime -= Time.deltaTime;
@@ -41,10 +44,9 @@ public class ParaScoreManager : MonoBehaviour
             if (currentTime <= 0)
             {
                 currentTime = 0;
-                EndGame(); // La partie est finie !
+                EndGame();
             }
 
-            // Mise à jour de l'affichage du temps
             int minutes = (int)currentTime / 60;
             int seconds = (int)currentTime % 60;
             timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
@@ -55,35 +57,56 @@ public class ParaScoreManager : MonoBehaviour
     {
         gameIsOver = true;
         
-        // On utilise la nouvelle fonction recommandée
-        var ringSpawner = FindFirstObjectByType<ParaRingSpawner>(); // <<< LIGNE MODIFIÉE
+        var ringSpawner = FindFirstObjectByType<ParaRingSpawner>();
         if (ringSpawner != null) ringSpawner.enabled = false;
 
-        // On utilise la nouvelle fonction recommandée
-        ParaPlayerController[] players = FindObjectsByType<ParaPlayerController>(FindObjectsSortMode.None); // <<< LIGNE MODIFIÉE
+        ParaPlayerController[] players = FindObjectsByType<ParaPlayerController>(FindObjectsSortMode.None);
         foreach (var player in players) {
             player.enabled = false;
         }
 
+        string p1Name = GameDataManager.Player1;
+        string p2Name = GameDataManager.Player2;
         int scoreP1 = -1, scoreP2 = -1;
         foreach (var player in players) {
-            // On utilise la propriété publique "Score" avec une majuscule
-            if (player.playerID == 1) scoreP1 = player.Score; // <<< LIGNE MODIFIÉE
-            if (player.playerID == 2) scoreP2 = player.Score; // <<< LIGNE MODIFIÉE
+            if (player.playerID == 1) scoreP1 = player.Score;
+            if (player.playerID == 2) scoreP2 = player.Score;
         }
-
+        
+        GameDataManager.AddScore(p1Name, scoreP1);
+        GameDataManager.AddScore(p2Name, scoreP2);
+        
         if (scoreP1 > scoreP2) {
-            winnerText.text = "Gagnant : Joueur 1 (" + scoreP1 + " points)";
-            loserText.text = "Joueur 2 (" + scoreP2 + " points)";
+            winnerText.text = "Gagnant : " + p1Name + " (+" + scoreP1 + " points)";
+            loserText.text = p2Name + " (+" + scoreP2 + " points)";
+            GameDataManager.AddChampPoints(p1Name, 3);
+            GameDataManager.AddChampPoints(p2Name, 1);
         } else if (scoreP2 > scoreP1) {
-            winnerText.text = "Gagnant : Joueur 2 (" + scoreP2 + " points)";
-            loserText.text = "Joueur 1 (" + scoreP1 + " points)";
+            winnerText.text = "Gagnant : " + p2Name + " (+" + scoreP2 + " points)";
+            loserText.text = p1Name + " (+" + scoreP1 + " points)";
+            GameDataManager.AddChampPoints(p2Name, 3);
+            GameDataManager.AddChampPoints(p1Name, 1);
         } else {
-            winnerText.text = "Égalité ! (" + scoreP1 + " points)";
+            winnerText.text = "Égalité ! (+" + scoreP1 + " points)";
             loserText.text = "";
+            GameDataManager.AddChampPoints(p1Name, 2);
+            GameDataManager.AddChampPoints(p2Name, 2);
         }
         
         endGamePanel.SetActive(true);
+
+        // On lance la coroutine pour retourner au menu
+        StartCoroutine(ReturnToMenuCoroutine()); // <<< NOUVELLE LIGNE
+    }
+
+    // NOUVELLE FONCTION
+    IEnumerator ReturnToMenuCoroutine()
+    {
+        // On attend le nombre de secondes défini
+        yield return new WaitForSeconds(delayBeforeReturn);
+
+        // On charge la scène du sélecteur de mini-jeux
+        SceneManager.LoadScene("MiniGameSelector");
     }
 
     public void UpdateScoreUI(int playerID, int newScore)

@@ -419,8 +419,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 670603743
-  m_SortingLayer: 1
+  m_SortingLayerID: 1251661505
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: -5269881622625892068, guid: e23473b78cde3b544b291f58090ed533, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1414,7 +1414,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1742915835
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 1
   m_RenderMode: 1
   m_MeshDistribution: 0
@@ -6240,6 +6240,7 @@ MonoBehaviour:
   endGamePanel: {fileID: 898460844}
   winnerText: {fileID: 773305285}
   loserText: {fileID: 2106725291}
+  delayBeforeReturn: 5
 --- !u!4 &1650175814
 Transform:
   m_ObjectHideFlags: 0
