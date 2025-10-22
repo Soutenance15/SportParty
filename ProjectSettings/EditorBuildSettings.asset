@@ -27,7 +27,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Foot.unity
     guid: feffdbcf7e0d1744ba376f2554aee08a
   - enabled: 1
-    path: Assets/Scenes/Karting.unity
+    path: Assets/Scenes/KartScene.unity
     guid: 140959fdffbdd3942997072fa7990dba
   - enabled: 1
     path: Assets/Scenes/Parapente.unity
