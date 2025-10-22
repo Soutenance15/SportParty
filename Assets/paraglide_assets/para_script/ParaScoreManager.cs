@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
-using System.Collections; // Requis pour les Coroutines
-using UnityEngine.SceneManagement; // Requis pour changer de scène
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ParaScoreManager : MonoBehaviour
 {
@@ -19,11 +19,12 @@ public class ParaScoreManager : MonoBehaviour
     public GameObject endGamePanel;
     public TextMeshProUGUI winnerText;
     public TextMeshProUGUI loserText;
-    [Tooltip("Délai en secondes avant de retourner au menu")]
-    public float delayBeforeReturn = 5f; // <<< NOUVELLE VARIABLE
+    public float delayBeforeReturn = 5f;
 
     private float currentTime;
     private bool gameIsOver = false;
+    private string player1Name;
+    private string player2Name;
 
     void Awake()
     {
@@ -33,6 +34,14 @@ public class ParaScoreManager : MonoBehaviour
     void Start()
     {
         currentTime = gameDuration;
+
+        // On récupère les noms des joueurs
+        player1Name = GameDataManager.Player1;
+        player2Name = GameDataManager.Player2;
+
+        // On met à jour l'affichage initial avec les bons noms
+        if (scoreTextP1 != null) scoreTextP1.text = player1Name + " Score: 0";
+        if (scoreTextP2 != null) scoreTextP2.text = player2Name + " Score: 0";
     }
 
     void Update()
@@ -47,9 +56,12 @@ public class ParaScoreManager : MonoBehaviour
                 EndGame();
             }
 
-            int minutes = (int)currentTime / 60;
-            int seconds = (int)currentTime % 60;
-            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            if (timerText != null)
+            {
+                int minutes = (int)currentTime / 60;
+                int seconds = (int)currentTime % 60;
+                timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            }
         }
     }
 
@@ -65,59 +77,52 @@ public class ParaScoreManager : MonoBehaviour
             player.enabled = false;
         }
 
-        string p1Name = GameDataManager.Player1;
-        string p2Name = GameDataManager.Player2;
         int scoreP1 = -1, scoreP2 = -1;
         foreach (var player in players) {
             if (player.playerID == 1) scoreP1 = player.Score;
             if (player.playerID == 2) scoreP2 = player.Score;
         }
         
-        GameDataManager.AddScore(p1Name, scoreP1);
-        GameDataManager.AddScore(p2Name, scoreP2);
+        GameDataManager.AddScore(player1Name, scoreP1);
+        GameDataManager.AddScore(player2Name, scoreP2);
         
         if (scoreP1 > scoreP2) {
-            winnerText.text = "Gagnant : " + p1Name + " (+" + scoreP1 + " points)";
-            loserText.text = p2Name + " (+" + scoreP2 + " points)";
-            GameDataManager.AddChampPoints(p1Name, 3);
-            GameDataManager.AddChampPoints(p2Name, 1);
+            winnerText.text = "Gagnant : " + player1Name + " (+" + scoreP1 + " points)";
+            loserText.text = player2Name + " (+" + scoreP2 + " points)";
+            GameDataManager.AddChampPoints(player1Name, 3);
+            GameDataManager.AddChampPoints(player2Name, 1);
         } else if (scoreP2 > scoreP1) {
-            winnerText.text = "Gagnant : " + p2Name + " (+" + scoreP2 + " points)";
-            loserText.text = p1Name + " (+" + scoreP1 + " points)";
-            GameDataManager.AddChampPoints(p2Name, 3);
-            GameDataManager.AddChampPoints(p1Name, 1);
+            winnerText.text = "Gagnant : " + player2Name + " (+" + scoreP2 + " points)";
+            loserText.text = player1Name + " (+" + scoreP1 + " points)";
+            GameDataManager.AddChampPoints(player2Name, 3);
+            GameDataManager.AddChampPoints(player1Name, 1);
         } else {
             winnerText.text = "Égalité ! (+" + scoreP1 + " points)";
             loserText.text = "";
-            GameDataManager.AddChampPoints(p1Name, 2);
-            GameDataManager.AddChampPoints(p2Name, 2);
+            GameDataManager.AddChampPoints(player1Name, 2);
+            GameDataManager.AddChampPoints(player2Name, 2);
         }
         
         endGamePanel.SetActive(true);
-
-        // On lance la coroutine pour retourner au menu
-        StartCoroutine(ReturnToMenuCoroutine()); // <<< NOUVELLE LIGNE
+        StartCoroutine(ReturnToMenuCoroutine());
     }
 
-    // NOUVELLE FONCTION
     IEnumerator ReturnToMenuCoroutine()
     {
-        // On attend le nombre de secondes défini
         yield return new WaitForSeconds(delayBeforeReturn);
-
-        // On charge la scène du sélecteur de mini-jeux
         SceneManager.LoadScene("MiniGameSelector");
     }
 
+    // LA CORRECTION EST ICI
     public void UpdateScoreUI(int playerID, int newScore)
     {
         if (playerID == 1)
         {
-            scoreTextP1.text = "P1 Score: " + newScore;
+            if(scoreTextP1 != null) scoreTextP1.text = player1Name + " Score: " + newScore;
         }
         else if (playerID == 2)
         {
-            scoreTextP2.text = "P2 Score: " + newScore;
+            if(scoreTextP2 != null) scoreTextP2.text = player2Name + " Score: " + newScore;
         }
     }
 }
