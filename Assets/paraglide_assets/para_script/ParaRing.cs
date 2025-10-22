@@ -4,7 +4,7 @@ public class ParaRing : MonoBehaviour
 {
     public int scoreValue = 100;
     [Tooltip("Le rayon du 'trou' de l'anneau. Le joueur doit être DANS ce rayon pour marquer.")]
-    public float scoreRadius = 0.5f; // <<< RÉGLEZ CECI POUR LA DIFFICULTÉ
+    public float scoreRadius = 0.5f;
 
     private bool hasBeenTriggered = false;
     private ParaRingApproaching approachingScript;
@@ -14,7 +14,8 @@ public class ParaRing : MonoBehaviour
         approachingScript = GetComponent<ParaRingApproaching>();
     }
 
-    private void OnTriggerEnter2D(Collider2D otherCollider)
+    // On remplace OnTriggerEnter2D par OnTriggerStay2D
+    private void OnTriggerStay2D(Collider2D otherCollider)
     {
         if (hasBeenTriggered || !otherCollider.CompareTag("Player"))
         {
