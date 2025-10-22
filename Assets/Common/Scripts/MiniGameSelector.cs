@@ -16,7 +16,11 @@ public class MiniGameSelector : MonoBehaviour
     [Header("Audio")]
     public AudioClip selectSound;      // 🔊 Son final (jeu choisi)
     public AudioClip whooshSound;      // 🔊 Petit son à chaque survol
+    public AudioClip backgroundMusic;  // 🎵 Musique du sélecteur
+    public float musicVolume = 0.8f;
+    public float fadeOutDuration = 1.5f;
     private AudioSource audioSource;
+    private AudioSource musicSource;
 
     [Header("Effet visuel")]
     public Image flashOverlay;         // ✅ Une image blanche plein écran avec alpha 0
@@ -34,11 +38,24 @@ public class MiniGameSelector : MonoBehaviour
     private void Start()
     {
         screenFader = UnityEngine.Object.FindFirstObjectByType<ScreenFader>();
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-            audioSource = gameObject.AddComponent<AudioSource>();
 
-        // Désactive le flash blanc au départ
+        // 🎧 Gestion des sources audio
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+        audioSource.loop = false;
+
+        musicSource = gameObject.AddComponent<AudioSource>();
+        musicSource.playOnAwake = false;
+        musicSource.loop = true;
+        musicSource.volume = musicVolume;
+
+        if (backgroundMusic != null)
+        {
+            musicSource.clip = backgroundMusic;
+            musicSource.Play();
+        }
+
+        // 🔆 Réinitialisation du flash
         if (flashOverlay != null)
             flashOverlay.color = new Color(1f, 1f, 1f, 0f);
 
@@ -49,13 +66,13 @@ public class MiniGameSelector : MonoBehaviour
     {
         if (remainingGames.Count == 0)
         {
-            infoText.text = "Tous les mini-jeux ont ete joues !";
+            infoText.text = "Tous les mini-jeux ont été joués !";
             yield return new WaitForSeconds(2f);
-            yield return StartCoroutine(LoadScene("Leaderboard"));
+            yield return StartCoroutine(FadeOutMusicAndLoad("Leaderboard"));
             yield break;
         }
 
-        infoText.text = "Selection aleatoire du mini-jeu...";
+        infoText.text = "Sélection aléatoire du mini-jeu...";
         yield return new WaitForSeconds(0.8f);
 
         int highlightIndex = 0;
@@ -67,13 +84,12 @@ public class MiniGameSelector : MonoBehaviour
         {
             HighlightImage(highlightIndex);
 
-            // 🔊 Petit son de défilement
             if (whooshSound != null)
                 audioSource.PlayOneShot(whooshSound, 0.7f);
 
             highlightIndex = (highlightIndex + 1) % miniGameImages.Count;
             yield return new WaitForSeconds(delay);
-            delay *= 1.09f; // ralentit progressivement
+            delay *= 1.09f;
         }
 
         // 🏁 Jeu choisi
@@ -81,7 +97,6 @@ public class MiniGameSelector : MonoBehaviour
         string chosenGame = GetAvailableGame(finalIndex);
         if (chosenGame == null)
         {
-            // Sécurité : s’il n’y a plus de jeu à ce slot, relance aléatoire sur restant
             chosenGame = remainingGames[Random.Range(0, remainingGames.Count)];
         }
 
@@ -93,11 +108,13 @@ public class MiniGameSelector : MonoBehaviour
 
         yield return StartCoroutine(FlashWinner(miniGameImages[finalIndex]));
 
-        infoText.text = $"Mini-jeu selectionne : <b>{chosenGame}</b>";
+        infoText.text = $"Mini-jeu sélectionné : <b>{chosenGame}</b>";
         Debug.Log($"🎯 Mini-jeu choisi : {chosenGame}");
 
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(LoadScene(chosenGame));
+
+        // 🎧 Fade musical progressif avant chargement
+        yield return StartCoroutine(FadeOutMusicAndLoad(chosenGame));
     }
 
     private void HighlightImage(int index)
@@ -115,7 +132,6 @@ public class MiniGameSelector : MonoBehaviour
         float duration = 0.8f;
         Vector3 baseScale = winner.transform.localScale;
 
-        // 🌟 Flash sur l’image gagnante
         while (time < duration)
         {
             float t = Mathf.PingPong(Time.time * 8f, 1f);
@@ -128,11 +144,8 @@ public class MiniGameSelector : MonoBehaviour
         winner.color = Color.white;
         winner.transform.localScale = Vector3.one * 1.15f;
 
-        // 💥 Flash écran blanc rapide
         if (flashOverlay != null)
-        {
             yield return StartCoroutine(FlashScreen());
-        }
     }
 
     private IEnumerator FlashScreen()
@@ -140,7 +153,6 @@ public class MiniGameSelector : MonoBehaviour
         float fadeIn = 0.15f;
         float fadeOut = 0.4f;
 
-        // Flash blanc court
         float t = 0f;
         while (t < fadeIn)
         {
@@ -158,8 +170,25 @@ public class MiniGameSelector : MonoBehaviour
         }
     }
 
-    private IEnumerator LoadScene(string sceneName)
+    // 🎧 Fade musical avant le chargement de la scène
+    private IEnumerator FadeOutMusicAndLoad(string sceneName)
     {
+        if (musicSource != null && musicSource.isPlaying)
+        {
+            float startVolume = musicSource.volume;
+            float elapsed = 0f;
+
+            while (elapsed < fadeOutDuration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                musicSource.volume = Mathf.Lerp(startVolume, 0f, elapsed / fadeOutDuration);
+                yield return null;
+            }
+
+            musicSource.Stop();
+        }
+
+        // ⏳ Transition visuelle ensuite
         if (screenFader != null)
             yield return StartCoroutine(screenFader.FadeOutAndLoad(sceneName));
         else
@@ -171,7 +200,7 @@ public class MiniGameSelector : MonoBehaviour
     {
         if (index < 0 || index >= 4) return null;
 
-        string[] allGames = { "PingPong", "Kartscene", "paraglide", "Foot" };
+        string[] allGames = { "PingPong", "Karting", "Parapente", "Foot" };
         string game = allGames[index];
 
         if (remainingGames.Contains(game))

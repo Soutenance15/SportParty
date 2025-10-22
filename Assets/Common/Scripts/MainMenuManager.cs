@@ -56,22 +56,30 @@ public class MainMenuManager : MonoBehaviour
         // Abonnements boutons
         championnatButton.onClick.AddListener(() => OnSelectMode("PlayerSelectMenu"));
         duelButton.onClick.AddListener(() => OnSelectMode("DuelGameSelect"));
-        optionsButton.onClick.AddListener(OnOpenOptions);
         creditsButton.onClick.AddListener(() => OnSelectMode("Credits"));
         quitButton.onClick.AddListener(OnQuitGame);
 
         // Ajout des effets de hover (souris)
         AddHoverEffect(championnatButton);
         AddHoverEffect(duelButton);
-        AddHoverEffect(optionsButton);
         AddHoverEffect(creditsButton);
         AddHoverEffect(quitButton);
 
         // Focus auto manette
         eventSystem.SetSelectedGameObject(championnatButton.gameObject);
+        currentFocusedButton = championnatButton;
     }
 
-    // 🔊 Lecture de la musique principale
+    private void OnEnable()
+    {
+        // ✅ Force Unity à garder la navigation active
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.sendNavigationEvents = true;
+            EventSystem.current.SetSelectedGameObject(championnatButton.gameObject);
+        }
+    }
+
     private void PlayMenuMusic()
     {
         if (menuMusic == null) return;
@@ -94,23 +102,6 @@ public class MainMenuManager : MonoBehaviour
     }
 
     // 🔧 Réglage du volume musique/SFX
-    public void SetMusicVolume(float value)
-    {
-        musicVolume = Mathf.Clamp01(value);
-        PlayerPrefs.SetFloat("MusicVolume", musicVolume);
-        PlayerPrefs.Save();
-
-        if (persistentMusicSource != null)
-            persistentMusicSource.volume = musicVolume;
-    }
-
-    public void SetSFXVolume(float value)
-    {
-        sfxVolume = Mathf.Clamp01(value);
-        PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
-        PlayerPrefs.Save();
-    }
-
     private void LoadVolumeSettings()
     {
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", musicVolume);
@@ -132,7 +123,7 @@ public class MainMenuManager : MonoBehaviour
 
     void Update()
     {
-        // Navigation manette/clavier
+        // 🕹️ Navigation manette / clavier
         if (eventSystem.currentSelectedGameObject != null)
         {
             Button selected = eventSystem.currentSelectedGameObject.GetComponent<Button>();
@@ -142,6 +133,19 @@ public class MainMenuManager : MonoBehaviour
                     OnButtonUnfocus(currentFocusedButton);
 
                 OnButtonFocus(selected);
+            }
+        }
+        else
+        {
+            // ✅ Si la souris casse la sélection, on la restaure
+            if (currentFocusedButton != null)
+            {
+                eventSystem.SetSelectedGameObject(currentFocusedButton.gameObject);
+            }
+            else
+            {
+                eventSystem.SetSelectedGameObject(championnatButton.gameObject);
+                currentFocusedButton = championnatButton;
             }
         }
     }
@@ -190,7 +194,6 @@ public class MainMenuManager : MonoBehaviour
     {
         Debug.Log($"Chargement de la scène : {sceneName}");
 
-        // 🔊 Joue le son de sélection persistant
         if (selectSound != null)
         {
             GameObject soundGO = new GameObject("TempSelectSound");
@@ -203,7 +206,6 @@ public class MainMenuManager : MonoBehaviour
             Object.Destroy(soundGO, selectSound.length);
         }
 
-        // 🎧 Démarre le fade-out avant le chargement
         StartCoroutine(FadeOutMusicAndLoad(sceneName));
     }
 
@@ -227,7 +229,6 @@ public class MainMenuManager : MonoBehaviour
             persistentMusicSource = null;
         }
 
-        // 🎬 Transition de scène après le fade
         yield return FadeAndLoad(sceneName);
     }
 
@@ -242,11 +243,6 @@ public class MainMenuManager : MonoBehaviour
         {
             SceneManager.LoadScene(sceneName);
         }
-    }
-
-    private void OnOpenOptions()
-    {
-        Debug.Log("Options à venir !");
     }
 
     private void OnQuitGame()

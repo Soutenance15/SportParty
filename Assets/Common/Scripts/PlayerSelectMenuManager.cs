@@ -1,9 +1,9 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using System.Collections;
 
 public class PlayerSelectMenuManager : MonoBehaviour
 {
@@ -13,174 +13,110 @@ public class PlayerSelectMenuManager : MonoBehaviour
     public Button startButton;
     public Button returnButton;
 
+    [Header("Audio - Musique de fond")]
+    public AudioClip menuMusic;
+    private AudioSource musicSource;
+    private float musicVolume = 0.5f;
+
+    [Header("Audio - Feedbacks")]
+    public AudioClip selectSound;   // 🔊 pour clic ou focus champ
+    public AudioClip validateSound; // 🔊 pour validation du lancement
+    private AudioSource sfxSource;  // Source séparée pour éviter les conflits
+
     [Header("Nom de la scène de sélection aléatoire")]
     public string miniGameSelectorScene = "MiniGameSelector";
 
-    [Header("Effets visuels")]
-    public float pulseScale = 1.1f;
-    public float pulseSpeed = 2f;
-    public Color highlightColor = new Color(1f, 0.8f, 0.2f);
-
-    [Header("Audio Clips")]
-    public AudioClip hoverSound;
-    public AudioClip selectSound;
-    public AudioClip menuMusic;
-
-    [Header("Réglages de volume (0 à 1)")]
-    [Range(0f, 1f)] public float musicVolume = 0.6f;
-    [Range(0f, 1f)] public float sfxVolume = 0.9f;
-
-    [Header("Durée du fondu musical")]
-    public float musicFadeDuration = 1.2f;
-
-    private AudioSource audioSource;
-    private static GameObject persistentMusicGO;
-    private static AudioSource persistentMusicSource;
-
-    private Button currentFocusedButton;
-    private Coroutine pulseRoutine;
     private EventSystem eventSystem;
+    private Selectable currentSelected;
 
     private void Start()
     {
         eventSystem = EventSystem.current;
-        audioSource = gameObject.AddComponent<AudioSource>();
 
-        // 🔊 Charge les réglages de volume sauvegardés
-        LoadVolumeSettings();
+        // --- 🎵 Prépare la musique ---
+        musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.5f);
 
-        // 🎵 Lance la musique du menu
-        PlayMenuMusic();
+        musicSource = gameObject.AddComponent<AudioSource>();
+        musicSource.playOnAwake = false;
+        musicSource.loop = true;
+        musicSource.volume = musicVolume;
 
-        // Pré-remplit les champs
+        if (menuMusic != null)
+        {
+            musicSource.clip = menuMusic;
+            musicSource.Play();
+        }
+
+        // --- 🔊 Source SFX ---
+        sfxSource = gameObject.AddComponent<AudioSource>();
+        sfxSource.playOnAwake = false;
+        sfxSource.loop = false;
+        sfxSource.volume = musicVolume;
+
+        // --- Pré-remplit les pseudos ---
         inputPlayer1.text = GameDataManager.Player1;
         inputPlayer2.text = GameDataManager.Player2;
 
-        // Ajout des listeners
-        startButton.onClick.AddListener(OnStartGame);
-        returnButton.onClick.AddListener(OnReturnToMainMenu);
+        // --- Connecte les sons de saisie ---
+        inputPlayer1.onSelect.AddListener(delegate { PlaySelectSound(); });
+        inputPlayer2.onSelect.AddListener(delegate { PlaySelectSound(); });
 
-        // Ajoute les effets visuels
-        AddHoverEffect(startButton);
-        AddHoverEffect(returnButton);
-
-        // Focus par défaut manette
-        eventSystem.SetSelectedGameObject(startButton.gameObject);
-    }
-
-    // 🎵 Joue la musique de fond
-    private void PlayMenuMusic()
-    {
-        if (menuMusic == null) return;
-
-        if (persistentMusicGO == null)
+        // --- Focus par défaut ---
+        if (eventSystem != null)
         {
-            persistentMusicGO = new GameObject("PlayerSelectMusicPlayer");
-            persistentMusicSource = persistentMusicGO.AddComponent<AudioSource>();
-            persistentMusicSource.clip = menuMusic;
-            persistentMusicSource.loop = true;
-            persistentMusicSource.volume = musicVolume;
-            persistentMusicSource.spatialBlend = 0f;
-            persistentMusicSource.Play();
-            DontDestroyOnLoad(persistentMusicGO);
+            eventSystem.SetSelectedGameObject(inputPlayer1.gameObject);
+            currentSelected = inputPlayer1;
         }
-        else
-        {
-            persistentMusicSource.volume = musicVolume;
-        }
-    }
 
-    // 🔧 Réglages de volume
-    public void SetMusicVolume(float value)
-    {
-        musicVolume = Mathf.Clamp01(value);
-        PlayerPrefs.SetFloat("MusicVolume", musicVolume);
-        PlayerPrefs.Save();
+        // --- Sons sur les boutons ---
+        if (startButton != null)
+            startButton.onClick.AddListener(() => PlayValidateSound());
 
-        if (persistentMusicSource != null)
-            persistentMusicSource.volume = musicVolume;
-    }
-
-    public void SetSFXVolume(float value)
-    {
-        sfxVolume = Mathf.Clamp01(value);
-        PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
-        PlayerPrefs.Save();
-    }
-
-    private void LoadVolumeSettings()
-    {
-        musicVolume = PlayerPrefs.GetFloat("MusicVolume", musicVolume);
-        sfxVolume = PlayerPrefs.GetFloat("SFXVolume", sfxVolume);
-    }
-
-    private void AddHoverEffect(Button btn)
-    {
-        EventTrigger trigger = btn.gameObject.AddComponent<EventTrigger>();
-
-        var entryEnter = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
-        entryEnter.callback.AddListener((data) => OnButtonFocus(btn));
-        trigger.triggers.Add(entryEnter);
-
-        var entryExit = new EventTrigger.Entry { eventID = EventTriggerType.PointerExit };
-        entryExit.callback.AddListener((data) => OnButtonUnfocus(btn));
-        trigger.triggers.Add(entryExit);
+        if (returnButton != null)
+            returnButton.onClick.AddListener(() => PlayValidateSound());
     }
 
     private void Update()
     {
-        if (eventSystem.currentSelectedGameObject != null)
+        // ✅ Maintient la compatibilité manette ↔ souris
+        if (eventSystem.currentSelectedGameObject == null)
         {
-            Button selected = eventSystem.currentSelectedGameObject.GetComponent<Button>();
-            if (selected != null && selected != currentFocusedButton)
+            // Si le focus est perdu après un clic, on restaure le dernier champ ou bouton
+            if (currentSelected != null)
             {
-                if (currentFocusedButton != null)
-                    OnButtonUnfocus(currentFocusedButton);
-
-                OnButtonFocus(selected);
+                eventSystem.SetSelectedGameObject(currentSelected.gameObject);
+            }
+            else
+            {
+                eventSystem.SetSelectedGameObject(inputPlayer1.gameObject);
+                currentSelected = inputPlayer1;
+            }
+        }
+        else
+        {
+            var newSelectable = eventSystem.currentSelectedGameObject.GetComponent<Selectable>();
+            if (newSelectable != null && newSelectable != currentSelected)
+            {
+                currentSelected = newSelectable;
+                PlaySelectSound();
             }
         }
     }
 
-    private void OnButtonFocus(Button btn)
+    // --- 🔊 Lecture des SFX ---
+    private void PlaySelectSound()
     {
-        if (pulseRoutine != null)
-            StopCoroutine(pulseRoutine);
-
-        currentFocusedButton = btn;
-        pulseRoutine = StartCoroutine(PulseEffect(btn.transform));
-
-        TMP_Text txt = btn.GetComponentInChildren<TMP_Text>();
-        if (txt != null) txt.color = highlightColor;
-
-        if (hoverSound != null)
-            audioSource.PlayOneShot(hoverSound, sfxVolume);
+        if (selectSound != null && sfxSource != null)
+            sfxSource.PlayOneShot(selectSound, 0.8f);
     }
 
-    private void OnButtonUnfocus(Button btn)
+    private void PlayValidateSound()
     {
-        if (pulseRoutine != null)
-        {
-            StopCoroutine(pulseRoutine);
-            pulseRoutine = null;
-        }
-
-        btn.transform.localScale = Vector3.one;
-        TMP_Text txt = btn.GetComponentInChildren<TMP_Text>();
-        if (txt != null) txt.color = Color.white;
+        if (validateSound != null && sfxSource != null)
+            sfxSource.PlayOneShot(validateSound, 1f);
     }
 
-    private IEnumerator PulseEffect(Transform target)
-    {
-        while (true)
-        {
-            float scale = 1f + Mathf.Sin(Time.time * pulseSpeed) * (pulseScale - 1f);
-            target.localScale = Vector3.one * scale;
-            yield return null;
-        }
-    }
-
-    // 🚀 Démarrage du jeu avec fade musical
+    // --- 🚀 Lancement de la partie ---
     public void OnStartGame()
     {
         string p1 = inputPlayer1.text.Trim();
@@ -197,72 +133,38 @@ public class PlayerSelectMenuManager : MonoBehaviour
 
         Debug.Log($"Nouvelle partie lancée : {p1} vs {p2}");
 
-        // 🔊 Son de validation
-        if (selectSound != null)
-        {
-            GameObject tempAudioGO = new GameObject("TempSelectSound");
-            AudioSource tempSource = tempAudioGO.AddComponent<AudioSource>();
-            tempSource.clip = selectSound;
-            tempSource.volume = sfxVolume;
-            tempSource.spatialBlend = 0f;
-            tempSource.Play();
-            DontDestroyOnLoad(tempAudioGO);
-            Destroy(tempAudioGO, selectSound.length);
-        }
-
+        PlayValidateSound();
         StartCoroutine(FadeOutMusicAndLoad(miniGameSelectorScene));
     }
 
-    // 🔙 Retour au menu principal avec fade musical
+    // --- 🔙 Retour au menu principal ---
     public void OnReturnToMainMenu()
     {
         Debug.Log("Retour au menu principal...");
-
-        if (selectSound != null)
-        {
-            GameObject tempAudioGO = new GameObject("TempSelectSound");
-            AudioSource tempSource = tempAudioGO.AddComponent<AudioSource>();
-            tempSource.clip = selectSound;
-            tempSource.volume = sfxVolume;
-            tempSource.spatialBlend = 0f;
-            tempSource.Play();
-            DontDestroyOnLoad(tempAudioGO);
-            Destroy(tempAudioGO, selectSound.length);
-        }
-
+        PlayValidateSound();
         StartCoroutine(FadeOutMusicAndLoad("MainMenu"));
     }
 
-    // 🎧 Fade-out musical avant transition
+    // --- 🎧 Fade musical et chargement ---
     private IEnumerator FadeOutMusicAndLoad(string sceneName)
     {
-        if (persistentMusicSource != null)
+        if (musicSource != null && musicSource.isPlaying)
         {
-            float startVolume = persistentMusicSource.volume;
-            float elapsed = 0f;
+            float startVolume = musicSource.volume;
+            float duration = 1.2f;
+            float timer = 0f;
 
-            while (elapsed < musicFadeDuration)
+            while (timer < duration)
             {
-                elapsed += Time.unscaledDeltaTime;
-                persistentMusicSource.volume = Mathf.Lerp(startVolume, 0f, elapsed / musicFadeDuration);
+                timer += Time.deltaTime;
+                musicSource.volume = Mathf.Lerp(startVolume, 0f, timer / duration);
                 yield return null;
             }
 
-            persistentMusicSource.Stop();
-            Destroy(persistentMusicGO);
-            persistentMusicGO = null;
-            persistentMusicSource = null;
+            musicSource.Stop();
         }
 
-        yield return FadeAndLoad(sceneName);
-    }
-
-    private IEnumerator FadeAndLoad(string sceneName)
-    {
-        ScreenFader fader = FindFirstObjectByType<ScreenFader>();
-        if (fader != null)
-            yield return fader.FadeOutAndLoad(sceneName);
-        else
-            SceneManager.LoadScene(sceneName);
+        yield return new WaitForSeconds(0.25f);
+        SceneManager.LoadScene(sceneName);
     }
 }
