@@ -9,6 +9,7 @@ public class KartInputSystem : MonoBehaviour
     public bool FireBombPressed { get; private set; }
     public bool StartPressed { get; private set; }
     public bool ChangeSkinPressed { get; private set; }
+    public bool NextStepPressed { get; private set; }
 
     private Vector2 moveInput;
 
@@ -38,6 +39,14 @@ public class KartInputSystem : MonoBehaviour
             ChangeSkinPressed = false;
     }
 
+    public void OnNextStep(InputValue value)
+    {
+        if (value.isPressed)
+            NextStepPressed = true;
+        else
+            NextStepPressed = false;
+    }
+
     public void OnStart(InputValue value)
     {
         if (value.isPressed)
@@ -59,5 +68,6 @@ public class KartInputSystem : MonoBehaviour
         FireBombPressed = false;
         StartPressed = false;
         ChangeSkinPressed = false;
+        NextStepPressed = false;
     }
 }
