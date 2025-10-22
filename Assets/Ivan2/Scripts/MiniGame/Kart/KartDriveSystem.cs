@@ -14,7 +14,7 @@ public class KartDriveSystem : MonoBehaviour
 
     // --- Boost ---
     private bool isBoosting = false;
-    private float boostMultiplier = 8f; // facteur de vitesse pendant le boost
+    private float boostMultiplier = 12f; // facteur de vitesse pendant le boost
     private float boostDuration = 1f; // durée du boost (secondes)
 
     // --- Composant ---

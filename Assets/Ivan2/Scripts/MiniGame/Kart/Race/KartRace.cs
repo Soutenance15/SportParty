@@ -102,10 +102,11 @@ public class KartRace : MonoBehaviour
         }
         winningText.text = kartControllerWinner.playerName + " a gagné la COURSE !!!";
         winningText.enabled = true;
-        if (CheckedAllKartFinished())
-        {
-            EndGame();
-        }
+        EndMiniGame();
+        // if (CheckedAllKartFinished())
+        // {
+        //     EndGame();
+        // }
     }
 
     bool CheckedAllKartFinished()
