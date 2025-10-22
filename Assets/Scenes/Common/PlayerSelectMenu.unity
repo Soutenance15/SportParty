@@ -488,7 +488,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &930973951
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1450,6 +1450,10 @@ MonoBehaviour:
   pulseScale: 1.08
   pulseSpeed: 2
   highlightColor: {r: 1, g: 0.85, b: 0.2, a: 1}
+  winnerColor: {r: 1, g: 0.8, b: 0.2, a: 1}
+  winnerPulseSpeed: 2
+  winnerPulseScale: 1.1
+  winnerAnimDuration: 3
 --- !u!114 &1616002797
 MonoBehaviour:
   m_ObjectHideFlags: 0

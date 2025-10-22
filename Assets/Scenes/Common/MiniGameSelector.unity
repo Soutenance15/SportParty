@@ -716,7 +716,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1077826508}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2030571902}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &1077826507
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2277,11 +2289,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MiniGameSelector
   infoText: {fileID: 2001113882}
-  miniGameImages:
-  - {fileID: 1511997953}
-  - {fileID: 1655293169}
-  - {fileID: 1664179281}
-  - {fileID: 1077826508}
+  miniGames:
+  - gameName: PingPong
+    image: {fileID: 1511997953}
+  - gameName: Karting
+    image: {fileID: 1655293169}
+  - gameName: Parapente
+    image: {fileID: 1664179281}
+  - gameName: Foot
+    image: {fileID: 1077826508}
   highlightColor: {r: 1, g: 0.85, b: 0.2, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 0.25}
   selectSound: {fileID: 8300000, guid: 65f6a4b4b2eccef4aa0e7b5fca7e3afb, type: 3}

@@ -19,23 +19,27 @@ public class PlayerSelectMenuManager : MonoBehaviour
     private float musicVolume = 0.5f;
 
     [Header("Audio - Feedbacks")]
-    public AudioClip selectSound;   // 🔊 pour clic ou focus champ
-    public AudioClip validateSound; // 🔊 pour validation du lancement
-    private AudioSource sfxSource;  // Source séparée pour éviter les conflits
+    public AudioClip selectSound;
+    public AudioClip validateSound;
+    private AudioSource sfxSource;
 
-    [Header("Nom de la scène de sélection aléatoire")]
+    [Header("Nom de la scène du sélecteur de mini-jeux")]
     public string miniGameSelectorScene = "MiniGameSelector";
 
     private EventSystem eventSystem;
     private Selectable currentSelected;
+    private Coroutine fadeRoutine;
+
+    // 🧩 Clavier virtuel Unity
+    private TouchScreenKeyboard keyboard;
+    private TMP_InputField currentInputField;
 
     private void Start()
     {
         eventSystem = EventSystem.current;
 
-        // --- 🎵 Prépare la musique ---
+        // --- 🎵 Musique du menu ---
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.5f);
-
         musicSource = gameObject.AddComponent<AudioSource>();
         musicSource.playOnAwake = false;
         musicSource.loop = true;
@@ -47,19 +51,19 @@ public class PlayerSelectMenuManager : MonoBehaviour
             musicSource.Play();
         }
 
-        // --- 🔊 Source SFX ---
+        // --- 🔊 SFX ---
         sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.playOnAwake = false;
         sfxSource.loop = false;
-        sfxSource.volume = musicVolume;
+        sfxSource.volume = PlayerPrefs.GetFloat("SFXVolume", 0.9f);
 
-        // --- Pré-remplit les pseudos ---
+        // --- Préremplit les noms ---
         inputPlayer1.text = GameDataManager.Player1;
         inputPlayer2.text = GameDataManager.Player2;
 
-        // --- Connecte les sons de saisie ---
-        inputPlayer1.onSelect.AddListener(delegate { PlaySelectSound(); });
-        inputPlayer2.onSelect.AddListener(delegate { PlaySelectSound(); });
+        // --- Sons & clavier sur focus ---
+        inputPlayer1.onSelect.AddListener(delegate { OnFieldSelected(inputPlayer1); });
+        inputPlayer2.onSelect.AddListener(delegate { OnFieldSelected(inputPlayer2); });
 
         // --- Focus par défaut ---
         if (eventSystem != null)
@@ -68,7 +72,7 @@ public class PlayerSelectMenuManager : MonoBehaviour
             currentSelected = inputPlayer1;
         }
 
-        // --- Sons sur les boutons ---
+        // --- Boutons ---
         if (startButton != null)
             startButton.onClick.AddListener(() => PlayValidateSound());
 
@@ -78,14 +82,13 @@ public class PlayerSelectMenuManager : MonoBehaviour
 
     private void Update()
     {
-        // ✅ Maintient la compatibilité manette ↔ souris
+        if (eventSystem == null) return;
+
+        // ✅ Navigation manette/souris
         if (eventSystem.currentSelectedGameObject == null)
         {
-            // Si le focus est perdu après un clic, on restaure le dernier champ ou bouton
             if (currentSelected != null)
-            {
                 eventSystem.SetSelectedGameObject(currentSelected.gameObject);
-            }
             else
             {
                 eventSystem.SetSelectedGameObject(inputPlayer1.gameObject);
@@ -103,7 +106,7 @@ public class PlayerSelectMenuManager : MonoBehaviour
         }
     }
 
-    // --- 🔊 Lecture des SFX ---
+    // --- 🔊 SFX ---
     private void PlaySelectSound()
     {
         if (selectSound != null && sfxSource != null)
@@ -116,7 +119,54 @@ public class PlayerSelectMenuManager : MonoBehaviour
             sfxSource.PlayOneShot(validateSound, 1f);
     }
 
-    // --- 🚀 Lancement de la partie ---
+    // --- 🧩 Gestion de la sélection d’un champ ---
+    private void OnFieldSelected(TMP_InputField targetField)
+    {
+        PlaySelectSound();
+
+        // ✅ Ouvre le clavier Unity ou Windows
+        OpenVirtualKeyboard(targetField);
+    }
+
+    private void OpenVirtualKeyboard(TMP_InputField targetField)
+    {
+        currentInputField = targetField;
+
+#if UNITY_STANDALONE_WIN
+        // 💻 Sur PC : ouvre le clavier virtuel Windows
+        try
+        {
+            System.Diagnostics.Process.Start("osk.exe");
+        }
+        catch
+        {
+            Debug.LogWarning("⚠️ Impossible d’ouvrir le clavier virtuel Windows (osk.exe)");
+        }
+#else
+        // 🎮 Sur manette / mobile / console : ouvre le clavier Unity natif
+        keyboard = TouchScreenKeyboard.Open(
+            targetField.text,
+            TouchScreenKeyboardType.Default,
+            false, false, false, false,
+            "Entrez le nom du joueur"
+        );
+
+        StartCoroutine(WaitForKeyboardInput(targetField));
+#endif
+    }
+
+    private IEnumerator WaitForKeyboardInput(TMP_InputField targetField)
+    {
+        while (keyboard != null && !keyboard.done && !keyboard.wasCanceled)
+            yield return null;
+
+        if (keyboard != null && !keyboard.wasCanceled)
+            targetField.text = keyboard.text;
+
+        keyboard = null;
+    }
+
+    // --- 🚀 Lancement du championnat ---
     public void OnStartGame()
     {
         string p1 = inputPlayer1.text.Trim();
@@ -125,27 +175,37 @@ public class PlayerSelectMenuManager : MonoBehaviour
         if (string.IsNullOrEmpty(p1)) p1 = "Joueur 1";
         if (string.IsNullOrEmpty(p2)) p2 = "Joueur 2";
 
-        GameDataManager.SavePlayers(p1, p2);
-
-        PlayerPrefs.DeleteKey(p1 + GameDataManager.CHAMP_POINTS_SUFFIX);
-        PlayerPrefs.DeleteKey(p2 + GameDataManager.CHAMP_POINTS_SUFFIX);
+        // 🧹 Réinitialise les données
+        GameDataManager.ResetAll();
+        PlayerPrefs.DeleteKey("RemainingGames");
+        PlayerPrefs.DeleteKey("LastPlayedGame");
         PlayerPrefs.Save();
 
-        Debug.Log($"Nouvelle partie lancée : {p1} vs {p2}");
+        // 💾 Sauvegarde les noms
+        GameDataManager.SavePlayers(p1, p2);
+        PlayerPrefs.Save();
 
-        PlayValidateSound();
-        StartCoroutine(FadeOutMusicAndLoad(miniGameSelectorScene));
+        Debug.Log($"🏁 Nouvelle partie lancée : {p1} vs {p2}");
+
+        if (fadeRoutine != null)
+            StopCoroutine(fadeRoutine);
+
+        fadeRoutine = StartCoroutine(FadeOutMusicAndLoad(miniGameSelectorScene));
     }
 
-    // --- 🔙 Retour au menu principal ---
+    // --- 🔙 Retour menu principal ---
     public void OnReturnToMainMenu()
     {
-        Debug.Log("Retour au menu principal...");
+        Debug.Log("↩️ Retour au menu principal...");
         PlayValidateSound();
-        StartCoroutine(FadeOutMusicAndLoad("MainMenu"));
+
+        if (fadeRoutine != null)
+            StopCoroutine(fadeRoutine);
+
+        fadeRoutine = StartCoroutine(FadeOutMusicAndLoad("MainMenu"));
     }
 
-    // --- 🎧 Fade musical et chargement ---
+    // --- 🎧 Transition musicale ---
     private IEnumerator FadeOutMusicAndLoad(string sceneName)
     {
         if (musicSource != null && musicSource.isPlaying)
@@ -157,14 +217,25 @@ public class PlayerSelectMenuManager : MonoBehaviour
             while (timer < duration)
             {
                 timer += Time.deltaTime;
-                musicSource.volume = Mathf.Lerp(startVolume, 0f, timer / duration);
+                if (musicSource != null)
+                    musicSource.volume = Mathf.Lerp(startVolume, 0f, timer / duration);
                 yield return null;
             }
 
-            musicSource.Stop();
+            if (musicSource != null)
+                musicSource.Stop();
         }
 
         yield return new WaitForSeconds(0.25f);
         SceneManager.LoadScene(sceneName);
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+        fadeRoutine = null;
+
+        if (musicSource != null && musicSource.isPlaying)
+            musicSource.Stop();
     }
 }

@@ -80,7 +80,7 @@ public class Golazo : MonoBehaviour
 
         // ✅ Ajoute les points de championnat via GameDataManager
         GameDataManager.AddChampPoints(winner, 25);
-        GameDataManager.AddScore(winner, 1); // facultatif : incrément du score global
+        GameDataManager.AddScore(winner, 0); // facultatif : incrément du score global
 
         // 🏁 Message de victoire
         winText.text = $"{winner} Wins!";
