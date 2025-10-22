@@ -39,7 +39,7 @@ public class Golazo : MonoBehaviour
     public void P2Score()
     {
         p2Score++;
-        player2FootScore.text = $"{GameDataManager.Player2}" + p2Score.ToString();
+        player2FootScore.text = $"{GameDataManager.Player2}:" + p2Score.ToString();
         Destroy(GameObject.FindGameObjectWithTag("Ball"));
     }
 
