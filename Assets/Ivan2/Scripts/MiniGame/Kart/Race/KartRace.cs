@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class KartRace : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class KartRace : MonoBehaviour
     GameObject splitUI;
     TextMeshProUGUI countDownText;
     TextMeshProUGUI winningText;
+
+    public float endDelay = 1f;
 
     private void OnEnable()
     {
@@ -99,10 +102,11 @@ public class KartRace : MonoBehaviour
         }
         winningText.text = kartControllerWinner.playerName + " a gagné la COURSE !!!";
         winningText.enabled = true;
-        if (CheckedAllKartFinished())
-        {
-            EndGame();
-        }
+        EndMiniGame();
+        // if (CheckedAllKartFinished())
+        // {
+        //     EndGame();
+        // }
     }
 
     bool CheckedAllKartFinished()
@@ -141,5 +145,30 @@ public class KartRace : MonoBehaviour
         Debug.Log("End Game + " + kartControllerWinner.playerName.ToString());
         // LoadScene -> Soit directe prochain minigame, soit menu minigame
         // Ou bieen invoke un event EndGame
+    }
+
+    public void EndMiniGame()
+    {
+        string p1 = GameDataManager.Player1;
+        string p2 = GameDataManager.Player2;
+
+        if (kartControllerWinner == kartsController[0])
+        {
+            GameDataManager.AddChampPoints(p1, 25);
+        }
+        else if (kartControllerWinner == kartsController[1])
+        {
+            GameDataManager.AddChampPoints(p2, 25);
+        }
+        StartCoroutine(EndSequence());
+    }
+
+    IEnumerator EndSequence()
+    {
+        if (AudioFader.Instance != null)
+            AudioFader.Instance.FadeOut(1.5f);
+
+        yield return new WaitForSeconds(endDelay);
+        SceneManager.LoadScene("MiniGameSelector");
     }
 }
