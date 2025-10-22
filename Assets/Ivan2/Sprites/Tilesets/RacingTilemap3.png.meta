@@ -1,0 +1,1287 @@
+fileFormatVersion: 2
+guid: 86ca26dcaef2e7348bb46b1825634f91
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3122395734104186231
+    second: RacingTilemap3_0
+  - first:
+      213: -1045861675540716921
+    second: RacingTilemap3_1
+  - first:
+      213: -5174577500746680347
+    second: RacingTilemap3_2
+  - first:
+      213: -8528486118240442098
+    second: RacingTilemap3_3
+  - first:
+      213: 5197108445845081321
+    second: RacingTilemap3_4
+  - first:
+      213: -8936595336429941496
+    second: RacingTilemap3_5
+  - first:
+      213: -5183014438485641449
+    second: RacingTilemap3_6
+  - first:
+      213: 7669845756230656351
+    second: RacingTilemap3_7
+  - first:
+      213: -7089346652825529096
+    second: RacingTilemap3_8
+  - first:
+      213: 3217679636237518326
+    second: RacingTilemap3_9
+  - first:
+      213: -4033008677948676590
+    second: RacingTilemap3_10
+  - first:
+      213: -7769438213522880974
+    second: RacingTilemap3_11
+  - first:
+      213: 5405261202151615073
+    second: RacingTilemap3_12
+  - first:
+      213: -3982962974251393131
+    second: RacingTilemap3_13
+  - first:
+      213: 1154960975308547134
+    second: RacingTilemap3_14
+  - first:
+      213: 2714478807068683501
+    second: RacingTilemap3_15
+  - first:
+      213: -6672057870114357711
+    second: RacingTilemap3_16
+  - first:
+      213: 4655591378934978708
+    second: RacingTilemap3_17
+  - first:
+      213: -8286689596623709029
+    second: RacingTilemap3_18
+  - first:
+      213: 862348378873825742
+    second: RacingTilemap3_19
+  - first:
+      213: 3797380420116583212
+    second: RacingTilemap3_20
+  - first:
+      213: -7529555299333554317
+    second: RacingTilemap3_21
+  - first:
+      213: -2822119515571660984
+    second: RacingTilemap3_22
+  - first:
+      213: 1645707773211313822
+    second: RacingTilemap3_23
+  - first:
+      213: -1335235469435912689
+    second: RacingTilemap3_24
+  - first:
+      213: 2366571480531676491
+    second: RacingTilemap3_25
+  - first:
+      213: -2160511639945578440
+    second: RacingTilemap3_26
+  - first:
+      213: -473737424593534419
+    second: RacingTilemap3_27
+  - first:
+      213: 278012695242628136
+    second: RacingTilemap3_28
+  - first:
+      213: -6402201503039012069
+    second: RacingTilemap3_29
+  - first:
+      213: 6683456470812088201
+    second: RacingTilemap3_30
+  - first:
+      213: 3543896244876175925
+    second: RacingTilemap3_31
+  - first:
+      213: -8055778498682388239
+    second: RacingTilemap3_32
+  - first:
+      213: 8254620213690869738
+    second: RacingTilemap3_33
+  - first:
+      213: 8070097974783435190
+    second: RacingTilemap3_34
+  - first:
+      213: -309629308617121259
+    second: RacingTilemap3_35
+  - first:
+      213: -3703721268270671050
+    second: RacingTilemap3_36
+  - first:
+      213: 2984226123492924378
+    second: RacingTilemap3_37
+  - first:
+      213: 7847556254692055489
+    second: RacingTilemap3_38
+  - first:
+      213: 7613354190243891876
+    second: RacingTilemap3_39
+  - first:
+      213: 7087278801000845035
+    second: RacingTilemap3_40
+  - first:
+      213: -8574886446913465387
+    second: RacingTilemap3_41
+  - first:
+      213: -7670255033129459501
+    second: RacingTilemap3_42
+  - first:
+      213: -363734333380394937
+    second: RacingTilemap3_43
+  - first:
+      213: 2957842125843937965
+    second: RacingTilemap3_44
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: RacingTilemap3_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 842
+        width: 65
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 982668c7f950ba4d0800000000000000
+      internalID: -3122395734104186231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_1
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 831
+        width: 44
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7826339e85a5c71f0800000000000000
+      internalID: -1045861675540716921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_2
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 831
+        width: 44
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e7f34ddd253038b0800000000000000
+      internalID: -5174577500746680347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_3
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 842
+        width: 66
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e09ad62bf0bb4a980800000000000000
+      internalID: -8528486118240442098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_4
+      rect:
+        serializedVersion: 2
+        x: 511
+        y: 842
+        width: 66
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ec47c59896df1840800000000000000
+      internalID: 5197108445845081321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_5
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 831
+        width: 44
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80d4eaeb3e5daf380800000000000000
+      internalID: -8936595336429941496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_6
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 842
+        width: 66
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 717b75834db3218b0800000000000000
+      internalID: -5183014438485641449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 714
+        width: 65
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f516a262414c07a60800000000000000
+      internalID: 7669845756230656351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_8
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 703
+        width: 44
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f4dabcb7c49d9d90800000000000000
+      internalID: -7089346652825529096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_9
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 703
+        width: 44
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f502f6c49e77ac20800000000000000
+      internalID: 3217679636237518326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_10
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 714
+        width: 66
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2162dc6a9ffd708c0800000000000000
+      internalID: -4033008677948676590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_11
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 703
+        width: 44
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2368f9aeb196d2490800000000000000
+      internalID: -7769438213522880974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_12
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 703
+        width: 55
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16aa270dc68530b40800000000000000
+      internalID: 5405261202151615073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_13
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 714
+        width: 55
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59f563e074ca9b8c0800000000000000
+      internalID: -3982962974251393131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_14
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 575
+        width: 55
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3464b643ee370010800000000000000
+      internalID: 1154960975308547134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_15
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 586
+        width: 55
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: deca7a5d714cba520800000000000000
+      internalID: 2714478807068683501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_16
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 528
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13efbfa97b61863a0800000000000000
+      internalID: -6672057870114357711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_17
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 528
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4985ac851bbfb9040800000000000000
+      internalID: 4655591378934978708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_18
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 528
+        width: 96
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9c915577b3cffc80800000000000000
+      internalID: -8286689596623709029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_19
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 528
+        width: 69
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec9886b184da7fb00800000000000000
+      internalID: 862348378873825742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_20
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 555
+        width: 96
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c23921a6f5103b430800000000000000
+      internalID: 3797380420116583212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_21
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 400
+        width: 69
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37f309a3955a18790800000000000000
+      internalID: -7529555299333554317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_22
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 451
+        width: 51
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84757a8b041d5d8d0800000000000000
+      internalID: -2822119515571660984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_23
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 451
+        width: 51
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e960c5a108ab6d610800000000000000
+      internalID: 1645707773211313822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_24
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 451
+        width: 62
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0e35c83a6a487de0800000000000000
+      internalID: -1335235469435912689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_25
+      rect:
+        serializedVersion: 2
+        x: 511
+        y: 458
+        width: 62
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4d29a01930c7d020800000000000000
+      internalID: 2366571480531676491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_26
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 447
+        width: 51
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83872ff3c125402e0800000000000000
+      internalID: -2160511639945578440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_27
+      rect:
+        serializedVersion: 2
+        x: 771
+        y: 447
+        width: 51
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d224b428252fc69f0800000000000000
+      internalID: -473737424593534419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_28
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 330
+        width: 62
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82c5cf6c213bbd300800000000000000
+      internalID: 278012695242628136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_29
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 323
+        width: 62
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1343ee37afc627a0800000000000000
+      internalID: -6402201503039012069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_30
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 266
+        width: 131
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9875a8eef3860cc50800000000000000
+      internalID: 6683456470812088201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_31
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 255
+        width: 108
+        height: 130
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53a6facbbd27e2130800000000000000
+      internalID: 3543896244876175925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_32
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 255
+        width: 108
+        height: 130
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f08ec40320243090800000000000000
+      internalID: -8055778498682388239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_33
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 266
+        width: 132
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae7adc8795d4e8270800000000000000
+      internalID: 8254620213690869738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_34
+      rect:
+        serializedVersion: 2
+        x: 778
+        y: 266
+        width: 118
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b1e091d95fbeff60800000000000000
+      internalID: 8070097974783435190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 138
+        width: 129
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 512a3d7c8c9f3bbf0800000000000000
+      internalID: -309629308617121259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_36
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 138
+        width: 119
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63bdaa1312db99cc0800000000000000
+      internalID: -3703721268270671050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_37
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 127
+        width: 120
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: adb9c3429d91a6920800000000000000
+      internalID: 2984226123492924378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_38
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 0
+        width: 213
+        height: 246
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c990d3e5de18ec60800000000000000
+      internalID: 7847556254692055489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_39
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 17
+        width: 108
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4aa08ba7c4118a960800000000000000
+      internalID: 7613354190243891876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_40
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 138
+        width: 95
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: beecfcdf4821b5260800000000000000
+      internalID: 7087278801000845035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_41
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 33
+        width: 108
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d3596e4532eff880800000000000000
+      internalID: -8574886446913465387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_42
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 10
+        width: 258
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d0aaa5afa7cd8590800000000000000
+      internalID: -7670255033129459501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_43
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 0
+        width: 108
+        height: 129
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7408f3a0d81c3faf0800000000000000
+      internalID: -363734333380394937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RacingTilemap3_44
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 63
+        width: 66
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: daa3d9cfdbd5c0920800000000000000
+      internalID: 2957842125843937965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      RacingTilemap3_0: -3122395734104186231
+      RacingTilemap3_1: -1045861675540716921
+      RacingTilemap3_10: -4033008677948676590
+      RacingTilemap3_11: -7769438213522880974
+      RacingTilemap3_12: 5405261202151615073
+      RacingTilemap3_13: -3982962974251393131
+      RacingTilemap3_14: 1154960975308547134
+      RacingTilemap3_15: 2714478807068683501
+      RacingTilemap3_16: -6672057870114357711
+      RacingTilemap3_17: 4655591378934978708
+      RacingTilemap3_18: -8286689596623709029
+      RacingTilemap3_19: 862348378873825742
+      RacingTilemap3_2: -5174577500746680347
+      RacingTilemap3_20: 3797380420116583212
+      RacingTilemap3_21: -7529555299333554317
+      RacingTilemap3_22: -2822119515571660984
+      RacingTilemap3_23: 1645707773211313822
+      RacingTilemap3_24: -1335235469435912689
+      RacingTilemap3_25: 2366571480531676491
+      RacingTilemap3_26: -2160511639945578440
+      RacingTilemap3_27: -473737424593534419
+      RacingTilemap3_28: 278012695242628136
+      RacingTilemap3_29: -6402201503039012069
+      RacingTilemap3_3: -8528486118240442098
+      RacingTilemap3_30: 6683456470812088201
+      RacingTilemap3_31: 3543896244876175925
+      RacingTilemap3_32: -8055778498682388239
+      RacingTilemap3_33: 8254620213690869738
+      RacingTilemap3_34: 8070097974783435190
+      RacingTilemap3_35: -309629308617121259
+      RacingTilemap3_36: -3703721268270671050
+      RacingTilemap3_37: 2984226123492924378
+      RacingTilemap3_38: 7847556254692055489
+      RacingTilemap3_39: 7613354190243891876
+      RacingTilemap3_4: 5197108445845081321
+      RacingTilemap3_40: 7087278801000845035
+      RacingTilemap3_41: -8574886446913465387
+      RacingTilemap3_42: -7670255033129459501
+      RacingTilemap3_43: -363734333380394937
+      RacingTilemap3_44: 2957842125843937965
+      RacingTilemap3_5: -8936595336429941496
+      RacingTilemap3_6: -5183014438485641449
+      RacingTilemap3_7: 7669845756230656351
+      RacingTilemap3_8: -7089346652825529096
+      RacingTilemap3_9: 3217679636237518326
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
