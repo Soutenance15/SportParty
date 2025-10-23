@@ -10,6 +10,9 @@ public class FootInputManager : MonoBehaviour
     public Sprite player1Sprite;
     public Sprite player2Sprite;
 
+    public RuntimeAnimatorController player1Animator;
+    public RuntimeAnimatorController player2Animator;
+
     private bool wasdJoined = false;  
     private bool gamepadJoined = false; 
 
@@ -21,6 +24,9 @@ public class FootInputManager : MonoBehaviour
         {
             var player = PlayerInput.Instantiate(playerPrefab, controlScheme: "Keyboard", pairWithDevice: Keyboard.current);
             player.GetComponent<SpriteRenderer>().sprite = player1Sprite;
+
+            var anim = player.GetComponent<Animator>();
+            anim.runtimeAnimatorController = player1Animator;
 
 
             if (spawnPoints.Length > 0)
@@ -38,6 +44,10 @@ public class FootInputManager : MonoBehaviour
             {
                 var player = PlayerInput.Instantiate(playerPrefab, controlScheme: "Controller", pairWithDevice: gamepad);
                 player.GetComponent<SpriteRenderer>().sprite = player2Sprite;
+
+                var anim = player.GetComponent<Animator>();
+                anim.runtimeAnimatorController = player2Animator;
+
             
 
                 

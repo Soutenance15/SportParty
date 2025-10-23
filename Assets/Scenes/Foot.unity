@@ -2845,6 +2845,7 @@ GameObject:
   - component: {fileID: 1327205851}
   - component: {fileID: 1327205850}
   - component: {fileID: 1327205849}
+  - component: {fileID: 1327205852}
   m_Layer: 0
   m_Name: PlayerInputManager
   m_TagString: Untagged
@@ -2870,6 +2871,8 @@ MonoBehaviour:
   - {fileID: 1644038922}
   player1Sprite: {fileID: 5730514280326133207, guid: 7f834dc7eca6d19479c0c95db5695b26, type: 3}
   player2Sprite: {fileID: 2930549391357568, guid: c626f84a99a0d7f489041d0d13c29cdb, type: 3}
+  player1Animator: {fileID: 9100000, guid: b9984dc3b1971f44dbf2d7a7c710c569, type: 2}
+  player2Animator: {fileID: 9100000, guid: c03b57cea8703874da94979c7aa287c4, type: 2}
 --- !u!114 &1327205850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2929,6 +2932,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1327205852
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1327205848}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1340928978
 GameObject:
   m_ObjectHideFlags: 0

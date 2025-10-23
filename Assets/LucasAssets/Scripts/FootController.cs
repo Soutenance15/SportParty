@@ -8,12 +8,18 @@ public class FootController : MonoBehaviour
 
     public Vector2 moveInput;
 
-    [SerializeField] private float speed = 50;
+  [SerializeField] private float speed = 50;
+
+  public Animator anim;
+
+    
+
 
 
     void Start()
     {
-         rb = GetComponent<Rigidbody2D>();
+    rb = GetComponent<Rigidbody2D>();
+    anim = GetComponent<Animator>();
 
         inputActions = GetComponent<PlayerInput>();
     }
@@ -24,6 +30,7 @@ public class FootController : MonoBehaviour
     Debug.Log("Move");
 
     moveInput = context.ReadValue<Vector2>();
+  
 
   }
 
