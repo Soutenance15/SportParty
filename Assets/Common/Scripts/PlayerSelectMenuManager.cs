@@ -12,7 +12,7 @@ public class PlayerSelectMenuManager : MonoBehaviour
     public TMP_InputField inputPlayer2;
     public Button startButton;
     public Button returnButton;
-    public TMP_Text titleText; // optionnel : titre dynamique
+    public TMP_Text titleText;
 
     [Header("Audio - Musique de fond")]
     public AudioClip menuMusic;
@@ -35,7 +35,7 @@ public class PlayerSelectMenuManager : MonoBehaviour
     {
         eventSystem = EventSystem.current;
 
-        // --- 🎵 Musique du menu ---
+        // 🎵 Musique du menu
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.5f);
         musicSource = gameObject.AddComponent<AudioSource>();
         musicSource.playOnAwake = false;
@@ -48,35 +48,35 @@ public class PlayerSelectMenuManager : MonoBehaviour
             musicSource.Play();
         }
 
-        // --- 🔊 SFX ---
+        // 🔊 SFX
         sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.playOnAwake = false;
         sfxSource.loop = false;
         sfxSource.volume = PlayerPrefs.GetFloat("SFXVolume", 0.9f);
 
-        // --- Préremplit les noms ---
+        // 🧾 Préremplit les noms sauvegardés
         inputPlayer1.text = GameDataManager.Player1;
         inputPlayer2.text = GameDataManager.Player2;
 
-        // --- Feedback sonore sur sélection ---
+        // 🎮 Feedback sonore sur sélection
         inputPlayer1.onSelect.AddListener(delegate { PlaySelectSound(); });
         inputPlayer2.onSelect.AddListener(delegate { PlaySelectSound(); });
 
-        // --- Focus par défaut ---
+        // 🎯 Focus par défaut
         if (eventSystem != null)
         {
             eventSystem.SetSelectedGameObject(inputPlayer1.gameObject);
             currentSelected = inputPlayer1;
         }
 
-        // --- Boutons ---
+        // 🕹 Boutons
         if (startButton != null)
             startButton.onClick.AddListener(OnStartGame);
 
         if (returnButton != null)
             returnButton.onClick.AddListener(OnReturnToMainMenu);
 
-        // --- Affiche le mode ---
+        // 🏁 Affiche le mode actuel
         string mode = GameDataManager.GetGameMode();
         if (titleText != null)
             titleText.text = mode == "Duel" ? "DUEL" : "CHAMPIONNAT";
@@ -119,7 +119,7 @@ public class PlayerSelectMenuManager : MonoBehaviour
             sfxSource.PlayOneShot(validateSound, 1f);
     }
 
-    // --- 🚀 Lancement du jeu (Duel ou Championnat) ---
+    // 🚀 Lancement d’une partie Duel ou Championnat
     public void OnStartGame()
     {
         string p1 = inputPlayer1.text.Trim();
@@ -131,7 +131,7 @@ public class PlayerSelectMenuManager : MonoBehaviour
         string mode = GameDataManager.GetGameMode();
         string nextScene = (mode == "Duel") ? "DuelGameSelect" : miniGameSelectorScene;
 
-        // 💾 Sauvegarde des noms
+        // 💾 Sauvegarde des noms AVANT le reset
         GameDataManager.SavePlayers(p1, p2);
 
         // 🧹 Reset complet uniquement pour le championnat
@@ -141,6 +141,9 @@ public class PlayerSelectMenuManager : MonoBehaviour
             PlayerPrefs.DeleteKey("RemainingGames");
             PlayerPrefs.DeleteKey("LastPlayedGame");
             PlayerPrefs.Save();
+
+            // ✅ Re-sauvegarde les noms après le reset (sinon ils sont effacés)
+            GameDataManager.SavePlayers(p1, p2);
         }
 
         Debug.Log($"🏁 Lancement d'une partie ({mode}) : {p1} vs {p2}");
@@ -163,34 +166,15 @@ public class PlayerSelectMenuManager : MonoBehaviour
 
     private IEnumerator FadeOutMusicAndLoad(string sceneName)
     {
-        if (musicSource != null && musicSource.isPlaying)
+        float duration = 1f;
+        float startVolume = musicSource.volume;
+
+        while (musicSource.volume > 0)
         {
-            float startVolume = musicSource.volume;
-            float duration = 1.2f;
-            float timer = 0f;
-
-            while (timer < duration)
-            {
-                timer += Time.deltaTime;
-                if (musicSource != null)
-                    musicSource.volume = Mathf.Lerp(startVolume, 0f, timer / duration);
-                yield return null;
-            }
-
-            if (musicSource != null)
-                musicSource.Stop();
+            musicSource.volume -= startVolume * Time.deltaTime / duration;
+            yield return null;
         }
 
-        yield return new WaitForSeconds(0.25f);
         SceneManager.LoadScene(sceneName);
-    }
-
-    private void OnDestroy()
-    {
-        StopAllCoroutines();
-        fadeRoutine = null;
-
-        if (musicSource != null && musicSource.isPlaying)
-            musicSource.Stop();
     }
 }
