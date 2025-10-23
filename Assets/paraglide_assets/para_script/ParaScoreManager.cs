@@ -85,22 +85,25 @@ public class ParaScoreManager : MonoBehaviour
         
         GameDataManager.AddScore(player1Name, scoreP1);
         GameDataManager.AddScore(player2Name, scoreP2);
-        
-        if (scoreP1 > scoreP2) {
+
+        if (scoreP1 > scoreP2)
+        {
             winnerText.text = "Gagnant : " + player1Name + " (+" + scoreP1 + " points)";
             loserText.text = player2Name + " (+" + scoreP2 + " points)";
-            GameDataManager.AddChampPoints(player1Name, 3);
-            GameDataManager.AddChampPoints(player2Name, 1);
-        } else if (scoreP2 > scoreP1) {
+            GameDataManager.AddChampPoints(player1Name, 25); // ✅ gagnant
+        }
+        else if (scoreP2 > scoreP1)
+        {
             winnerText.text = "Gagnant : " + player2Name + " (+" + scoreP2 + " points)";
             loserText.text = player1Name + " (+" + scoreP1 + " points)";
-            GameDataManager.AddChampPoints(player2Name, 3);
-            GameDataManager.AddChampPoints(player1Name, 1);
-        } else {
+            GameDataManager.AddChampPoints(player2Name, 25); // ✅ gagnant
+        }
+        else
+        {
             winnerText.text = "Égalité ! (+" + scoreP1 + " points)";
             loserText.text = "";
-            GameDataManager.AddChampPoints(player1Name, 2);
-            GameDataManager.AddChampPoints(player2Name, 2);
+            GameDataManager.AddChampPoints(player1Name, 10); // ⚖️ égalité
+            GameDataManager.AddChampPoints(player2Name, 10);
         }
         
         endGamePanel.SetActive(true);

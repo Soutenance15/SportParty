@@ -62,13 +62,13 @@ public class LeaderboardManager : MonoBehaviour
         sfxSource.loop = false;
         sfxSource.volume = sfxVolume;
 
-        // 🏆 Affiche et anime le classement
+        // 🏆 Affiche le classement
         DisplayLeaderboard();
 
-        // Boutons + sons
+        // 🔘 Boutons
         if (replayButton != null)
         {
-            replayButton.onClick.AddListener(() => OnButtonSelect("PlayerSelectMenu"));
+            replayButton.onClick.AddListener(OnReplay); // ✅ sécurisé
             AddHoverEffect(replayButton);
         }
 
@@ -191,6 +191,8 @@ public class LeaderboardManager : MonoBehaviour
 
     private void OnButtonFocus(Button btn)
     {
+        if (this == null || btn == null) return; // ✅ sécurité
+
         if (pulseRoutine != null)
             StopCoroutine(pulseRoutine);
 
@@ -207,15 +209,18 @@ public class LeaderboardManager : MonoBehaviour
 
     private void OnButtonUnfocus(Button btn)
     {
+        if (this == null || btn == null) return; // ✅ empêche le crash pendant le fade-out
+
         if (pulseRoutine != null)
         {
             StopCoroutine(pulseRoutine);
             pulseRoutine = null;
         }
 
-        btn.transform.localScale = Vector3.one;
+        if (btn != null)
+            btn.transform.localScale = Vector3.one;
 
-        TMP_Text txt = btn.GetComponentInChildren<TMP_Text>();
+        TMP_Text txt = btn?.GetComponentInChildren<TMP_Text>();
         if (txt != null)
             txt.color = Color.white;
     }
@@ -258,5 +263,27 @@ public class LeaderboardManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.3f);
         SceneManager.LoadScene(sceneName);
+    }
+
+    // ✅ NOUVELLE MÉTHODE : Rejouer un championnat propre
+    public void OnReplay()
+    {
+        Debug.Log("🏁 Nouveau championnat lancé !");
+        if (selectSound != null && sfxSource != null)
+            sfxSource.PlayOneShot(selectSound, 1f);
+
+        // Réinitialise les données du tournoi
+        GameDataManager.ResetAll();
+        PlayerPrefs.DeleteKey("RemainingGames"); // ✅ reset la liste des mini-jeux
+        PlayerPrefs.Save();
+
+        StartCoroutine(FadeOutAndLoad("PlayerSelectMenu"));
+    }
+
+    private void OnDestroy()
+    {
+        // ✅ Stoppe toutes les coroutines et nettoie proprement
+        StopAllCoroutines();
+        pulseRoutine = null;
     }
 }
