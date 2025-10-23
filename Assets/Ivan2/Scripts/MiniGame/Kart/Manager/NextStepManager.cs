@@ -42,10 +42,11 @@ public class NextStepManager : MonoBehaviour
 
     public void CreateStep()
     {
-        steps = new string[3]; // crée un tableau de 3 éléments
-        steps[0] = "Maintiens A/Fl.Haut pour accélerer";
-        steps[1] = "Maintiens B/Fl.Bas pour Freiner/Reculer";
-        steps[2] = "Appuie sur To. Dir Gauche / Droite pour Changer de peinture";
+        steps = new string[4]; // crée un tableau de 3 éléments
+        steps[0] = "Droite - Gauche pour tourner";
+        steps[1] = "Maintenir A ou Haut pour accélerer";
+        steps[2] = "Maintienir B ou Bas pour Freiner/Reculer";
+        steps[3] = "Appuie sur To. Dir Gauche / Droite pour Changer de peinture";
     }
 
     public void NextStep()
