@@ -210,18 +210,7 @@
                 {
                     "name": "",
                     "id": "905fb99a-98e5-43a4-a2a8-6bd506791021",
-                    "path": "<Gamepad>/dpad/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ChangeSkin",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3bb18c15-eaf4-4dbc-8f10-71f7a0ef7964",
-                    "path": "<Gamepad>/dpad/right",
+                    "path": "<Gamepad>/select",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -232,18 +221,7 @@
                 {
                     "name": "",
                     "id": "a8999972-1a12-4562-867b-3585d21b7830",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ChangeSkin",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d04a05af-c55d-4450-a862-2cadb5fe3d5d",
-                    "path": "<Keyboard>/rightArrow",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

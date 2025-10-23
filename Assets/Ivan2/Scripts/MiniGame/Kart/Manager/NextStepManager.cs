@@ -46,7 +46,7 @@ public class NextStepManager : MonoBehaviour
         steps[0] = "Droite - Gauche pour tourner";
         steps[1] = "Maintenir A ou Haut pour accélerer";
         steps[2] = "Maintienir B ou Bas pour Freiner/Reculer";
-        steps[3] = "Appuie sur To. Dir Gauche / Droite pour Changer de peinture";
+        steps[3] = "Appuie sur Select / Espace pour changer de peinture";
     }
 
     public void NextStep()
