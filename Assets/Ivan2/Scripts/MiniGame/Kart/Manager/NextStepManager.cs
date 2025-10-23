@@ -5,6 +5,7 @@ public class NextStepManager : MonoBehaviour
 {
     GameObject TutoUI;
     TextMeshProUGUI indicationText;
+    TextMeshProUGUI playerNameText;
     public TextMeshProUGUI isReadyText;
 
     public int currentIndexStep = 0;
@@ -20,6 +21,12 @@ public class NextStepManager : MonoBehaviour
         else if (index == 1)
         {
             TutoUI = GameObject.Find("UI_2").transform.Find("Tuto_UI").gameObject;
+        }
+        if (null != TutoUI)
+        {
+            playerNameText = TutoUI
+                .transform.Find("PlayerNameText")
+                .GetComponent<TextMeshProUGUI>();
         }
 
         if (null != TutoUI)
@@ -38,6 +45,14 @@ public class NextStepManager : MonoBehaviour
         {
             indicationText.text = steps[currentIndexStep];
             isReadyText.text = "";
+            if (index == 0 && null != playerNameText)
+            {
+                playerNameText.text = GameDataManager.Player1;
+            }
+            if (index == 1 && null != playerNameText)
+            {
+                playerNameText.text = GameDataManager.Player2;
+            }
         }
     }
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,10 +11,33 @@ public class KartGameManager : MonoBehaviour
     List<KartController> kartsController = new List<KartController>();
     KartRace kartRace;
 
+    MenuPauseMiniGameManager menuPauseManager;
+
     void Awake()
     {
         kartRace = GetComponent<KartRace>();
+        menuPauseManager = GetComponent<MenuPauseMiniGameManager>();
     }
+
+    // void Update()
+    // {
+    //     // if (kartRace.isPlaying && null != menuPauseManager)
+    //     // {
+    //     //     foreach (var kartController in kartRace.kartsController)
+    //     //     {
+    //     //         if (kartController.kartInput.StartPressed)
+    //     //         {
+    //     //             Pause();
+    //     //         }
+    //     //     }
+    //     // }
+    // }
+
+    // void Pause()
+    // {
+    //     Time.timeScale = 0f; // stoppe le temps
+    //     menuPauseManager.ShowMenuPause(true);
+    // }
 
     void StartGame()
     {
