@@ -12,6 +12,7 @@ public class PlayerSelectMenuManager : MonoBehaviour
     public TMP_InputField inputPlayer2;
     public Button startButton;
     public Button returnButton;
+    public TMP_Text titleText; // optionnel : titre dynamique
 
     [Header("Audio - Musique de fond")]
     public AudioClip menuMusic;
@@ -19,23 +20,23 @@ public class PlayerSelectMenuManager : MonoBehaviour
     private float musicVolume = 0.5f;
 
     [Header("Audio - Feedbacks")]
-    public AudioClip selectSound;   // 🔊 pour clic ou focus champ
-    public AudioClip validateSound; // 🔊 pour validation du lancement
-    private AudioSource sfxSource;  // Source séparée pour éviter les conflits
+    public AudioClip selectSound;
+    public AudioClip validateSound;
+    private AudioSource sfxSource;
 
-    [Header("Nom de la scène de sélection aléatoire")]
+    [Header("Nom de la scène du sélecteur de mini-jeux")]
     public string miniGameSelectorScene = "MiniGameSelector";
 
     private EventSystem eventSystem;
     private Selectable currentSelected;
+    private Coroutine fadeRoutine;
 
     private void Start()
     {
         eventSystem = EventSystem.current;
 
-        // --- 🎵 Prépare la musique ---
+        // --- 🎵 Musique du menu ---
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.5f);
-
         musicSource = gameObject.AddComponent<AudioSource>();
         musicSource.playOnAwake = false;
         musicSource.loop = true;
@@ -47,17 +48,17 @@ public class PlayerSelectMenuManager : MonoBehaviour
             musicSource.Play();
         }
 
-        // --- 🔊 Source SFX ---
+        // --- 🔊 SFX ---
         sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.playOnAwake = false;
         sfxSource.loop = false;
-        sfxSource.volume = musicVolume;
+        sfxSource.volume = PlayerPrefs.GetFloat("SFXVolume", 0.9f);
 
-        // --- Pré-remplit les pseudos ---
+        // --- Préremplit les noms ---
         inputPlayer1.text = GameDataManager.Player1;
         inputPlayer2.text = GameDataManager.Player2;
 
-        // --- Connecte les sons de saisie ---
+        // --- Feedback sonore sur sélection ---
         inputPlayer1.onSelect.AddListener(delegate { PlaySelectSound(); });
         inputPlayer2.onSelect.AddListener(delegate { PlaySelectSound(); });
 
@@ -68,24 +69,27 @@ public class PlayerSelectMenuManager : MonoBehaviour
             currentSelected = inputPlayer1;
         }
 
-        // --- Sons sur les boutons ---
+        // --- Boutons ---
         if (startButton != null)
-            startButton.onClick.AddListener(() => PlayValidateSound());
+            startButton.onClick.AddListener(OnStartGame);
 
         if (returnButton != null)
-            returnButton.onClick.AddListener(() => PlayValidateSound());
+            returnButton.onClick.AddListener(OnReturnToMainMenu);
+
+        // --- Affiche le mode ---
+        string mode = GameDataManager.GetGameMode();
+        if (titleText != null)
+            titleText.text = mode == "Duel" ? "Entrée des Joueurs (DUEL)" : "Entrée des Joueurs (CHAMPIONNAT)";
     }
 
     private void Update()
     {
-        // ✅ Maintient la compatibilité manette ↔ souris
+        if (eventSystem == null) return;
+
         if (eventSystem.currentSelectedGameObject == null)
         {
-            // Si le focus est perdu après un clic, on restaure le dernier champ ou bouton
             if (currentSelected != null)
-            {
                 eventSystem.SetSelectedGameObject(currentSelected.gameObject);
-            }
             else
             {
                 eventSystem.SetSelectedGameObject(inputPlayer1.gameObject);
@@ -103,7 +107,6 @@ public class PlayerSelectMenuManager : MonoBehaviour
         }
     }
 
-    // --- 🔊 Lecture des SFX ---
     private void PlaySelectSound()
     {
         if (selectSound != null && sfxSource != null)
@@ -116,7 +119,7 @@ public class PlayerSelectMenuManager : MonoBehaviour
             sfxSource.PlayOneShot(validateSound, 1f);
     }
 
-    // --- 🚀 Lancement de la partie ---
+    // --- 🚀 Lancement du jeu (Duel ou Championnat) ---
     public void OnStartGame()
     {
         string p1 = inputPlayer1.text.Trim();
@@ -125,27 +128,39 @@ public class PlayerSelectMenuManager : MonoBehaviour
         if (string.IsNullOrEmpty(p1)) p1 = "Joueur 1";
         if (string.IsNullOrEmpty(p2)) p2 = "Joueur 2";
 
+        string mode = GameDataManager.GetGameMode();
+        string nextScene = (mode == "Duel") ? "DuelGameSelect" : miniGameSelectorScene;
+
+        // 💾 Sauvegarde des noms
         GameDataManager.SavePlayers(p1, p2);
 
-        PlayerPrefs.DeleteKey(p1 + GameDataManager.CHAMP_POINTS_SUFFIX);
-        PlayerPrefs.DeleteKey(p2 + GameDataManager.CHAMP_POINTS_SUFFIX);
-        PlayerPrefs.Save();
+        // 🧹 Reset complet uniquement pour le championnat
+        if (mode == "Championship")
+        {
+            GameDataManager.ResetAll();
+            PlayerPrefs.DeleteKey("RemainingGames");
+            PlayerPrefs.DeleteKey("LastPlayedGame");
+            PlayerPrefs.Save();
+        }
 
-        Debug.Log($"Nouvelle partie lancée : {p1} vs {p2}");
+        Debug.Log($"🏁 Lancement d'une partie ({mode}) : {p1} vs {p2}");
 
-        PlayValidateSound();
-        StartCoroutine(FadeOutMusicAndLoad(miniGameSelectorScene));
+        if (fadeRoutine != null)
+            StopCoroutine(fadeRoutine);
+
+        fadeRoutine = StartCoroutine(FadeOutMusicAndLoad(nextScene));
     }
 
-    // --- 🔙 Retour au menu principal ---
     public void OnReturnToMainMenu()
     {
-        Debug.Log("Retour au menu principal...");
         PlayValidateSound();
-        StartCoroutine(FadeOutMusicAndLoad("MainMenu"));
+
+        if (fadeRoutine != null)
+            StopCoroutine(fadeRoutine);
+
+        fadeRoutine = StartCoroutine(FadeOutMusicAndLoad("MainMenu"));
     }
 
-    // --- 🎧 Fade musical et chargement ---
     private IEnumerator FadeOutMusicAndLoad(string sceneName)
     {
         if (musicSource != null && musicSource.isPlaying)
@@ -157,14 +172,25 @@ public class PlayerSelectMenuManager : MonoBehaviour
             while (timer < duration)
             {
                 timer += Time.deltaTime;
-                musicSource.volume = Mathf.Lerp(startVolume, 0f, timer / duration);
+                if (musicSource != null)
+                    musicSource.volume = Mathf.Lerp(startVolume, 0f, timer / duration);
                 yield return null;
             }
 
-            musicSource.Stop();
+            if (musicSource != null)
+                musicSource.Stop();
         }
 
         yield return new WaitForSeconds(0.25f);
         SceneManager.LoadScene(sceneName);
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+        fadeRoutine = null;
+
+        if (musicSource != null && musicSource.isPlaying)
+            musicSource.Stop();
     }
 }

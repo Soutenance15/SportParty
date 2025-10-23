@@ -40,6 +40,9 @@ public class DuelGameSelect : MonoBehaviour
 
     void Start()
     {
+        // ⚙️ Force le mode Duel dès l’ouverture du menu
+        GameDataManager.SetGameMode("Duel");
+
         audioSource = gameObject.AddComponent<AudioSource>();
         eventSystem = EventSystem.current;
 
@@ -51,7 +54,7 @@ public class DuelGameSelect : MonoBehaviour
 
         // Liens boutons → scènes
         pingPongButton.onClick.AddListener(() => OnSelectMiniGame("PingPong"));
-        kartButton.onClick.AddListener(() => OnSelectMiniGame("Kartscene"));
+        kartButton.onClick.AddListener(() => OnSelectMiniGame("Karting"));
         footButton.onClick.AddListener(() => OnSelectMiniGame("Foot"));
         paraglideButton.onClick.AddListener(() => OnSelectMiniGame("paraglide"));
 
@@ -68,7 +71,6 @@ public class DuelGameSelect : MonoBehaviour
 
     private void OnEnable()
     {
-        // ✅ Empêche la perte du focus manette après un clic souris
         if (EventSystem.current != null)
         {
             EventSystem.current.sendNavigationEvents = true;
@@ -97,7 +99,6 @@ public class DuelGameSelect : MonoBehaviour
         }
     }
 
-    // 🔧 Volume
     private void LoadVolumeSettings()
     {
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", musicVolume);
@@ -119,7 +120,6 @@ public class DuelGameSelect : MonoBehaviour
 
     void Update()
     {
-        // 🕹️ Navigation manette / clavier
         if (eventSystem.currentSelectedGameObject != null)
         {
             Button selected = eventSystem.currentSelectedGameObject.GetComponent<Button>();
@@ -133,7 +133,6 @@ public class DuelGameSelect : MonoBehaviour
         }
         else
         {
-            // ✅ Si la souris casse la sélection, on la restaure automatiquement
             if (currentHoveredButton != null)
             {
                 eventSystem.SetSelectedGameObject(currentHoveredButton.gameObject);
@@ -185,10 +184,9 @@ public class DuelGameSelect : MonoBehaviour
         }
     }
 
-    // ✅ Sélection du mini-jeu
     private void OnSelectMiniGame(string sceneName)
     {
-        Debug.Log($"Chargement de la scène : {sceneName}");
+        Debug.Log($"Chargement du mini-jeu : {sceneName}");
 
         if (selectSound != null)
         {
@@ -205,10 +203,9 @@ public class DuelGameSelect : MonoBehaviour
         StartCoroutine(FadeOutMusicAndLoad(sceneName));
     }
 
-    // 🔙 Retour menu principal
     public void OnReturnToMenu()
     {
-        Debug.Log("Retour au menu principal...");
+        Debug.Log("↩️ Retour au menu principal...");
 
         if (selectSound != null)
         {
@@ -225,7 +222,6 @@ public class DuelGameSelect : MonoBehaviour
         StartCoroutine(FadeOutMusicAndLoad("MainMenu"));
     }
 
-    // 🎧 Fade musical progressif avant le changement de scène
     private IEnumerator FadeOutMusicAndLoad(string sceneName)
     {
         if (persistentMusicSource != null)

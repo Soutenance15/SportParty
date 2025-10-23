@@ -5,6 +5,7 @@ public class NextStepManager : MonoBehaviour
 {
     GameObject TutoUI;
     TextMeshProUGUI indicationText;
+    public TextMeshProUGUI isReadyText;
 
     public int currentIndexStep = 0;
 
@@ -24,25 +25,29 @@ public class NextStepManager : MonoBehaviour
         if (null != TutoUI)
         {
             indicationText = TutoUI
+                .transform.Find("Block")
                 .transform.Find("indicationText")
+                .GetComponent<TextMeshProUGUI>();
+            isReadyText = TutoUI
+                .transform.Find("Block")
+                .transform.Find("IsReadyText")
                 .GetComponent<TextMeshProUGUI>();
         }
         CreateStep();
         if (null != TutoUI)
         {
-            indicationText = TutoUI
-                .transform.Find("indicationText")
-                .GetComponent<TextMeshProUGUI>();
             indicationText.text = steps[currentIndexStep];
+            isReadyText.text = "";
         }
     }
 
     public void CreateStep()
     {
-        steps = new string[3]; // crée un tableau de 3 éléments
-        steps[0] = "Maintiens A/Fl.Haut pour accélerer";
-        steps[1] = "Maintiens B/Fl.Bas pour Freiner/Reculer";
-        steps[2] = "Appuie sur To. Dir Gauche / Droite pour Changer de peinture";
+        steps = new string[4]; // crée un tableau de 3 éléments
+        steps[0] = "Droite - Gauche pour tourner";
+        steps[1] = "Maintenir A ou Haut pour accélerer";
+        steps[2] = "Maintienir B ou Bas pour Freiner/Reculer";
+        steps[3] = "Appuie sur Select / Espace pour changer de peinture";
     }
 
     public void NextStep()
@@ -60,6 +65,6 @@ public class NextStepManager : MonoBehaviour
 
     public void ShowTutoUI(bool show)
     {
-        TutoUI.SetActive(show);
+        TutoUI.transform.Find("Block").GetComponent<GameObject>().SetActive(show);
     }
 }

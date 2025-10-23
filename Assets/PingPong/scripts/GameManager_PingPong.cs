@@ -26,7 +26,7 @@ public class GameManager_PingPong : MonoBehaviour
     private int scoreRight = 0;
     private bool matchEnded = false;
 
-    private Coroutine pulseRoutine; // ✅ référence du clignotement du texte Match Point
+    private Coroutine pulseRoutine;
 
     private void Awake()
     {
@@ -102,12 +102,10 @@ public class GameManager_PingPong : MonoBehaviour
         if (scoreRightText != null) scoreRightText.text = scoreRight.ToString();
     }
 
-    // ⚡ Affiche et anime le "Match Point" quand un joueur est à un point de gagner
     void CheckMatchPoint()
     {
         if (matchInfoText == null) return;
 
-        // Stop toute animation précédente
         if (pulseRoutine != null)
         {
             StopCoroutine(pulseRoutine);
@@ -117,13 +115,13 @@ public class GameManager_PingPong : MonoBehaviour
         if (scoreLeft == scoreToWin - 1 && scoreRight < scoreToWin - 1)
         {
             matchInfoText.text = $"Match Point pour {GameDataManager.Player1} !";
-            matchInfoText.color = new Color(0f, 1f, 1f, 1f); // 💠 Cyan néon
+            matchInfoText.color = new Color(0f, 1f, 1f, 1f);
             pulseRoutine = StartCoroutine(PulseMatchPointText());
         }
         else if (scoreRight == scoreToWin - 1 && scoreLeft < scoreToWin - 1)
         {
             matchInfoText.text = $"Match Point pour {GameDataManager.Player2} !";
-            matchInfoText.color = new Color(1f, 0.2f, 0.8f, 1f); // 💖 Rose néon
+            matchInfoText.color = new Color(1f, 0.2f, 0.8f, 1f);
             pulseRoutine = StartCoroutine(PulseMatchPointText());
         }
         else
@@ -132,7 +130,6 @@ public class GameManager_PingPong : MonoBehaviour
         }
     }
 
-    // 💫 Effet de pulsation fluide sur le texte Match Point
     IEnumerator PulseMatchPointText()
     {
         Vector3 baseScale = matchInfoText.transform.localScale;
@@ -148,14 +145,12 @@ public class GameManager_PingPong : MonoBehaviour
         }
     }
 
-    // 🏁 Vérifie si la partie est terminée
     void CheckEndCondition()
     {
         if (scoreLeft >= scoreToWin || scoreRight >= scoreToWin)
         {
             matchEnded = true;
 
-            // Stop le texte Match Point s’il était actif
             if (pulseRoutine != null)
             {
                 StopCoroutine(pulseRoutine);
@@ -166,7 +161,6 @@ public class GameManager_PingPong : MonoBehaviour
         }
     }
 
-    // 🔚 Termine la partie et affiche le résultat
     public void EndMiniGame()
     {
         string p1 = GameDataManager.Player1;
@@ -186,13 +180,13 @@ public class GameManager_PingPong : MonoBehaviour
             {
                 GameDataManager.AddChampPoints(p1, 25);
                 matchInfoText.text = $"{p1} remporte la manche !";
-                matchInfoText.color = new Color(0f, 1f, 1f, 1f); // Cyan
+                matchInfoText.color = new Color(0f, 1f, 1f, 1f);
             }
             else if (scoreRight > scoreLeft)
             {
                 GameDataManager.AddChampPoints(p2, 25);
                 matchInfoText.text = $"{p2} remporte la manche !";
-                matchInfoText.color = new Color(1f, 0.2f, 0.8f, 1f); // Magenta
+                matchInfoText.color = new Color(1f, 0.2f, 0.8f, 1f);
             }
             else
             {
@@ -210,9 +204,21 @@ public class GameManager_PingPong : MonoBehaviour
     IEnumerator EndSequence()
     {
         if (AudioFader.Instance != null)
-        AudioFader.Instance.FadeOut(1.5f);
+            AudioFader.Instance.FadeOut(1.5f);
 
         yield return new WaitForSeconds(endDelay);
-        SceneManager.LoadScene("MiniGameSelector");
+
+        string mode = GameDataManager.GetGameMode();
+
+        if (mode == "Duel")
+        {
+            Debug.Log("🔁 Fin de duel – retour vers DuelGameSelect");
+            SceneManager.LoadScene("DuelGameSelect");
+        }
+        else
+        {
+            Debug.Log("🏆 Fin de manche – retour vers MiniGameSelector");
+            SceneManager.LoadScene("MiniGameSelector");
+        }
     }
 }

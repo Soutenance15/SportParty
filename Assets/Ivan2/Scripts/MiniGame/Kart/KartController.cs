@@ -20,6 +20,7 @@ public class KartController : MonoBehaviour
     private SpriteRenderer skin2;
 
     private bool currentSkinIs1;
+    public bool isReady;
 
     // Caracteristique
 
@@ -61,6 +62,7 @@ public class KartController : MonoBehaviour
     public void SpawnAtPosition(Vector2 position)
     {
         transform.position = position;
+        transform.rotation = Quaternion.identity;
     }
 
     public void ToggleSkin()
@@ -117,6 +119,14 @@ public class KartController : MonoBehaviour
         {
             nextStepManager.NextStep();
         }
+
+        // Attention appelé tardivement car dans le update soit apres
+        // StarPressed est immediatement à la valeur mise à jour par l'appuie du joueur
+        // il vaut mieux faire le isready dans le fichier manager recuperant StartPressed
+        // if (kartInput.StartPressed)
+        // {
+        //     isReady = true;
+        // }
     }
 
     void FixedUpdate()

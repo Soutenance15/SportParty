@@ -78,7 +78,7 @@ public class MainMenuManager2 : MonoBehaviour
         switch (selectedMiniGame)
         {
             case MiniGameType.Kart:
-                SceneManager.LoadScene("KartScene");
+                SceneManager.LoadScene("Karting");
                 break;
             case MiniGameType.Foot:
                 SceneManager.LoadScene("FootScene");

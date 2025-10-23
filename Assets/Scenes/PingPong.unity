@@ -1325,7 +1325,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000012239, y: -176.4}
+  m_AnchoredPosition: {x: -0.000012239, y: -50.000015}
   m_SizeDelta: {x: 707.9804, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &756728356
@@ -1806,7 +1806,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeaderboardManager
   leaderboardText: {fileID: 0}
+  replayButton: {fileID: 0}
+  returnButton: {fileID: 0}
   leaderboardMusic: {fileID: 0}
+  hoverSound: {fileID: 0}
+  selectSound: {fileID: 0}
+  pulseScale: 1.08
+  pulseSpeed: 2
+  highlightColor: {r: 1, g: 0.85, b: 0.2, a: 1}
+  winnerColor: {r: 1, g: 0.8, b: 0.2, a: 1}
+  winnerPulseSpeed: 2
+  winnerPulseScale: 1.1
+  winnerAnimDuration: 3
 --- !u!1 &1281928023
 GameObject:
   m_ObjectHideFlags: 0
