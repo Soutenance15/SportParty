@@ -80,7 +80,7 @@ public class Golazo : MonoBehaviour
 
         // ✅ Ajoute les points de championnat via GameDataManager
         GameDataManager.AddChampPoints(winner, 25);
-        GameDataManager.AddScore(winner, 1); // facultatif : incrément du score global
+        // facultatif : incrément du score global
 
         // 🏁 Message de victoire
         winText.text = $"{winner} Wins!";
@@ -97,6 +97,7 @@ public class Golazo : MonoBehaviour
     {
         // ⏳ Attente en temps réel (indépendant du Time.timeScale)
         yield return new WaitForSecondsRealtime(endDelay);
+
 
         Time.timeScale = 1;
         SceneManager.LoadScene("MiniGameSelector");

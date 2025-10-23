@@ -37,6 +37,14 @@ public class FootController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-         rb.linearVelocity = new Vector2(moveInput.x * speed * 100f * Time.fixedDeltaTime, rb.linearVelocity.y);
+    rb.linearVelocity = new Vector2(moveInput.x * speed * 100f * Time.fixedDeltaTime, rb.linearVelocity.y);
+    if (moveInput.x != 0)
+    {
+      anim.SetBool("IsRunning", true);
+    }
+    else
+    {
+      anim.SetBool("IsRunning", false);
+    }      
     }
 }

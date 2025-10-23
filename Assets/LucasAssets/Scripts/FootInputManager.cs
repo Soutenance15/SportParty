@@ -54,7 +54,7 @@ public class FootInputManager : MonoBehaviour
                             if (spawnPoints.Length > 0)
             {
                     player.transform.position = spawnPoints[1].position;
-                    player.transform.localScale = new Vector3(-1, 1, 1);
+                    player.transform.localScale = new Vector3(1, 1, 1);
             }
                 
                 gamepadJoined = true;
