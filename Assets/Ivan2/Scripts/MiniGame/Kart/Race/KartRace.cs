@@ -7,11 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class KartRace : MonoBehaviour
 {
-    List<KartController> kartsController = new List<KartController>();
+    public List<KartController> kartsController = new List<KartController>();
     KartController kartControllerWinner;
     bool countDownFinished;
     bool countDownStarted;
-    bool isReady;
+    public bool isPlaying;
 
     GameObject splitUI;
     TextMeshProUGUI countDownText;
@@ -116,6 +116,7 @@ public class KartRace : MonoBehaviour
         countDownText.enabled = true;
         StartCoroutine(StartCountDown(3f));
         countDownFinished = true;
+        isPlaying = true;
     }
 
     private void SomeoneFinish(KartController kartController)
@@ -163,14 +164,6 @@ public class KartRace : MonoBehaviour
             yield return null; // attend la frame suivante
         }
         countDownText.enabled = false;
-    }
-
-    void EndGame()
-    {
-        GameDataManager.AddScore(kartControllerWinner.playerName, 1);
-        Debug.Log("End Game + " + kartControllerWinner.playerName.ToString());
-        // LoadScene -> Soit directe prochain minigame, soit menu minigame
-        // Ou bieen invoke un event EndGame
     }
 
     public void EndMiniGame()
