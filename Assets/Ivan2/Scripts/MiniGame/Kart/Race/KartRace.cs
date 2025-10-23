@@ -188,6 +188,18 @@ public class KartRace : MonoBehaviour
             AudioFader.Instance.FadeOut(1.5f);
 
         yield return new WaitForSeconds(endDelay);
-        SceneManager.LoadScene("MiniGameSelector");
+
+        string mode = GameDataManager.GetGameMode();
+
+        if (mode == "Duel")
+        {
+            Debug.Log("🔁 Fin de duel – retour vers DuelGameSelect");
+            SceneManager.LoadScene("DuelGameSelect");
+        }
+        else
+        {
+            Debug.Log("🏆 Fin de manche – retour vers MiniGameSelector");
+            SceneManager.LoadScene("MiniGameSelector");
+        }
     }
 }
