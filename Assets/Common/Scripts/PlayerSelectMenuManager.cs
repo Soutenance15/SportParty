@@ -79,7 +79,7 @@ public class PlayerSelectMenuManager : MonoBehaviour
         // --- Affiche le mode ---
         string mode = GameDataManager.GetGameMode();
         if (titleText != null)
-            titleText.text = mode == "Duel" ? "Entrée des Joueurs (DUEL)" : "Entrée des Joueurs (CHAMPIONNAT)";
+            titleText.text = mode == "Duel" ? "DUEL" : "CHAMPIONNAT";
     }
 
     private void Update()
