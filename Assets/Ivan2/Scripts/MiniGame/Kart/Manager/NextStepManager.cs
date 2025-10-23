@@ -25,16 +25,17 @@ public class NextStepManager : MonoBehaviour
         if (null != TutoUI)
         {
             indicationText = TutoUI
+                .transform.Find("Block")
                 .transform.Find("indicationText")
                 .GetComponent<TextMeshProUGUI>();
-            isReadyText = TutoUI.transform.Find("IsReadyText").GetComponent<TextMeshProUGUI>();
+            isReadyText = TutoUI
+                .transform.Find("Block")
+                .transform.Find("IsReadyText")
+                .GetComponent<TextMeshProUGUI>();
         }
         CreateStep();
         if (null != TutoUI)
         {
-            indicationText = TutoUI
-                .transform.Find("indicationText")
-                .GetComponent<TextMeshProUGUI>();
             indicationText.text = steps[currentIndexStep];
             isReadyText.text = "";
         }
@@ -64,6 +65,6 @@ public class NextStepManager : MonoBehaviour
 
     public void ShowTutoUI(bool show)
     {
-        TutoUI.SetActive(show);
+        TutoUI.transform.Find("Block").GetComponent<GameObject>().SetActive(show);
     }
 }

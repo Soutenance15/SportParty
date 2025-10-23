@@ -100,7 +100,18 @@ public class KartRace : MonoBehaviour
     {
         if (null != splitUI)
         {
-            splitUI.SetActive(false);
+            // splitUI.SetActive(false);
+            splitUI
+                .transform.Find("UI_1")
+                .Find("Tuto_UI")
+                .Find("Block")
+                .gameObject.SetActive(false);
+            splitUI
+                .transform.Find("UI_2")
+                .Find("Tuto_UI")
+                .Find("Block")
+                .gameObject.SetActive(false);
+            splitUI.transform.Find("TutoUIPannel").gameObject.SetActive(false);
         }
         countDownText.enabled = true;
         StartCoroutine(StartCountDown(3f));
