@@ -654,12 +654,12 @@ MonoBehaviour:
     imageWidth: 400
     imageHeight: 200
   - type: 0
-    text: "\u2022IVAN DEVA\u2022\nKarting\n\n\u2022JEAN DAVID CAZAL\u2022\nParapente\n"
+    text: "\u2022 IVAN DEVA \u2022\nKarting\n\n\u2022 JEAN DAVID CAZAL \u2022\nParapente\n"
     image: {fileID: 0}
     imageWidth: 400
     imageHeight: 200
   - type: 0
-    text: "\u2022LUCAS CLAIN\u2022\nFoot\n\n\u2022DANIEL RAKOTONIAINA\u2022\t\nPingPong"
+    text: "\u2022 LUCAS CLAIN \u2022\nFoot\n\n\u2022 DANIEL RAKOTONIAINA \u2022\t\nPingPong"
     image: {fileID: 0}
     imageWidth: 400
     imageHeight: 200
