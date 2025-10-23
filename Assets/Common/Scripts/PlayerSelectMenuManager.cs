@@ -31,11 +31,15 @@ public class PlayerSelectMenuManager : MonoBehaviour
     private Selectable currentSelected;
     private Coroutine fadeRoutine;
 
+    private bool usingMouse = false;
+    private float mouseInactiveTimer = 0f;
+    private const float mouseTimeout = 1.5f;
+
     private void Start()
     {
         eventSystem = EventSystem.current;
 
-        // 🎵 Musique du menu
+        // 🎵 Musique
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.5f);
         musicSource = gameObject.AddComponent<AudioSource>();
         musicSource.playOnAwake = false;
@@ -54,55 +58,101 @@ public class PlayerSelectMenuManager : MonoBehaviour
         sfxSource.loop = false;
         sfxSource.volume = PlayerPrefs.GetFloat("SFXVolume", 0.9f);
 
-        // 🧾 Préremplit les noms sauvegardés
+        // 🧾 Chargement noms sauvegardés
         inputPlayer1.text = GameDataManager.Player1;
         inputPlayer2.text = GameDataManager.Player2;
 
-        // 🎮 Feedback sonore sur sélection
         inputPlayer1.onSelect.AddListener(delegate { PlaySelectSound(); });
         inputPlayer2.onSelect.AddListener(delegate { PlaySelectSound(); });
 
-        // 🎯 Focus par défaut
+        // 🎮 Boutons
+        startButton.onClick.AddListener(OnStartGame);
+        returnButton.onClick.AddListener(OnReturnToMainMenu);
+
+        // 🏁 Titre
+        string mode = GameDataManager.GetGameMode();
+        if (titleText != null)
+            titleText.text = mode == "Duel" ? "DUEL" : "CHAMPIONNAT";
+
+        // 🎯 Focus initial
         if (eventSystem != null)
         {
             eventSystem.SetSelectedGameObject(inputPlayer1.gameObject);
             currentSelected = inputPlayer1;
         }
-
-        // 🕹 Boutons
-        if (startButton != null)
-            startButton.onClick.AddListener(OnStartGame);
-
-        if (returnButton != null)
-            returnButton.onClick.AddListener(OnReturnToMainMenu);
-
-        // 🏁 Affiche le mode actuel
-        string mode = GameDataManager.GetGameMode();
-        if (titleText != null)
-            titleText.text = mode == "Duel" ? "DUEL" : "CHAMPIONNAT";
     }
 
     private void Update()
     {
         if (eventSystem == null) return;
 
-        if (eventSystem.currentSelectedGameObject == null)
+        // 🖱️ Détection activité souris
+        if (Input.GetAxis("Mouse X") != 0f || Input.GetAxis("Mouse Y") != 0f)
         {
-            if (currentSelected != null)
-                eventSystem.SetSelectedGameObject(currentSelected.gameObject);
-            else
+            usingMouse = true;
+            mouseInactiveTimer = 0f;
+        }
+        else if (usingMouse)
+        {
+            mouseInactiveTimer += Time.unscaledDeltaTime;
+            if (mouseInactiveTimer > mouseTimeout)
+                usingMouse = false;
+        }
+
+        // 🖱️ Gestion du clic souris
+        if (usingMouse && Input.GetMouseButtonDown(0))
+        {
+            PointerEventData pointerData = new PointerEventData(eventSystem)
             {
-                eventSystem.SetSelectedGameObject(inputPlayer1.gameObject);
-                currentSelected = inputPlayer1;
+                position = Input.mousePosition
+            };
+
+            var results = new System.Collections.Generic.List<RaycastResult>();
+            eventSystem.RaycastAll(pointerData, results);
+
+            foreach (var result in results)
+            {
+                var button = result.gameObject.GetComponent<Button>();
+                if (button != null)
+                {
+                    button.onClick.Invoke(); // ✅ Simule un vrai clic Unity
+                    PlayValidateSound();
+                    return;
+                }
+
+                var input = result.gameObject.GetComponent<TMP_InputField>();
+                if (input != null)
+                {
+                    eventSystem.SetSelectedGameObject(input.gameObject);
+                    input.Select();
+                    input.ActivateInputField();
+                    PlaySelectSound();
+                    return;
+                }
             }
         }
-        else
+
+        // 🎮 Navigation manette / clavier
+        if (!usingMouse)
         {
-            var newSelectable = eventSystem.currentSelectedGameObject.GetComponent<Selectable>();
-            if (newSelectable != null && newSelectable != currentSelected)
+            if (eventSystem.currentSelectedGameObject == null)
             {
-                currentSelected = newSelectable;
-                PlaySelectSound();
+                if (currentSelected != null)
+                    eventSystem.SetSelectedGameObject(currentSelected.gameObject);
+                else
+                {
+                    eventSystem.SetSelectedGameObject(inputPlayer1.gameObject);
+                    currentSelected = inputPlayer1;
+                }
+            }
+            else
+            {
+                var newSelectable = eventSystem.currentSelectedGameObject.GetComponent<Selectable>();
+                if (newSelectable != null && newSelectable != currentSelected)
+                {
+                    currentSelected = newSelectable;
+                    PlaySelectSound();
+                }
             }
         }
     }
@@ -119,7 +169,6 @@ public class PlayerSelectMenuManager : MonoBehaviour
             sfxSource.PlayOneShot(validateSound, 1f);
     }
 
-    // 🚀 Lancement d’une partie Duel ou Championnat
     public void OnStartGame()
     {
         string p1 = inputPlayer1.text.Trim();
@@ -131,18 +180,14 @@ public class PlayerSelectMenuManager : MonoBehaviour
         string mode = GameDataManager.GetGameMode();
         string nextScene = (mode == "Duel") ? "DuelGameSelect" : miniGameSelectorScene;
 
-        // 💾 Sauvegarde des noms AVANT le reset
         GameDataManager.SavePlayers(p1, p2);
 
-        // 🧹 Reset complet uniquement pour le championnat
         if (mode == "Championship")
         {
             GameDataManager.ResetAll();
             PlayerPrefs.DeleteKey("RemainingGames");
             PlayerPrefs.DeleteKey("LastPlayedGame");
             PlayerPrefs.Save();
-
-            // ✅ Re-sauvegarde les noms après le reset (sinon ils sont effacés)
             GameDataManager.SavePlayers(p1, p2);
         }
 
