@@ -7,11 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class KartRace : MonoBehaviour
 {
-    List<KartController> kartsController = new List<KartController>();
+    public List<KartController> kartsController = new List<KartController>();
     KartController kartControllerWinner;
     bool countDownFinished;
     bool countDownStarted;
-    bool isReady;
+    public bool isPlaying;
 
     GameObject splitUI;
     TextMeshProUGUI countDownText;
@@ -116,6 +116,7 @@ public class KartRace : MonoBehaviour
         countDownText.enabled = true;
         StartCoroutine(StartCountDown(3f));
         countDownFinished = true;
+        isPlaying = true;
     }
 
     private void SomeoneFinish(KartController kartController)
@@ -165,14 +166,6 @@ public class KartRace : MonoBehaviour
         countDownText.enabled = false;
     }
 
-    void EndGame()
-    {
-        GameDataManager.AddScore(kartControllerWinner.playerName, 1);
-        Debug.Log("End Game + " + kartControllerWinner.playerName.ToString());
-        // LoadScene -> Soit directe prochain minigame, soit menu minigame
-        // Ou bieen invoke un event EndGame
-    }
-
     public void EndMiniGame()
     {
         string p1 = GameDataManager.Player1;
@@ -195,6 +188,18 @@ public class KartRace : MonoBehaviour
             AudioFader.Instance.FadeOut(1.5f);
 
         yield return new WaitForSeconds(endDelay);
-        SceneManager.LoadScene("MiniGameSelector");
+
+        string mode = GameDataManager.GetGameMode();
+
+        if (mode == "Duel")
+        {
+            Debug.Log("🔁 Fin de duel – retour vers DuelGameSelect");
+            SceneManager.LoadScene("DuelGameSelect");
+        }
+        else
+        {
+            Debug.Log("🏆 Fin de manche – retour vers MiniGameSelector");
+            SceneManager.LoadScene("MiniGameSelector");
+        }
     }
 }
