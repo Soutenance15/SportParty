@@ -47,32 +47,26 @@ public class MainMenuManager : MonoBehaviour
 
         eventSystem = EventSystem.current;
 
-        // 🔊 Charge les volumes sauvegardés
         LoadVolumeSettings();
-
-        // 🎵 Lance la musique de menu
         PlayMenuMusic();
 
-        // Abonnements boutons
-        championnatButton.onClick.AddListener(() => OnSelectMode("PlayerSelectMenu"));
-        duelButton.onClick.AddListener(() => OnSelectMode("DuelGameSelect"));
-        creditsButton.onClick.AddListener(() => OnSelectMode("Credits"));
+        // --- Modes de jeu ---
+        championnatButton.onClick.AddListener(() => OnSelectMode("PlayerSelectMenu", "Championship"));
+        duelButton.onClick.AddListener(() => OnSelectMode("PlayerSelectMenu", "Duel")); // ✅ redirige aussi vers PlayerSelectMenu
+        creditsButton.onClick.AddListener(() => OnSelectMode("Credits", ""));
         quitButton.onClick.AddListener(OnQuitGame);
 
-        // Ajout des effets de hover (souris)
         AddHoverEffect(championnatButton);
         AddHoverEffect(duelButton);
         AddHoverEffect(creditsButton);
         AddHoverEffect(quitButton);
 
-        // Focus auto manette
         eventSystem.SetSelectedGameObject(championnatButton.gameObject);
         currentFocusedButton = championnatButton;
     }
 
     private void OnEnable()
     {
-        // ✅ Force Unity à garder la navigation active
         if (EventSystem.current != null)
         {
             EventSystem.current.sendNavigationEvents = true;
@@ -93,7 +87,7 @@ public class MainMenuManager : MonoBehaviour
             persistentMusicSource.spatialBlend = 0f;
             persistentMusicSource.volume = musicVolume;
             persistentMusicSource.Play();
-            DontDestroyOnLoad(persistentMusicGO);
+            Object.DontDestroyOnLoad(persistentMusicGO);
         }
         else
         {
@@ -101,7 +95,6 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    // 🔧 Réglage du volume musique/SFX
     private void LoadVolumeSettings()
     {
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", musicVolume);
@@ -123,7 +116,6 @@ public class MainMenuManager : MonoBehaviour
 
     void Update()
     {
-        // 🕹️ Navigation manette / clavier
         if (eventSystem.currentSelectedGameObject != null)
         {
             Button selected = eventSystem.currentSelectedGameObject.GetComponent<Button>();
@@ -137,7 +129,6 @@ public class MainMenuManager : MonoBehaviour
         }
         else
         {
-            // ✅ Si la souris casse la sélection, on la restaure
             if (currentFocusedButton != null)
             {
                 eventSystem.SetSelectedGameObject(currentFocusedButton.gameObject);
@@ -189,10 +180,13 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    // ✅ Transition avec son + fade-out musical
-    private void OnSelectMode(string sceneName)
+    // ✅ Gère le mode avant chargement
+    private void OnSelectMode(string sceneName, string mode)
     {
-        Debug.Log($"Chargement de la scène : {sceneName}");
+        if (!string.IsNullOrEmpty(mode))
+            GameDataManager.SetGameMode(mode);
+
+        Debug.Log($"Chargement de la scène : {sceneName} (mode {mode})");
 
         if (selectSound != null)
         {
