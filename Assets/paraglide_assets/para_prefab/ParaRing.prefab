@@ -141,13 +141,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8865939c434cdb49ac16f93241b199f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RingApproaching
-  startColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  endColor: {r: 1, g: 0.37376443, b: 0, a: 1}
-  validatedColor: {r: 0.01715614, g: 0.8113208, b: 0, a: 1}
-  lifetime: 2
+  approachTime: 3
+  maxScale: 4
+  activationThreshold: 0.5
+  moveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  startColor: {r: 0.9436488, g: 1, b: 0.015686274, a: 1}
+  endColor: {r: 0.85882354, g: 0.07058822, b: 0.519987, a: 1}
+  validatedColor: {r: 0.08877714, g: 0.8962264, b: 0.24892619, a: 1}
   rotationSpeed: 720
   validationAnimationTime: 0.31
-  activationThreshold: 0.81
 --- !u!114 &7076327142297839694
 MonoBehaviour:
   m_ObjectHideFlags: 0

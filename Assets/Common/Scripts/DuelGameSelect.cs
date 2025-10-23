@@ -61,8 +61,19 @@ public class DuelGameSelect : MonoBehaviour
         AddHoverEffect(footButton);
         AddHoverEffect(paraglideButton);
 
-        // Sélection par défaut (utile pour manette)
+        // Sélection par défaut
         eventSystem.SetSelectedGameObject(pingPongButton.gameObject);
+        currentHoveredButton = pingPongButton;
+    }
+
+    private void OnEnable()
+    {
+        // ✅ Empêche la perte du focus manette après un clic souris
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.sendNavigationEvents = true;
+            EventSystem.current.SetSelectedGameObject(pingPongButton.gameObject);
+        }
     }
 
     private void PlayMenuMusic()
@@ -86,24 +97,7 @@ public class DuelGameSelect : MonoBehaviour
         }
     }
 
-    // 🔧 Gestion des réglages de volume
-    public void SetMusicVolume(float value)
-    {
-        musicVolume = Mathf.Clamp01(value);
-        PlayerPrefs.SetFloat("MusicVolume", musicVolume);
-        PlayerPrefs.Save();
-
-        if (persistentMusicSource != null)
-            persistentMusicSource.volume = musicVolume;
-    }
-
-    public void SetSFXVolume(float value)
-    {
-        sfxVolume = Mathf.Clamp01(value);
-        PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
-        PlayerPrefs.Save();
-    }
-
+    // 🔧 Volume
     private void LoadVolumeSettings()
     {
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", musicVolume);
@@ -125,7 +119,7 @@ public class DuelGameSelect : MonoBehaviour
 
     void Update()
     {
-        // Gestion manette/clavier
+        // 🕹️ Navigation manette / clavier
         if (eventSystem.currentSelectedGameObject != null)
         {
             Button selected = eventSystem.currentSelectedGameObject.GetComponent<Button>();
@@ -135,6 +129,19 @@ public class DuelGameSelect : MonoBehaviour
                     OnButtonUnfocus(currentHoveredButton);
 
                 OnButtonFocus(selected);
+            }
+        }
+        else
+        {
+            // ✅ Si la souris casse la sélection, on la restaure automatiquement
+            if (currentHoveredButton != null)
+            {
+                eventSystem.SetSelectedGameObject(currentHoveredButton.gameObject);
+            }
+            else
+            {
+                eventSystem.SetSelectedGameObject(pingPongButton.gameObject);
+                currentHoveredButton = pingPongButton;
             }
         }
     }
@@ -178,7 +185,7 @@ public class DuelGameSelect : MonoBehaviour
         }
     }
 
-    // ✅ Sélection du mini-jeu avec volume SFX ajusté et fade-out musical
+    // ✅ Sélection du mini-jeu
     private void OnSelectMiniGame(string sceneName)
     {
         Debug.Log($"Chargement de la scène : {sceneName}");
@@ -198,7 +205,7 @@ public class DuelGameSelect : MonoBehaviour
         StartCoroutine(FadeOutMusicAndLoad(sceneName));
     }
 
-    // 🔙 Retour menu principal avec le même effet sonore et fade-out
+    // 🔙 Retour menu principal
     public void OnReturnToMenu()
     {
         Debug.Log("Retour au menu principal...");
@@ -218,7 +225,7 @@ public class DuelGameSelect : MonoBehaviour
         StartCoroutine(FadeOutMusicAndLoad("MainMenu"));
     }
 
-    // 🎧 Fade-out progressif avant le changement de scène
+    // 🎧 Fade musical progressif avant le changement de scène
     private IEnumerator FadeOutMusicAndLoad(string sceneName)
     {
         if (persistentMusicSource != null)
@@ -239,7 +246,6 @@ public class DuelGameSelect : MonoBehaviour
             persistentMusicSource = null;
         }
 
-        // 🔁 Transition fluide après le fade musical
         yield return FadeAndLoad(sceneName);
     }
 

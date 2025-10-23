@@ -14,6 +14,7 @@ public static class GameDataManager2
     // Associe chaque manette à son joueur
     // Attention Code ChatGPT
     private static Dictionary<int, string> deviceToPlayer = new Dictionary<int, string>();
+
     // Attention Code ChatGPT
 
     public static void SavePlayers(string player1, string player2)
@@ -51,8 +52,6 @@ public static class GameDataManager2
     }
     // Attention Code ChatGPT
 }
-
-
 
 
 // public static string GetOrAssignPlayerName(InputDevice device)

@@ -20,36 +20,23 @@ public class ParaPlayerController : MonoBehaviour
     public Color player1Color = Color.white;
     public Color player2Color = Color.cyan;
 
-    // --- Variables privées ---
-    private int score = 0;
+    public int Score { get; private set; } = 0; // La propriété qui remplace "score"
+    
     private Vector2 moveInput;
     private SpriteRenderer spriteToColor;
 
-    // La logique a été déplacée de Start() à OnEnable()
     void OnEnable()
     {
         PlayerInput playerInput = GetComponent<PlayerInput>();
         var user = playerInput.user;
-
-        // On s'assure que l'utilisateur est valide avant de continuer
-        if (!user.valid)
-            return;
+        if (!user.valid) return;
 
         user.UnpairDevices();
 
-        if (playerID == 1)
-        {
-            if (Keyboard.current != null) {
-                InputUser.PerformPairingWithDevice(Keyboard.current, user: user);
-            }
-        }
-        else if (playerID == 2)
-        {
-            if (Gamepad.current != null) {
-                InputUser.PerformPairingWithDevice(Gamepad.current, user: user);
-            } else {
-                Debug.LogWarning("Joueur 2 : Aucune manette détectée !");
-            }
+        if (playerID == 1) {
+            if (Keyboard.current != null) InputUser.PerformPairingWithDevice(Keyboard.current, user: user);
+        } else if (playerID == 2) {
+            if (Gamepad.current != null) InputUser.PerformPairingWithDevice(Gamepad.current, user: user);
         }
         
         if (visualsTransform != null) {
@@ -60,7 +47,8 @@ public class ParaPlayerController : MonoBehaviour
         }
         
         if (ParaScoreManager.Instance != null) {
-            ParaScoreManager.Instance.UpdateScoreUI(playerID, score);
+            // LA CORRECTION EST ICI
+            ParaScoreManager.Instance.UpdateScoreUI(playerID, Score); 
         }
     }
 
@@ -82,9 +70,9 @@ public class ParaPlayerController : MonoBehaviour
     }
 
     public void AddScore(int pointsToAdd) {
-        score += pointsToAdd;
+        Score += pointsToAdd;
         if (ParaScoreManager.Instance != null) {
-            ParaScoreManager.Instance.UpdateScoreUI(playerID, score);
+            ParaScoreManager.Instance.UpdateScoreUI(playerID, Score);
         }
     }
 

@@ -1,37 +1,25 @@
 using UnityEngine;
-using System.Collections;
 
 public class ParaRingSpawner : MonoBehaviour
 {
     public GameObject ringPrefab;
-    public float spawnInterval = 2.0f; // Un peu plus long pour éviter la superposition
-
-    [Header("Positions")]
-    [Tooltip("Le point d'origine où les anneaux apparaissent (avant de se déplacer)")]
-    public Vector3 spawnOrigin = Vector3.zero; // <<< VARIABLE AJOUTÉE
+    [Tooltip("Le temps en secondes entre l'apparition de chaque anneau.")]
+    public float spawnInterval = 1.5f;
+    public Vector3 spawnOrigin = new Vector3(0, -2, 0);
     public Vector2 horizontalBounds = new Vector2(-8f, 8f);
-    public Vector2 verticalBounds = new Vector2(-5f, 2f);
-    // Compteur de temps
-    private float timer = 0f;
+    public Vector2 verticalBounds = new Vector2(-1f, 4f);
 
-    // Référence à l'anneau en jeu
-    private static GameObject currentActiveRing;
+    private float timer;
 
     void Update()
     {
-        // // Si un anneau existe déjà, on ne fait rien.
-        // if (currentActiveRing != null)
-        // {
-        //     return;
-        // }
-
-        // Si aucun anneau n'existe, on commence le décompte.
+        // On incrémente le compteur en continu
         timer += Time.deltaTime;
 
-        // Si le temps est écoulé, on fait apparaître un anneau et on réinitialise le compteur.
+        // Si le temps est écoulé, on crée un anneau et on réinitialise.
+        // C'est la seule logique.
         if (timer >= spawnInterval)
         {
-            Debug.Log(timer);
             SpawnRing();
             timer = 0f;
         }
@@ -39,11 +27,11 @@ public class ParaRingSpawner : MonoBehaviour
 
     void SpawnRing()
     {
-        float randomX = Random.Range(-8f, 8f);
-        float randomY = Random.Range(-5f, 2f);
+        float randomX = Random.Range(horizontalBounds.x, horizontalBounds.y);
+        float randomY = Random.Range(verticalBounds.x, verticalBounds.y);
         Vector3 targetPos = new Vector3(randomX, randomY, 0);
 
-        GameObject newRing = Instantiate(ringPrefab, spawnOrigin, Quaternion.identity); // <<< LIGNE MODIFIÉE
+        GameObject newRing = Instantiate(ringPrefab, spawnOrigin, Quaternion.identity);
         newRing.GetComponent<ParaRingApproaching>().Initialize(targetPos);
     }
 }

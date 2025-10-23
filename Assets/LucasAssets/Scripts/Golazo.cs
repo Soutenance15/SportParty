@@ -2,87 +2,103 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class Golazo : MonoBehaviour
 {
+    [Header("UI Références")]
     public TextMeshProUGUI player1FootScore;
     public TextMeshProUGUI player2FootScore;
     public TextMeshProUGUI winText;
     public GameObject scorePanel;
 
+    [Header("Paramètres")]
     public int p1Score;
     public int p2Score;
-    public float endDelay = 1f;
+    public int maxScore = 5;          // 🏁 Score limite pour gagner
+    public float endDelay = 2f;       // ⏱ Délai avant retour au menu
 
     private string player1Name;
     private string player2Name;
+    private bool gameEnded = false;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // 🧾 Récupère les noms depuis GameDataManager
+        player1Name = GameDataManager.Player1;
+        player2Name = GameDataManager.Player2;
+
+        // 🔄 Initialise les scores à zéro
         p1Score = 0;
         p2Score = 0;
-        player1FootScore.text = "P1:" + p1Score.ToString();
-        player2FootScore.text = "P2:" + p2Score.ToString();
 
+        // 🖋 Affiche les noms initiaux dans les UI
+        player1FootScore.text = $"{player1Name}: {p1Score}";
+        player2FootScore.text = $"{player2Name}: {p2Score}";
+
+        if (scorePanel != null)
+            scorePanel.SetActive(false);
     }
 
+    // 🥅 Quand le joueur 1 marque
     public void P1Score()
     {
+        if (gameEnded) return;
+
         FootSoundManager.Play("Applause");
         p1Score++;
-        player1FootScore.text = $"{GameDataManager.Player1}:" + p1Score.ToString();
+        player1FootScore.text = $"{player1Name}: {p1Score}";
+
         Destroy(GameObject.FindGameObjectWithTag("Ball"));
+
+        if (p1Score >= maxScore)
+            EndGame(isPlayer1Winner: true);
     }
 
+    // 🥅 Quand le joueur 2 marque
     public void P2Score()
     {
+        if (gameEnded) return;
+
+        FootSoundManager.Play("Applause");
         p2Score++;
-        player2FootScore.text = $"{GameDataManager.Player2}:" + p2Score.ToString();
+        player2FootScore.text = $"{player2Name}: {p2Score}";
+
         Destroy(GameObject.FindGameObjectWithTag("Ball"));
+
+        if (p2Score >= maxScore)
+            EndGame(isPlayer1Winner: false);
     }
 
-    private void EndGame(string winner, string loser, bool isPlayer1Winner)
+    // 🏆 Fin de partie
+    private void EndGame(bool isPlayer1Winner)
     {
-        if (scorePanel.activeSelf) return;
+        if (gameEnded) return;
+        gameEnded = true;
 
-        string p1 = GameDataManager.Player1;
-        string p2 = GameDataManager.Player2;
+        string winner = isPlayer1Winner ? player1Name : player2Name;
+        string loser  = isPlayer1Winner ? player2Name : player1Name;
 
-        if (isPlayer1Winner)
-        {
-            winText.text = $"{GameDataManager.Player1} Wins!";
-            GameDataManager.AddChampPoints(p1, 25);
-        }
-        else
-        {
-            GameDataManager.AddChampPoints(p2, 25);
-            winText.text = $"{GameDataManager.Player2} Wins!";
-        }
+        // ✅ Ajoute les points de championnat via GameDataManager
+        GameDataManager.AddChampPoints(winner, 25);
+        GameDataManager.AddScore(winner, 1); // facultatif : incrément du score global
 
+        // 🏁 Message de victoire
+        winText.text = $"{winner} Wins!";
+
+        // 🎬 Active le panneau et fige le jeu
         Time.timeScale = 0;
         scorePanel.SetActive(true);
 
+        // ⏳ Lance la séquence de fin après un court délai
         StartCoroutine(EndSequence());
     }
-    
-    IEnumerator EndSequence()
-    {
-                yield return new WaitForSeconds(endDelay);
-        SceneManager.LoadScene("MiniGameSelector");
-    }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator EndSequence()
     {
-        if (p1Score >= 5)
-        {
-          EndGame(winner: player1Name, loser: player2Name, isPlayer1Winner: true);
-        }
-        if (p2Score >= 5)
-        {
-           EndGame(winner: player2Name, loser: player1Name, isPlayer1Winner: false);
-        }
+        // ⏳ Attente en temps réel (indépendant du Time.timeScale)
+        yield return new WaitForSecondsRealtime(endDelay);
+
+        Time.timeScale = 1;
+        SceneManager.LoadScene("MiniGameSelector");
     }
 }
