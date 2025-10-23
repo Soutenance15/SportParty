@@ -5,6 +5,7 @@ public class NextStepManager : MonoBehaviour
 {
     GameObject TutoUI;
     TextMeshProUGUI indicationText;
+    public TextMeshProUGUI isReadyText;
 
     public int currentIndexStep = 0;
 
@@ -26,6 +27,7 @@ public class NextStepManager : MonoBehaviour
             indicationText = TutoUI
                 .transform.Find("indicationText")
                 .GetComponent<TextMeshProUGUI>();
+            isReadyText = TutoUI.transform.Find("IsReadyText").GetComponent<TextMeshProUGUI>();
         }
         CreateStep();
         if (null != TutoUI)
@@ -34,6 +36,7 @@ public class NextStepManager : MonoBehaviour
                 .transform.Find("indicationText")
                 .GetComponent<TextMeshProUGUI>();
             indicationText.text = steps[currentIndexStep];
+            isReadyText.text = "";
         }
     }
 
