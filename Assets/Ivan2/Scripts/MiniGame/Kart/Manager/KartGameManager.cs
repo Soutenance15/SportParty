@@ -39,9 +39,10 @@ public class KartGameManager : MonoBehaviour
 
     // Doit respecter la nomenclature pour le player name
     // A voir avec Daniel
-    // Attention Code ChatGPT
+
     void GiveNameToPlayer(PlayerInput player, KartController kartController)
     {
+        // Attention Code ChatGPT
         // if (player.devices.Count > 0)
         // {
         //     var device = player.devices[0];
@@ -50,8 +51,21 @@ public class KartGameManager : MonoBehaviour
         // else
         // {
         // fallback au cas où
-        kartController.playerName = "Joueur " + (player.playerIndex + 1);
-        // }
+        // kartController.playerName = "Joueur " + (player.playerIndex + 1);
         // Attention Code ChatGPT
+        // }
+
+        // Attention en dessous problème, l'ordre d'entrées des joueurs dans la game
+        // doit etre la même à chaque mini game car l'id des joueurs n'est pas attaché au controlleur
+        // on utilise pas les player.devices comme en commentaire en haut
+
+        if (kartController.index == 0)
+        {
+            kartController.playerName = GameDataManager.Player1;
+        }
+        else if (kartController.index == 1)
+        {
+            kartController.playerName = GameDataManager.Player2;
+        }
     }
 }

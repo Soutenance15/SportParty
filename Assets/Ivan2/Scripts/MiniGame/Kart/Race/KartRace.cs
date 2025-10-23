@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -45,22 +46,53 @@ public class KartRace : MonoBehaviour
 
     public void InitGame(List<KartController> kartsController)
     {
-        if (kartsController.Count == 2 && !countDownFinished)
+        foreach (KartController kartController in kartsController)
         {
+            if (kartController.kartInput.StartPressed)
+            {
+                kartController.isReady = true;
+                InitKartController(kartController);
+            }
+        }
+        if (kartsController.Count == 2)
+        {
+            Debug.Log("kartsController.Count == 2");
             if (!countDownStarted)
             {
-                countDownStarted = true;
-                this.kartsController = kartsController;
-                if (null != winningText)
+                Debug.Log("!countDownStarted");
+                if (kartsController[0].isReady && kartsController[1].isReady)
                 {
-                    winningText.enabled = false;
+                    Debug.Log("kartsController[0].isReady && kartsController[1].isReady");
+                    countDownStarted = true;
+                    this.kartsController = kartsController;
+                    if (null != winningText)
+                    {
+                        winningText.enabled = false;
+                    }
+                    if (null != countDownText)
+                    {
+                        countDownFinished = true;
+                    }
+                    StartGame();
                 }
-                if (null != countDownText)
-                {
-                    countDownFinished = true;
-                }
-                StartGame();
             }
+        }
+    }
+
+    void InitKartController(KartController kartController)
+    {
+        Debug.Log("Init : " + kartController.index.ToString());
+        kartController.isToggleSkinDeactived = true;
+        kartController.isActive = false;
+        kartController.InitAll();
+        kartController.nextStepManager.isReadyText.text = "Prêt";
+        if (kartController.index == 0)
+        {
+            kartController.SpawnAtPosition(Vector2.zero);
+        }
+        else if (kartController.index == 1)
+        {
+            kartController.SpawnAtPosition(new Vector2(6, 0));
         }
     }
 
@@ -68,26 +100,20 @@ public class KartRace : MonoBehaviour
     {
         if (null != splitUI)
         {
-            splitUI.SetActive(false);
+            // splitUI.SetActive(false);
+            splitUI
+                .transform.Find("UI_1")
+                .Find("Tuto_UI")
+                .Find("Block")
+                .gameObject.SetActive(false);
+            splitUI
+                .transform.Find("UI_2")
+                .Find("Tuto_UI")
+                .Find("Block")
+                .gameObject.SetActive(false);
+            splitUI.transform.Find("TutoUIPannel").gameObject.SetActive(false);
         }
         countDownText.enabled = true;
-        kartsController[0].isToggleSkinDeactived = true;
-        kartsController[1].isToggleSkinDeactived = true;
-
-        kartsController[0].isActive = false;
-        kartsController[1].isActive = false;
-
-        kartsController[0].InitAll();
-        kartsController[1].InitAll();
-
-        // Replace at good position
-
-        // kartsController[0].kartDrive.ResetAll();
-        // kartsController[1].kartDrive.ResetAll();
-
-        kartsController[0].SpawnAtPosition(Vector2.zero);
-        kartsController[1].SpawnAtPosition(new Vector2(6, 0));
-
         StartCoroutine(StartCountDown(3f));
         countDownFinished = true;
     }
