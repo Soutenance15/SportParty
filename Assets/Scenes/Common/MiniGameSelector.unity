@@ -2191,6 +2191,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3463185583850844460, guid: 524269f7f08005d45901b28a6ae7cd21, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3463185583850844460, guid: 524269f7f08005d45901b28a6ae7cd21, type: 3}
+      propertyPath: m_fontSize
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919899258270411698, guid: 524269f7f08005d45901b28a6ae7cd21, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -4387167736660409251, guid: 52e37f9364f11f041a67e1da8495ddb7, type: 3}
     - target: {fileID: 5066639353192924158, guid: 524269f7f08005d45901b28a6ae7cd21, type: 3}
       propertyPath: m_Name
       value: Parapente

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
-using TMPro; // ✅ TextMeshPro support
+using TMPro;
 
 public class PlayerController_PingPong : MonoBehaviour
 {
@@ -20,14 +20,20 @@ public class PlayerController_PingPong : MonoBehaviour
 
     [Header("Feedback Visuel")]
     public SpriteRenderer sr;
-    public Color dashReadyColor = Color.white;
-    public float blinkSpeed = 0.1f;
-    private Coroutine blinkRoutine;
+
+    [Header("Impact Visuel")]
+    public Color impactFlashColor = new Color(1f, 0.8f, 0.4f);
+    public float flashDuration = 0.08f;
+    public bool enableCameraShake = true;
+    public float shakeIntensity = 0.2f;
+    public float shakeDuration = 0.1f;
+    private Camera mainCam;
+    private Color originalColor;
 
     [Header("UI Feedback (TextMeshPro)")]
-    public TMP_Text dashReadyText; // ✅ TextMeshPro référence
-    public Color dashTextColor = new Color(0.1f, 0.9f, 1f); // 💡 Bleu néon
-    public float textBlinkSpeed = 0.1f; // clignotement rapide du texte
+    public TMP_Text dashReadyText;
+    public Color dashTextColor = new Color(0.1f, 0.9f, 1f);
+    public float textBlinkSpeed = 0.1f;
     private Coroutine textBlinkRoutine;
 
     private bool canDash = false;
@@ -40,11 +46,10 @@ public class PlayerController_PingPong : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        if (rb == null)
-            Debug.LogError("⚠️ Rigidbody2D manquant sur le paddle !");
-
         if (sr == null)
             sr = GetComponent<SpriteRenderer>();
+
+        originalColor = sr.color;
 
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
@@ -53,9 +58,11 @@ public class PlayerController_PingPong : MonoBehaviour
             audioSource.playOnAwake = false;
         }
 
+        mainCam = Camera.main;
+
         if (dashReadyText != null)
         {
-            dashReadyText.enabled = false; // masqué au départ
+            dashReadyText.enabled = false;
             dashReadyText.color = dashTextColor;
         }
     }
@@ -72,7 +79,7 @@ public class PlayerController_PingPong : MonoBehaviour
     {
         if (context.performed && canDash && !isDashing)
         {
-            if (dashSound != null && audioSource != null)
+            if (dashSound != null)
                 audioSource.PlayOneShot(dashSound, 0.8f);
 
             StartCoroutine(DashCoroutine());
@@ -119,12 +126,6 @@ public class PlayerController_PingPong : MonoBehaviour
             canDash = true;
             dashReadyVisualActive = true;
 
-            // ⚡ Clignotement du sprite
-            if (blinkRoutine != null)
-                StopCoroutine(blinkRoutine);
-            blinkRoutine = StartCoroutine(BlinkEffect());
-
-            // ⚡ Clignotement du texte TMP
             if (dashReadyText != null)
             {
                 dashReadyText.text = "DASH READY!";
@@ -139,13 +140,6 @@ public class PlayerController_PingPong : MonoBehaviour
             canDash = false;
             dashReadyVisualActive = false;
 
-            // Stop clignotement visuel
-            if (blinkRoutine != null)
-                StopCoroutine(blinkRoutine);
-            if (sr != null)
-                sr.color = Color.white;
-
-            // Stop texte TMP
             if (dashReadyText != null)
             {
                 dashReadyText.enabled = false;
@@ -153,19 +147,6 @@ public class PlayerController_PingPong : MonoBehaviour
                     StopCoroutine(textBlinkRoutine);
             }
         }
-    }
-
-    // 🌈 Clignotement rapide du sprite
-    private IEnumerator BlinkEffect()
-    {
-        while (dashReadyVisualActive)
-        {
-            sr.color = dashReadyColor;
-            yield return new WaitForSeconds(blinkSpeed);
-            sr.color = Color.white;
-            yield return new WaitForSeconds(blinkSpeed);
-        }
-        sr.color = Color.white;
     }
 
     // 💡 Clignotement rapide du texte TMP
@@ -180,5 +161,49 @@ public class PlayerController_PingPong : MonoBehaviour
             yield return new WaitForSeconds(textBlinkSpeed);
         }
         dashReadyText.color = baseColor;
+    }
+
+    // 💥 Impact visuel quand la balle touche le paddle
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Ball"))
+        {
+            StartCoroutine(ImpactFlash());
+
+            if (enableCameraShake && mainCam != null)
+                StartCoroutine(CameraShake());
+        }
+    }
+
+    // 🌈 Flash rapide du paddle
+    private IEnumerator ImpactFlash()
+    {
+        sr.color = impactFlashColor;
+        yield return new WaitForSeconds(flashDuration);
+        sr.color = originalColor;
+    }
+
+    // 🎥 Mini secousse caméra
+    private IEnumerator CameraShake()
+    {
+        Vector3 originalPos = mainCam.transform.position;
+        float elapsed = 0f;
+
+        while (elapsed < shakeDuration)
+        {
+            float x = Random.Range(-1f, 1f) * shakeIntensity;
+            float y = Random.Range(-1f, 1f) * shakeIntensity;
+
+            mainCam.transform.position = new Vector3(
+                originalPos.x + x,
+                originalPos.y + y,
+                originalPos.z
+            );
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        mainCam.transform.position = originalPos;
     }
 }
