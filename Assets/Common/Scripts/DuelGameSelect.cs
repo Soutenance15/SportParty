@@ -13,6 +13,7 @@ public class DuelGameSelect : MonoBehaviour
     public Button kartButton;
     public Button footButton;
     public Button paraglideButton;
+    public Button returnButton;
 
     [Header("Effet visuel")]
     public float pulseScale = 1.1f;
@@ -39,7 +40,7 @@ public class DuelGameSelect : MonoBehaviour
     private Coroutine pulseRoutine;
     private EventSystem eventSystem;
 
-    // 🖱️/🎮 gestion input
+    // 🖱️ / 🎮 gestion hybride
     private bool usingMouse = false;
     private float mouseInactiveTimer = 0f;
     private const float mouseTimeout = 1.5f;
@@ -58,19 +59,23 @@ public class DuelGameSelect : MonoBehaviour
         LoadVolumeSettings();
         PlayMenuMusic();
 
-        // 🎮 Lien boutons → mini-jeux
+        // 🔗 Liens boutons → mini-jeux
         pingPongButton.onClick.AddListener(() => OnSelectMiniGame("PingPong"));
         kartButton.onClick.AddListener(() => OnSelectMiniGame("Karting"));
         footButton.onClick.AddListener(() => OnSelectMiniGame("Foot"));
         paraglideButton.onClick.AddListener(() => OnSelectMiniGame("Parapente"));
+        if (returnButton != null)
+            returnButton.onClick.AddListener(OnReturnToMenu);
 
-        // 🔄 Ajout des effets de survol
+        // 💡 Ajout des effets de hover
         AddHoverEffect(pingPongButton);
         AddHoverEffect(kartButton);
         AddHoverEffect(footButton);
         AddHoverEffect(paraglideButton);
+        if (returnButton != null)
+            AddHoverEffect(returnButton);
 
-        // 🎯 Sélection initiale (manette)
+        // 🎯 Focus initial
         eventSystem.SetSelectedGameObject(pingPongButton.gameObject);
         currentFocusedButton = pingPongButton;
     }
@@ -128,7 +133,7 @@ public class DuelGameSelect : MonoBehaviour
     {
         if (eventSystem == null) return;
 
-        // 🖱️ Détection souris active
+        // 🖱️ Détection activité souris
         if (Input.GetAxis("Mouse X") != 0f || Input.GetAxis("Mouse Y") != 0f)
         {
             usingMouse = true;
@@ -141,7 +146,7 @@ public class DuelGameSelect : MonoBehaviour
                 usingMouse = false;
         }
 
-        // 🖱️ Clic sur les boutons
+        // 🖱️ Gestion clic souris
         if (usingMouse && Input.GetMouseButtonDown(0))
         {
             PointerEventData pointerData = new PointerEventData(eventSystem)
@@ -159,6 +164,7 @@ public class DuelGameSelect : MonoBehaviour
                 {
                     button.onClick.Invoke();
                     PlaySelectSound();
+                    OnButtonFocus(button);
                     return;
                 }
             }
