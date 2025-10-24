@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e23473b78cde3b544b291f58090ed533
+guid: 13274ffd730d0b0478c826ebd9bcce4b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4741346557595336760
-    second: bkgrd_0
+      213: 5781445747943558089
+    second: leaf_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bkgrd_0
+      name: leaf_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1920
-        height: 3065
+        width: 492
+        height: 533
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 830cd7ac295acc140800000000000000
-      internalID: 4741346557595336760
+      spriteID: 9cb4e5eb642db3050800000000000000
+      internalID: 5781445747943558089
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      bkgrd_0: 4741346557595336760
+      leaf_0: 5781445747943558089
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
