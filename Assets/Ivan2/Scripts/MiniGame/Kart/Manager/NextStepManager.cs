@@ -7,6 +7,8 @@ public class NextStepManager : MonoBehaviour
     TextMeshProUGUI indicationText;
     TextMeshProUGUI playerNameText;
     public TextMeshProUGUI isReadyText;
+    public TextMeshProUGUI nextEtapeText;
+    public TextMeshProUGUI instructionStart;
 
     public int currentIndexStep = 0;
 
@@ -27,10 +29,12 @@ public class NextStepManager : MonoBehaviour
             playerNameText = TutoUI
                 .transform.Find("PlayerNameText")
                 .GetComponent<TextMeshProUGUI>();
-        }
 
-        if (null != TutoUI)
-        {
+            nextEtapeText = TutoUI
+                .transform.Find("Block")
+                .transform.Find("NextEtapeText")
+                .GetComponent<TextMeshProUGUI>();
+
             indicationText = TutoUI
                 .transform.Find("Block")
                 .transform.Find("indicationText")
@@ -38,6 +42,11 @@ public class NextStepManager : MonoBehaviour
             isReadyText = TutoUI
                 .transform.Find("Block")
                 .transform.Find("IsReadyText")
+                .GetComponent<TextMeshProUGUI>();
+
+            instructionStart = TutoUI
+                .transform.Find("Block")
+                .transform.Find("InstructionStart")
                 .GetComponent<TextMeshProUGUI>();
         }
         CreateStep();
@@ -53,22 +62,31 @@ public class NextStepManager : MonoBehaviour
             {
                 playerNameText.text = GameDataManager.Player2;
             }
+            if (null != nextEtapeText)
+            {
+                nextEtapeText.text = "Appuyer sur Y (Pavé Haut) pour prochaine instruction";
+            }
+            if (null != instructionStart)
+            {
+                instructionStart.text = "Appuyer sur Start quand vous êtes prêt";
+            }
         }
     }
 
     public void CreateStep()
     {
-        steps = new string[4]; // crée un tableau de 3 éléments
+        steps = new string[5]; // crée un tableau de 5 éléments
         steps[0] = "Droite - Gauche pour tourner";
         steps[1] = "Maintenir A ou Haut pour accélerer";
         steps[2] = "Maintienir B ou Bas pour Freiner/Reculer";
         steps[3] = "Appuie sur Select / Espace pour changer de peinture";
+        steps[4] = "Les balles roses sont vos amies!";
     }
 
     public void NextStep()
     {
         currentIndexStep += 1;
-        if (currentIndexStep > 2)
+        if (currentIndexStep > steps.Length - 1)
         {
             currentIndexStep = 0;
         }
