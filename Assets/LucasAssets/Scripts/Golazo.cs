@@ -21,6 +21,11 @@ public class Golazo : MonoBehaviour
     private string player2Name;
     private bool gameEnded = false;
 
+    public Animator anim1;
+    public Animator anim2;
+
+
+
     void Start()
     {
         // 🧾 Récupère les noms depuis GameDataManager
@@ -47,6 +52,8 @@ public class Golazo : MonoBehaviour
         FootSoundManager.Play("Applause");
         p1Score++;
         player1FootScore.text = $"{player1Name}: {p1Score}";
+        StartCoroutine(ResetScore());
+       
 
         Destroy(GameObject.FindGameObjectWithTag("Ball"));
 
@@ -62,6 +69,8 @@ public class Golazo : MonoBehaviour
         FootSoundManager.Play("Applause");
         p2Score++;
         player2FootScore.text = $"{player2Name}: {p2Score}";
+        StartCoroutine(ResetScore());
+       
 
         Destroy(GameObject.FindGameObjectWithTag("Ball"));
 
@@ -98,8 +107,35 @@ public class Golazo : MonoBehaviour
         // ⏳ Attente en temps réel (indépendant du Time.timeScale)
         yield return new WaitForSecondsRealtime(endDelay);
 
+        string mode = GameDataManager.GetGameMode();
 
-        Time.timeScale = 1;
-        SceneManager.LoadScene("MiniGameSelector");
+        if (mode == "Duel")
+        {
+            Time.timeScale = 1;
+            SceneManager.LoadScene("DuelGameSelect");
+        }
+        else
+        {
+            Time.timeScale = 1;
+            SceneManager.LoadScene("MiniGameSelector");
+        }
     }
+
+    public void PlayAnim1()
+    {
+        anim1.SetTrigger("Score");
+    }
+    public void PlayAnim2()
+    {
+        anim2.SetTrigger("Score");
+    }
+
+    private IEnumerator ResetScore()
+    {
+        yield return new WaitForSeconds(1f);
+        anim1.SetTrigger("Off");
+        anim2.SetTrigger("Off");
+    }
+
+    
 }
