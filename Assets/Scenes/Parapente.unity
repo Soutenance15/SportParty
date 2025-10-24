@@ -422,12 +422,12 @@ SpriteRenderer:
   m_SortingLayerID: 1251661505
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -5269881622625892068, guid: e23473b78cde3b544b291f58090ed533, type: 3}
+  m_Sprite: {fileID: 4741346557595336760, guid: e23473b78cde3b544b291f58090ed533, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 19.2, y: 58.42734}
+  m_Size: {x: 19.201147, y: 30.65}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -618,7 +618,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 174}
+  m_AnchoredPosition: {x: 0, y: 94}
   m_SizeDelta: {x: 883.3572, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &773305285
@@ -785,8 +785,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 90
+  m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1104,7 +1104,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 372}
+  m_AnchoredPosition: {x: 0, y: 261}
   m_SizeDelta: {x: 883.3572, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1320654246
@@ -6197,6 +6197,7 @@ GameObject:
   - component: {fileID: 1650175814}
   - component: {fileID: 1650175813}
   - component: {fileID: 1650175812}
+  - component: {fileID: 1650175815}
   m_Layer: 0
   m_Name: ParaGameManagers
   m_TagString: Untagged
@@ -6256,6 +6257,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1650175815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650175811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eaa08af2ef4e2d4b97873f5e06f8d8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  cloudPrefab: {fileID: 5569678459284229608, guid: 527c05fe0423d4b468387e7fdbf5a9cf, type: 3}
+  cloudSpawnInterval: 2
+  cloudSpawnYRange: {x: 1, y: 3}
+  leafPrefab: {fileID: 5284181145063566313, guid: fd1c4649d5ab0a04ba056e10322d36ac, type: 3}
+  leafSpawnInterval: 1
+  leafSpawnYRange: {x: -3, y: -5}
+  spawnXRange: {x: -3, y: 3}
 --- !u!1 &1880067934
 GameObject:
   m_ObjectHideFlags: 0
@@ -6395,7 +6415,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -145}
+  m_AnchoredPosition: {x: 0, y: -105}
   m_SizeDelta: {x: 883.3572, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2106725291

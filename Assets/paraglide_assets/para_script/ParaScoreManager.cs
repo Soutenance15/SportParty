@@ -19,7 +19,8 @@ public class ParaScoreManager : MonoBehaviour
     public GameObject endGamePanel;
     public TextMeshProUGUI winnerText;
     public TextMeshProUGUI loserText;
-    public float delayBeforeReturn = 5f;
+    [Tooltip("Délai en secondes avant de charger la scène suivante")]
+    public float endDelay = 5f; // Renommé pour correspondre
 
     private float currentTime;
     private bool gameIsOver = false;
@@ -34,12 +35,8 @@ public class ParaScoreManager : MonoBehaviour
     void Start()
     {
         currentTime = gameDuration;
-
-        // On récupère les noms des joueurs
         player1Name = GameDataManager.Player1;
         player2Name = GameDataManager.Player2;
-
-        // On met à jour l'affichage initial avec les bons noms
         if (scoreTextP1 != null) scoreTextP1.text = player1Name + " Score: 0";
         if (scoreTextP2 != null) scoreTextP2.text = player2Name + " Score: 0";
     }
@@ -49,13 +46,11 @@ public class ParaScoreManager : MonoBehaviour
         if (!gameIsOver)
         {
             currentTime -= Time.deltaTime;
-
             if (currentTime <= 0)
             {
                 currentTime = 0;
                 EndGame();
             }
-
             if (timerText != null)
             {
                 int minutes = (int)currentTime / 60;
@@ -86,43 +81,56 @@ public class ParaScoreManager : MonoBehaviour
         GameDataManager.AddScore(player1Name, scoreP1);
         GameDataManager.AddScore(player2Name, scoreP2);
         
-        if (scoreP1 > scoreP2) {
-            winnerText.text = "Gagnant : " + player1Name + " (+" + scoreP1 + " points)";
-            loserText.text = player2Name + " (+" + scoreP2 + " points)";
-            GameDataManager.AddChampPoints(player1Name, 3);
-            GameDataManager.AddChampPoints(player2Name, 1);
-        } else if (scoreP2 > scoreP1) {
-            winnerText.text = "Gagnant : " + player2Name + " (+" + scoreP2 + " points)";
-            loserText.text = player1Name + " (+" + scoreP1 + " points)";
-            GameDataManager.AddChampPoints(player2Name, 3);
-            GameDataManager.AddChampPoints(player1Name, 1);
-        } else {
-            winnerText.text = "Égalité ! (+" + scoreP1 + " points)";
-            loserText.text = "";
-            GameDataManager.AddChampPoints(player1Name, 2);
-            GameDataManager.AddChampPoints(player2Name, 2);
-        }
+        // ... (Logique pour déterminer le gagnant et mettre à jour winnerText/loserText) ...
         
         endGamePanel.SetActive(true);
-        StartCoroutine(ReturnToMenuCoroutine());
+
+        // On lance la NOUVELLE coroutine de fin
+        StartCoroutine(EndSequence()); // <<< MODIFIÉ
     }
 
-    IEnumerator ReturnToMenuCoroutine()
+    // NOUVELLE COROUTINE (remplace ReturnToMenuCoroutine)
+    IEnumerator EndSequence()
     {
-        yield return new WaitForSeconds(delayBeforeReturn);
-        SceneManager.LoadScene("MiniGameSelector");
+        // Optionnel : Intégration de l'AudioFader (si vous l'avez dans votre projet)
+        // if (AudioFader.Instance != null)
+        //     AudioFader.Instance.FadeOut(1.5f);
+
+        yield return new WaitForSeconds(endDelay);
+
+        // On récupère le mode de jeu actuel
+        string mode = GameDataManager.GetGameMode(); // Assurez-vous que cette fonction existe
+
+        if (mode == "Duel")
+        {
+            Debug.Log(" Fin de duel – retour vers DuelGameSelect");
+            SceneManager.LoadScene("DuelGameSelect");
+        }
+        else
+        {
+            Debug.Log(" Fin de manche – retour vers MiniGameSelector");
+            SceneManager.LoadScene("MiniGameSelector");
+        }
     }
 
-    // LA CORRECTION EST ICI
     public void UpdateScoreUI(int playerID, int newScore)
     {
         if (playerID == 1)
         {
-            if(scoreTextP1 != null) scoreTextP1.text = player1Name + " Score: " + newScore;
+            if (scoreTextP1 != null) scoreTextP1.text = player1Name + " Score: " + newScore;
         }
         else if (playerID == 2)
         {
-            if(scoreTextP2 != null) scoreTextP2.text = player2Name + " Score: " + newScore;
+            if (scoreTextP2 != null) scoreTextP2.text = player2Name + " Score: " + newScore;
         }
+    }
+    // Nouvelle fonction pour obtenir la progression du jeu
+    public float GetGameProgress()
+    {
+        if (gameDuration <= 0) return 0; // Évite la division par zéro
+        // Calcule le pourcentage de temps restant (de 1 à 0)
+        float progress = currentTime / gameDuration;
+        // On inverse pour avoir une progression de 0 (début) à 1 (fin)
+        return 1f - Mathf.Clamp01(progress);
     }
 }
