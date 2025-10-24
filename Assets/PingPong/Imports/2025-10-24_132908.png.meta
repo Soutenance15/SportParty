@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5b05e71c34de2724a885edbad55080b8
+guid: d45feacf0402b1b4782afe41e912768b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7788904978487615698
-    second: "Capture d'\xE9cran 2025-10-21 130310_0"
+      213: 364449691703206573
+    second: 2025-10-24_132908_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,10 +72,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "Capture d'\xE9cran 2025-10-21 130310_0"
+      name: 2025-10-24_132908_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1565
-        height: 874
+        width: 947
+        height: 512
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e2f59ff703048e390800000000000000
-      internalID: -7788904978487615698
+      spriteID: da2687c4019ce0500800000000000000
+      internalID: 364449691703206573
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: af3ff3614ea669a43997fb77a081a9e6
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -133,11 +133,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":1565.0,"y":874.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      "Capture d'\xE9cran 2025-10-21 130310_0": -7788904978487615698
+      2025-10-24_132908_0: 364449691703206573
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
