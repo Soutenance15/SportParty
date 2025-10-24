@@ -5,7 +5,7 @@ using UnityEngine;
 /// - Noms des joueurs
 /// - Scores / points de championnat
 /// - Mode Duel ou Championnat
-/// - Compatibilité totale avec anciens mini-jeux (ex : Golazo)
+/// - Compatibilité totale avec anciens mini-jeux
 /// </summary>
 public static class GameDataManager
 {
