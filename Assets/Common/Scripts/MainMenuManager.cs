@@ -11,7 +11,6 @@ public class MainMenuManager : MonoBehaviour
     [Header("Boutons du menu principal")]
     public Button championnatButton;
     public Button duelButton;
-    public Button optionsButton;
     public Button creditsButton;
     public Button quitButton;
 

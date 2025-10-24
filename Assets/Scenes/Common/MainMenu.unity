@@ -318,7 +318,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   championnatButton: {fileID: 491866719}
   duelButton: {fileID: 1193461911}
-  optionsButton: {fileID: 0}
   creditsButton: {fileID: 1421828125}
   quitButton: {fileID: 1529895478}
   pulseScale: 1.1
