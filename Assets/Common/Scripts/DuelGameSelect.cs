@@ -4,10 +4,11 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using System.Collections;
+using System.Collections.Generic;
 
 public class DuelGameSelect : MonoBehaviour
 {
-    [Header("Boutons du menu")]
+    [Header("Boutons du menu Duel")]
     public Button pingPongButton;
     public Button kartButton;
     public Button footButton;
@@ -16,57 +17,62 @@ public class DuelGameSelect : MonoBehaviour
     [Header("Effet visuel")]
     public float pulseScale = 1.1f;
     public float pulseSpeed = 2f;
-    public Color highlightColor = new Color(1f, 0.8f, 0.2f); // Doré clair
+    public Color highlightColor = new Color(1f, 0.8f, 0.2f);
 
     [Header("Audio Clips")]
     public AudioClip hoverSound;
     public AudioClip selectSound;
     public AudioClip menuMusic;
 
-    [Header("Réglages de volume (0 à 1)")]
+    [Header("Réglages audio (0 à 1)")]
     [Range(0f, 1f)] public float musicVolume = 0.6f;
     [Range(0f, 1f)] public float sfxVolume = 0.9f;
 
-    [Header("Durée du fondu (en secondes)")]
+    [Header("Durée du fondu musical")]
     public float musicFadeDuration = 1.2f;
 
     private AudioSource audioSource;
     private static GameObject persistentMusicGO;
     private static AudioSource persistentMusicSource;
 
-    private Button currentHoveredButton;
+    private Button currentFocusedButton;
     private Coroutine pulseRoutine;
     private EventSystem eventSystem;
 
+    // 🖱️/🎮 gestion input
+    private bool usingMouse = false;
+    private float mouseInactiveTimer = 0f;
+    private const float mouseTimeout = 1.5f;
+
     void Start()
     {
-        // ⚙️ Force le mode Duel dès l’ouverture du menu
+        // ⚙️ Force le mode Duel
         GameDataManager.SetGameMode("Duel");
 
         audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 0f;
+
         eventSystem = EventSystem.current;
 
-        // 🔊 Charge les préférences de volume
         LoadVolumeSettings();
-
-        // 🎵 Joue la musique de fond du menu Duel
         PlayMenuMusic();
 
-        // Liens boutons → scènes
+        // 🎮 Lien boutons → mini-jeux
         pingPongButton.onClick.AddListener(() => OnSelectMiniGame("PingPong"));
         kartButton.onClick.AddListener(() => OnSelectMiniGame("Karting"));
         footButton.onClick.AddListener(() => OnSelectMiniGame("Foot"));
-        paraglideButton.onClick.AddListener(() => OnSelectMiniGame("paraglide"));
+        paraglideButton.onClick.AddListener(() => OnSelectMiniGame("Parapente"));
 
-        // Ajoute les effets de survol souris
+        // 🔄 Ajout des effets de survol
         AddHoverEffect(pingPongButton);
         AddHoverEffect(kartButton);
         AddHoverEffect(footButton);
         AddHoverEffect(paraglideButton);
 
-        // Sélection par défaut
+        // 🎯 Sélection initiale (manette)
         eventSystem.SetSelectedGameObject(pingPongButton.gameObject);
-        currentHoveredButton = pingPongButton;
+        currentFocusedButton = pingPongButton;
     }
 
     private void OnEnable()
@@ -120,27 +126,67 @@ public class DuelGameSelect : MonoBehaviour
 
     void Update()
     {
-        if (eventSystem.currentSelectedGameObject != null)
-        {
-            Button selected = eventSystem.currentSelectedGameObject.GetComponent<Button>();
-            if (selected != null && selected != currentHoveredButton)
-            {
-                if (currentHoveredButton != null)
-                    OnButtonUnfocus(currentHoveredButton);
+        if (eventSystem == null) return;
 
-                OnButtonFocus(selected);
+        // 🖱️ Détection souris active
+        if (Input.GetAxis("Mouse X") != 0f || Input.GetAxis("Mouse Y") != 0f)
+        {
+            usingMouse = true;
+            mouseInactiveTimer = 0f;
+        }
+        else if (usingMouse)
+        {
+            mouseInactiveTimer += Time.unscaledDeltaTime;
+            if (mouseInactiveTimer > mouseTimeout)
+                usingMouse = false;
+        }
+
+        // 🖱️ Clic sur les boutons
+        if (usingMouse && Input.GetMouseButtonDown(0))
+        {
+            PointerEventData pointerData = new PointerEventData(eventSystem)
+            {
+                position = Input.mousePosition
+            };
+
+            var results = new List<RaycastResult>();
+            eventSystem.RaycastAll(pointerData, results);
+
+            foreach (var result in results)
+            {
+                var button = result.gameObject.GetComponent<Button>();
+                if (button != null)
+                {
+                    button.onClick.Invoke();
+                    PlaySelectSound();
+                    return;
+                }
             }
         }
-        else
+
+        // 🎮 Navigation manette
+        if (!usingMouse)
         {
-            if (currentHoveredButton != null)
+            if (eventSystem.currentSelectedGameObject != null)
             {
-                eventSystem.SetSelectedGameObject(currentHoveredButton.gameObject);
+                Button selected = eventSystem.currentSelectedGameObject.GetComponent<Button>();
+                if (selected != null && selected != currentFocusedButton)
+                {
+                    if (currentFocusedButton != null)
+                        OnButtonUnfocus(currentFocusedButton);
+
+                    OnButtonFocus(selected);
+                }
             }
             else
             {
-                eventSystem.SetSelectedGameObject(pingPongButton.gameObject);
-                currentHoveredButton = pingPongButton;
+                if (currentFocusedButton != null)
+                    eventSystem.SetSelectedGameObject(currentFocusedButton.gameObject);
+                else
+                {
+                    eventSystem.SetSelectedGameObject(pingPongButton.gameObject);
+                    currentFocusedButton = pingPongButton;
+                }
             }
         }
     }
@@ -150,14 +196,13 @@ public class DuelGameSelect : MonoBehaviour
         if (pulseRoutine != null)
             StopCoroutine(pulseRoutine);
 
-        currentHoveredButton = btn;
+        currentFocusedButton = btn;
         pulseRoutine = StartCoroutine(PulseEffect(btn.transform));
 
         TMP_Text txt = btn.GetComponentInChildren<TMP_Text>();
         if (txt != null) txt.color = highlightColor;
 
-        if (hoverSound != null)
-            audioSource.PlayOneShot(hoverSound, sfxVolume);
+        PlayHoverSound();
     }
 
     private void OnButtonUnfocus(Button btn)
@@ -184,41 +229,29 @@ public class DuelGameSelect : MonoBehaviour
         }
     }
 
+    private void PlayHoverSound()
+    {
+        if (hoverSound != null && audioSource != null)
+            audioSource.PlayOneShot(hoverSound, sfxVolume);
+    }
+
+    private void PlaySelectSound()
+    {
+        if (selectSound != null && audioSource != null)
+            audioSource.PlayOneShot(selectSound, sfxVolume);
+    }
+
     private void OnSelectMiniGame(string sceneName)
     {
         Debug.Log($"Chargement du mini-jeu : {sceneName}");
-
-        if (selectSound != null)
-        {
-            GameObject tempSoundGO = new GameObject("TempSelectSound");
-            AudioSource tempAudio = tempSoundGO.AddComponent<AudioSource>();
-            tempAudio.clip = selectSound;
-            tempAudio.volume = sfxVolume;
-            tempAudio.spatialBlend = 0f;
-            tempAudio.Play();
-            DontDestroyOnLoad(tempSoundGO);
-            Destroy(tempSoundGO, selectSound.length);
-        }
-
+        PlaySelectSound();
         StartCoroutine(FadeOutMusicAndLoad(sceneName));
     }
 
     public void OnReturnToMenu()
     {
         Debug.Log("↩️ Retour au menu principal...");
-
-        if (selectSound != null)
-        {
-            GameObject tempSoundGO = new GameObject("TempSelectSound");
-            AudioSource tempAudio = tempSoundGO.AddComponent<AudioSource>();
-            tempAudio.clip = selectSound;
-            tempAudio.volume = sfxVolume;
-            tempAudio.spatialBlend = 0f;
-            tempAudio.Play();
-            DontDestroyOnLoad(tempSoundGO);
-            Destroy(tempSoundGO, selectSound.length);
-        }
-
+        PlaySelectSound();
         StartCoroutine(FadeOutMusicAndLoad("MainMenu"));
     }
 
@@ -249,12 +282,8 @@ public class DuelGameSelect : MonoBehaviour
     {
         ScreenFader fader = FindFirstObjectByType<ScreenFader>();
         if (fader != null)
-        {
             yield return fader.FadeOutAndLoad(sceneName);
-        }
         else
-        {
             SceneManager.LoadScene(sceneName);
-        }
     }
 }
