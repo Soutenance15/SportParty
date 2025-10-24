@@ -81,7 +81,30 @@ public class ParaScoreManager : MonoBehaviour
         GameDataManager.AddScore(player1Name, scoreP1);
         GameDataManager.AddScore(player2Name, scoreP2);
         
-        // ... (Logique pour déterminer le gagnant et mettre à jour winnerText/loserText) ...
+        // --- Déterminer le Gagnant et Mettre à Jour les Textes ---
+        if (winnerText != null && loserText != null) // Vérifie que les textes sont bien assignés
+        {
+            if (scoreP1 > scoreP2) {
+                winnerText.text = "Gagnant : " + player1Name + " (" + scoreP1 + " points)";
+                loserText.text = player2Name + " (" + scoreP2 + " points)";
+                GameDataManager.AddChampPoints(player1Name, 3);
+                GameDataManager.AddChampPoints(player2Name, 1);
+            } else if (scoreP2 > scoreP1) {
+                winnerText.text = "Gagnant : " + player2Name + " (" + scoreP2 + " points)";
+                loserText.text = player1Name + " (" + scoreP1 + " points)";
+                GameDataManager.AddChampPoints(player2Name, 3);
+                GameDataManager.AddChampPoints(player1Name, 1);
+            } else { // Égalité
+                winnerText.text = "Égalité ! (" + scoreP1 + " points)";
+                // On peut choisir de masquer le texte du perdant ou afficher les deux scores
+                loserText.text = player1Name + ": " + scoreP1 + " | " + player2Name + ": " + scoreP2; 
+                GameDataManager.AddChampPoints(player1Name, 2);
+                GameDataManager.AddChampPoints(player2Name, 2);
+            }
+        } else {
+             Debug.LogError("Les TextMeshProUGUI pour winnerText ou loserText ne sont pas assignés dans l'Inspector !");
+        }
+        // --- Fin de la Logique Gagnant ---
         
         endGamePanel.SetActive(true);
 
