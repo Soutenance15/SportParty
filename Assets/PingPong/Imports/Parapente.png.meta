@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7f365b14da85c3143921907685a4803c
+guid: 52e37f9364f11f041a67e1da8495ddb7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7687650171642077660
-    second: "Capture d'\xE9cran 2025-10-23 091755_0"
+      213: -4387167736660409251
+    second: Parapente_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "Capture d'\xE9cran 2025-10-23 091755_0"
+      name: Parapente_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1572
-        height: 885
+        width: 1344
+        height: 768
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cd16236a91500ba60800000000000000
-      internalID: 7687650171642077660
+      spriteID: d544d4e0036ad13c0800000000000000
+      internalID: -4387167736660409251
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "Capture d'\xE9cran 2025-10-23 091755_0": 7687650171642077660
+      Parapente_0: -4387167736660409251
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

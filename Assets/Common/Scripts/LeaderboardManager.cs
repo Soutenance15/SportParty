@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
+using System.Collections.Generic;
 
 public class LeaderboardManager : MonoBehaviour
 {
@@ -37,6 +38,11 @@ public class LeaderboardManager : MonoBehaviour
     public float winnerPulseScale = 1.1f;
     public float winnerAnimDuration = 3f;
 
+    // 🖱️ / 🎮 gestion hybride
+    private bool usingMouse = false;
+    private float mouseInactiveTimer = 0f;
+    private const float mouseTimeout = 1.5f;
+
     void Start()
     {
         eventSystem = EventSystem.current;
@@ -68,7 +74,7 @@ public class LeaderboardManager : MonoBehaviour
         // 🔘 Boutons
         if (replayButton != null)
         {
-            replayButton.onClick.AddListener(OnReplay); // ✅ sécurisé
+            replayButton.onClick.AddListener(OnReplay);
             AddHoverEffect(replayButton);
         }
 
@@ -83,22 +89,60 @@ public class LeaderboardManager : MonoBehaviour
 
     private IEnumerator SetupInitialFocus()
     {
-        while (EventSystem.current == null)
-            yield return null;
-
-        eventSystem = EventSystem.current;
         yield return null;
+        if (eventSystem == null)
+            eventSystem = EventSystem.current;
 
-        if (eventSystem != null && replayButton != null)
+        if (replayButton != null)
         {
             eventSystem.SetSelectedGameObject(replayButton.gameObject);
             currentFocusedButton = replayButton;
         }
     }
 
-    private void Update()
+    void Update()
     {
-        if (eventSystem != null)
+        if (eventSystem == null) return;
+
+        // 🖱️ Détection activité souris
+        if (Input.GetAxis("Mouse X") != 0f || Input.GetAxis("Mouse Y") != 0f)
+        {
+            usingMouse = true;
+            mouseInactiveTimer = 0f;
+        }
+        else if (usingMouse)
+        {
+            mouseInactiveTimer += Time.unscaledDeltaTime;
+            if (mouseInactiveTimer > mouseTimeout)
+                usingMouse = false;
+        }
+
+        // 🖱️ Gestion clic souris
+        if (usingMouse && Input.GetMouseButtonDown(0))
+        {
+            PointerEventData pointerData = new PointerEventData(eventSystem)
+            {
+                position = Input.mousePosition
+            };
+
+            var results = new List<RaycastResult>();
+            eventSystem.RaycastAll(pointerData, results);
+
+            foreach (var result in results)
+            {
+                var button = result.gameObject.GetComponent<Button>();
+                if (button != null)
+                {
+                    button.onClick.Invoke();
+                    PlaySelectSound();
+                    OnButtonFocus(button);
+                    return;
+                }
+            }
+        }
+
+        // 🎮 Navigation manette
+        if (!usingMouse)
         {
             if (eventSystem.currentSelectedGameObject != null)
             {
@@ -116,7 +160,10 @@ public class LeaderboardManager : MonoBehaviour
                 if (currentFocusedButton != null)
                     eventSystem.SetSelectedGameObject(currentFocusedButton.gameObject);
                 else if (replayButton != null)
+                {
                     eventSystem.SetSelectedGameObject(replayButton.gameObject);
+                    currentFocusedButton = replayButton;
+                }
             }
         }
     }
@@ -191,7 +238,7 @@ public class LeaderboardManager : MonoBehaviour
 
     private void OnButtonFocus(Button btn)
     {
-        if (this == null || btn == null) return; // ✅ sécurité
+        if (btn == null) return;
 
         if (pulseRoutine != null)
             StopCoroutine(pulseRoutine);
@@ -203,13 +250,12 @@ public class LeaderboardManager : MonoBehaviour
         if (txt != null)
             txt.color = highlightColor;
 
-        if (hoverSound != null && sfxSource != null)
-            sfxSource.PlayOneShot(hoverSound, 0.8f);
+        PlayHoverSound();
     }
 
     private void OnButtonUnfocus(Button btn)
     {
-        if (this == null || btn == null) return; // ✅ empêche le crash pendant le fade-out
+        if (btn == null) return;
 
         if (pulseRoutine != null)
         {
@@ -217,10 +263,8 @@ public class LeaderboardManager : MonoBehaviour
             pulseRoutine = null;
         }
 
-        if (btn != null)
-            btn.transform.localScale = Vector3.one;
-
-        TMP_Text txt = btn?.GetComponentInChildren<TMP_Text>();
+        btn.transform.localScale = Vector3.one;
+        TMP_Text txt = btn.GetComponentInChildren<TMP_Text>();
         if (txt != null)
             txt.color = Color.white;
     }
@@ -235,11 +279,21 @@ public class LeaderboardManager : MonoBehaviour
         }
     }
 
-    private void OnButtonSelect(string sceneName)
+    private void PlayHoverSound()
+    {
+        if (hoverSound != null && sfxSource != null)
+            sfxSource.PlayOneShot(hoverSound, 0.8f);
+    }
+
+    private void PlaySelectSound()
     {
         if (selectSound != null && sfxSource != null)
             sfxSource.PlayOneShot(selectSound, 1f);
+    }
 
+    private void OnButtonSelect(string sceneName)
+    {
+        PlaySelectSound();
         StartCoroutine(FadeOutAndLoad(sceneName));
     }
 
@@ -248,7 +302,7 @@ public class LeaderboardManager : MonoBehaviour
         if (musicSource != null && musicSource.isPlaying)
         {
             float startVolume = musicSource.volume;
-            float duration = 1.5f;
+            float duration = 1.2f;
             float timer = 0f;
 
             while (timer < duration)
@@ -265,16 +319,13 @@ public class LeaderboardManager : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
-    // ✅ NOUVELLE MÉTHODE : Rejouer un championnat propre
     public void OnReplay()
     {
         Debug.Log("🏁 Nouveau championnat lancé !");
-        if (selectSound != null && sfxSource != null)
-            sfxSource.PlayOneShot(selectSound, 1f);
+        PlaySelectSound();
 
-        // Réinitialise les données du tournoi
         GameDataManager.ResetAll();
-        PlayerPrefs.DeleteKey("RemainingGames"); // ✅ reset la liste des mini-jeux
+        PlayerPrefs.DeleteKey("RemainingGames");
         PlayerPrefs.Save();
 
         StartCoroutine(FadeOutAndLoad("PlayerSelectMenu"));
@@ -282,7 +333,6 @@ public class LeaderboardManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        // ✅ Stoppe toutes les coroutines et nettoie proprement
         StopAllCoroutines();
         pulseRoutine = null;
     }

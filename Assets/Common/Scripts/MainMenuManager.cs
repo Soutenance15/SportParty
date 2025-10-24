@@ -4,13 +4,13 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MainMenuManager : MonoBehaviour
 {
     [Header("Boutons du menu principal")]
     public Button championnatButton;
     public Button duelButton;
-    public Button optionsButton;
     public Button creditsButton;
     public Button quitButton;
 
@@ -28,7 +28,7 @@ public class MainMenuManager : MonoBehaviour
     [Range(0f, 1f)] public float musicVolume = 0.6f;
     [Range(0f, 1f)] public float sfxVolume = 0.9f;
 
-    [Header("Durée du fondu (en secondes)")]
+    [Header("Durée du fondu musical (s)")]
     public float musicFadeDuration = 1.2f;
 
     private AudioSource audioSource;
@@ -39,7 +39,7 @@ public class MainMenuManager : MonoBehaviour
     private Coroutine pulseRoutine;
     private EventSystem eventSystem;
 
-    // 🎮 Gestion manette/souris
+    // 🖱️ / 🎮 Gestion entrée hybride
     private bool usingMouse = false;
     private float mouseInactiveTimer = 0f;
     private const float mouseTimeout = 1.5f;
@@ -55,18 +55,19 @@ public class MainMenuManager : MonoBehaviour
         LoadVolumeSettings();
         PlayMenuMusic();
 
-        // --- Modes de jeu ---
+        // 🔗 Actions boutons
         championnatButton.onClick.AddListener(() => OnSelectMode("PlayerSelectMenu", "Championship"));
         duelButton.onClick.AddListener(() => OnSelectMode("PlayerSelectMenu", "Duel"));
         creditsButton.onClick.AddListener(() => OnSelectMode("Credits", ""));
         quitButton.onClick.AddListener(OnQuitGame);
 
+        // ✨ Effets visuels
         AddHoverEffect(championnatButton);
         AddHoverEffect(duelButton);
         AddHoverEffect(creditsButton);
         AddHoverEffect(quitButton);
 
-        // 🎯 Focus initial
+        // 🎯 Focus initial (manette)
         eventSystem.SetSelectedGameObject(championnatButton.gameObject);
         currentFocusedButton = championnatButton;
     }
@@ -86,14 +87,14 @@ public class MainMenuManager : MonoBehaviour
 
         if (persistentMusicGO == null)
         {
-            persistentMusicGO = new GameObject("MenuMusicPlayer");
+            persistentMusicGO = new GameObject("MainMenuMusicPlayer");
             persistentMusicSource = persistentMusicGO.AddComponent<AudioSource>();
             persistentMusicSource.clip = menuMusic;
             persistentMusicSource.loop = true;
-            persistentMusicSource.spatialBlend = 0f;
             persistentMusicSource.volume = musicVolume;
+            persistentMusicSource.spatialBlend = 0f;
             persistentMusicSource.Play();
-            Object.DontDestroyOnLoad(persistentMusicGO);
+            DontDestroyOnLoad(persistentMusicGO);
         }
         else
         {
@@ -124,7 +125,7 @@ public class MainMenuManager : MonoBehaviour
     {
         if (eventSystem == null) return;
 
-        // 🖱️ Détection activité souris
+        // 🖱️ Détection d’activité souris
         if (Input.GetAxis("Mouse X") != 0f || Input.GetAxis("Mouse Y") != 0f)
         {
             usingMouse = true;
@@ -137,7 +138,7 @@ public class MainMenuManager : MonoBehaviour
                 usingMouse = false;
         }
 
-        // 🖱️ Clic souris sur les boutons
+        // 🖱️ Gestion clic souris
         if (usingMouse && Input.GetMouseButtonDown(0))
         {
             PointerEventData pointerData = new PointerEventData(eventSystem)
@@ -145,7 +146,7 @@ public class MainMenuManager : MonoBehaviour
                 position = Input.mousePosition
             };
 
-            var results = new System.Collections.Generic.List<RaycastResult>();
+            var results = new List<RaycastResult>();
             eventSystem.RaycastAll(pointerData, results);
 
             foreach (var result in results)
@@ -153,8 +154,9 @@ public class MainMenuManager : MonoBehaviour
                 var button = result.gameObject.GetComponent<Button>();
                 if (button != null)
                 {
-                    button.onClick.Invoke(); // ✅ Simule un clic bouton
+                    button.onClick.Invoke();
                     PlaySelectSound();
+                    OnButtonFocus(button);
                     return;
                 }
             }
@@ -177,9 +179,7 @@ public class MainMenuManager : MonoBehaviour
             else
             {
                 if (currentFocusedButton != null)
-                {
                     eventSystem.SetSelectedGameObject(currentFocusedButton.gameObject);
-                }
                 else
                 {
                     eventSystem.SetSelectedGameObject(championnatButton.gameObject);
@@ -239,7 +239,6 @@ public class MainMenuManager : MonoBehaviour
             audioSource.PlayOneShot(selectSound, sfxVolume);
     }
 
-    // ✅ Gère le mode avant chargement
     private void OnSelectMode(string sceneName, string mode)
     {
         if (!string.IsNullOrEmpty(mode))
@@ -278,13 +277,9 @@ public class MainMenuManager : MonoBehaviour
     {
         ScreenFader fader = FindFirstObjectByType<ScreenFader>();
         if (fader != null)
-        {
             yield return fader.FadeOutAndLoad(sceneName);
-        }
         else
-        {
             SceneManager.LoadScene(sceneName);
-        }
     }
 
     private void OnQuitGame()

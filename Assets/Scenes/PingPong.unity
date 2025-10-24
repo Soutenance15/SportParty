@@ -233,8 +233,11 @@ MonoBehaviour:
   dashCooldown: 2
   dashSound: {fileID: 8300000, guid: 5343b74e30d36944595f69e707e02c4d, type: 3}
   sr: {fileID: 80143847}
-  dashReadyColor: {r: 1, g: 1, b: 1, a: 1}
-  blinkSpeed: 0.1
+  impactFlashColor: {r: 1, g: 0.8, b: 0.4, a: 1}
+  flashDuration: 0.08
+  enableCameraShake: 1
+  shakeIntensity: 0.1
+  shakeDuration: 0.1
   dashReadyText: {fileID: 2054602260}
   dashTextColor: {r: 1, g: 0.9490196, b: 0.4, a: 1}
   textBlinkSpeed: 0.1
@@ -2523,8 +2526,11 @@ MonoBehaviour:
   dashCooldown: 2
   dashSound: {fileID: 8300000, guid: 5343b74e30d36944595f69e707e02c4d, type: 3}
   sr: {fileID: 1890827495}
-  dashReadyColor: {r: 1, g: 1, b: 1, a: 1}
-  blinkSpeed: 0.1
+  impactFlashColor: {r: 1, g: 0.8, b: 0.4, a: 1}
+  flashDuration: 0.08
+  enableCameraShake: 1
+  shakeIntensity: 0.1
+  shakeDuration: 0.1
   dashReadyText: {fileID: 2054602260}
   dashTextColor: {r: 1, g: 0.9490196, b: 0.4, a: 1}
   textBlinkSpeed: 0.1
@@ -2557,10 +2563,6 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: ba9c0452-75d3-45bf-8d49-6cffe5bda280
     m_ActionName: 'Player 1/Move[/DualSenseGamepadHID/leftStick/left]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: fece1c9f-bd2a-4afb-a617-50a91de3047f
-    m_ActionName: 'Player 1/UI[/DualSenseGamepadHID/leftStick/left]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 91714599-bb39-4d33-a4c6-73f3db107d7a
@@ -2599,8 +2601,20 @@ MonoBehaviour:
     m_ActionName: 'Player 2/Dash[/DualSenseGamepadHID/rightTrigger]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: caaad959-81e5-4eb9-a17f-43c1c5d3c0e5
-    m_ActionName: 'Player 2/UI[/DualSenseGamepadHID/leftStick/left]'
+    m_ActionId: 676ff3d6-45eb-4617-858d-6b0252b983a9
+    m_ActionName: 'UI/Navigate[/DualSenseGamepadHID/leftStick/up,/DualSenseGamepadHID/leftStick/down,/DualSenseGamepadHID/leftStick/left,/DualSenseGamepadHID/leftStick/right]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 74117809-abb5-4345-9312-6508179bc3b4
+    m_ActionName: 'UI/Submit[/DualSenseGamepadHID/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7dac5ad2-2411-4b63-9f13-cabcc9f61c0f
+    m_ActionName: 'UI/Cancel[/DualSenseGamepadHID/buttonEast]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1fd46316-d8c9-4969-a55f-c34f693b95fb
+    m_ActionName: 'UI/Point[/Mouse/press]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player 2
@@ -3096,7 +3110,7 @@ GameObject:
   - component: {fileID: 2053990382}
   m_Layer: 0
   m_Name: Ball
-  m_TagString: Untagged
+  m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
